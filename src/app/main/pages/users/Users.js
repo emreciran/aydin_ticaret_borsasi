@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import UsersTable from "./components/UsersTable";
+import Popup from "app/shared-components/Popup";
+import NewUserForm from "./components/NewUserForm";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -28,6 +30,8 @@ const Users = () => {
   const { t } = useTranslation("Users");
   const [_showToast] = useToast();
   const axiosPrivate = useAxiosPrivate();
+
+  const [open, setOpen] = useState(false);
 
   const [pageState, setPageState] = useState({
     isLoading: false,
@@ -72,26 +76,31 @@ const Users = () => {
   }, [pageState.page, pageState.pageSize]);
 
   return (
-    <Root
-      header={
-        <div className="p-24 flex items-center justify-between">
-          <h3>{t("TITLE")}</h3>
-          <Button
-            variant="outlined"
-            endIcon={<AddCircleIcon />}
-            onClick={() => navigate("/kullanicilar/yeni")}
-          >
-            {t("BUTTON")}
-          </Button>
-        </div>
-      }
-      content={
-        <div className="p-24">
-          <UsersTable pageState={pageState} setPageState={setPageState} />
-        </div>
-      }
-      scroll="content"
-    />
+    <>
+      <Root
+        header={
+          <div className="p-24 flex items-center justify-between">
+            <h3>{t("TITLE")}</h3>
+            <Button
+              variant="outlined"
+              endIcon={<AddCircleIcon />}
+              onClick={() => setOpen(true)}
+            >
+              {t("BUTTON")}
+            </Button>
+          </div>
+        }
+        content={
+          <div className="p-24">
+            <UsersTable pageState={pageState} setPageState={setPageState} />
+          </div>
+        }
+        scroll="content"
+      />
+      <Popup open={open} setOpen={setOpen} title={"Yeni Kullanıcı"}>
+        <NewUserForm setOpen={setOpen} getUsers={getUsers} />
+      </Popup>
+    </>
   );
 };
 

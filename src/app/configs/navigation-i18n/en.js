@@ -4,7 +4,7 @@ const locale = {
   HOME: "Home",
   ANNOUNCEMENTS: "Announcements",
   NEWS: "News",
-  USERS: "Users"
+  USERS: "Users",
 };
 
 export default locale;

@@ -45,6 +45,7 @@ const themesConfig = {
         dark: '#b71c1c',
       },
     },
+    name: "default",
     status: {
       danger: 'orange',
     },

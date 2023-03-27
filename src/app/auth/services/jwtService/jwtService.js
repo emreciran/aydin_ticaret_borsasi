@@ -1,7 +1,9 @@
 import FuseUtils from "@fuse/utils/FuseUtils";
-import axios from "axios";
+import axios from "src/app/axios";
 import jwtDecode from "jwt-decode";
 import jwtServiceConfig from "./jwtServiceConfig";
+import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
 /* eslint-disable camelcase */
 
@@ -54,59 +56,38 @@ class JwtService extends FuseUtils.EventEmitter {
   createUser = (data) => {
     return new Promise((resolve, reject) => {
       axios.post(jwtServiceConfig.signUp, data).then((response) => {
-        if (response.data.user) {
-          this.setSession(response.data.access_token);
-          resolve(response.data.user);
-          this.emit("onLogin", response.data.user);
+        if (response.data) {
+          <Navigate to="/sign-in" />;
+          resolve(response.data);
         } else {
-          reject(response.data.error);
+          reject(error.response ? error.response.data.message : error.message);
         }
       });
     });
   };
 
-  signInWithEmailAndPassword = (email, password) => {
+  signInWithEmailAndPassword = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .get(jwtServiceConfig.signIn, {
-          data: {
-            email,
-            password,
-          },
-        })
+        .post(jwtServiceConfig.signIn, data, { withCredentials: true })
         .then((response) => {
-          if (response.data.user) {
-            this.setSession(response.data.access_token);
-            resolve(response.data.user);
-            this.emit("onLogin", response.data.user);
-          } else {
-            reject(response.data.error);
+          if (response.data) {
+            this.setSession(response.data.authResult.token);
+            resolve(response.data.authResult.token);
+            this.emit("onLogin", response.data.authResult.token);
           }
+        })
+        .catch((error) => {
+          reject(error.response ? error.response.data.message : error.message);
         });
     });
   };
 
   signInWithToken = () => {
     return new Promise((resolve, reject) => {
-      axios
-        .get(jwtServiceConfig.accessToken, {
-          data: {
-            access_token: this.getAccessToken(),
-          },
-        })
-        .then((response) => {
-          if (response.data.user) {
-            this.setSession(response.data.access_token);
-            resolve(response.data.user);
-          } else {
-            this.logout();
-            reject(new Error("Failed to login with token."));
-          }
-        })
-        .catch((error) => {
-          this.logout();
-          reject(new Error("Failed to login with token."));
-        });
+      const token = Cookies.get("jwt");
+      this.setSession(token);
+      resolve(token);
     });
   };
 
@@ -118,10 +99,10 @@ class JwtService extends FuseUtils.EventEmitter {
 
   setSession = (access_token) => {
     if (access_token) {
-      localStorage.setItem("jwt_access_token", access_token);
+      //localStorage.setItem("jwt_access_token", access_token);
       axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
     } else {
-      localStorage.removeItem("jwt_access_token");
+      Cookies.remove("jwt");
       delete axios.defaults.headers.common.Authorization;
     }
   };
@@ -146,7 +127,7 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   getAccessToken = () => {
-    return window.localStorage.getItem("jwt_access_token");
+    return Cookies.get("jwt");
   };
 }
 

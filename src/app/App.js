@@ -1,4 +1,3 @@
-import '@mock-api';
 import BrowserRouter from '@fuse/core/BrowserRouter';
 import FuseLayout from '@fuse/core/FuseLayout';
 import FuseTheme from '@fuse/core/FuseTheme';
@@ -15,10 +14,11 @@ import FuseAuthorization from '@fuse/core/FuseAuthorization';
 import settingsConfig from 'app/configs/settingsConfig';
 import withAppProviders from './withAppProviders';
 import { AuthProvider } from './auth/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 // import axios from 'axios';
 /**
- * Axios HTTP Request defaults
+ *  HTTP Request defaults
  */
 // axios.defaults.baseURL = "";
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -62,6 +62,7 @@ const App = () => {
                 }}
               >
                 <FuseLayout layouts={themeLayouts} />
+                <Toaster />
               </SnackbarProvider>
             </FuseAuthorization>
           </BrowserRouter>

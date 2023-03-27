@@ -5,6 +5,8 @@ import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { logoutUser, setUser } from 'app/store/userSlice';
 import jwtService from './services/jwtService';
+import useToast from '../hooks/useToast';
+import jwt_decode from "jwt-decode"
 
 const AuthContext = React.createContext();
 
@@ -12,6 +14,8 @@ function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
   const [waitAuthCheck, setWaitAuthCheck] = useState(true);
   const dispatch = useDispatch();
+
+  const [_showToast] = useToast()
 
   useEffect(() => {
     jwtService.on('onAutoLogin', () => {
@@ -22,10 +26,11 @@ function AuthProvider({ children }) {
       jwtService
         .signInWithToken()
         .then((user) => {
-          success(user);
+          const decoded = jwt_decode(user)
+          success(decoded);
         })
         .catch((error) => {
-          pass(error.message);
+          pass(error.response ? error.response.data.message : error.message);
         });
     });
 
@@ -55,9 +60,10 @@ function AuthProvider({ children }) {
       if (message) {
         dispatch(showMessage({ message }));
       }
-
+      const decoded = jwt_decode(user)
+      console.log(decoded);
       Promise.all([
-        dispatch(setUser(user)),
+        dispatch(setUser(decoded)),
         // You can receive data in here before app initialization
       ]).then((values) => {
         setWaitAuthCheck(false);

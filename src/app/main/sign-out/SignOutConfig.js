@@ -1,4 +1,11 @@
-import SignOutPage from './SignOutPage';
+import SignOutPage from "./SignOutPage";
+
+import en from "./i18n/en";
+import tr from "./i18n/tr";
+import i18next from "i18next";
+
+i18next.addResourceBundle("en", "SignOut", en);
+i18next.addResourceBundle("tr", "SignOut", tr);
 
 const SignOutConfig = {
   settings: {
@@ -25,7 +32,7 @@ const SignOutConfig = {
   auth: null,
   routes: [
     {
-      path: 'sign-out',
+      path: "sign-out",
       element: <SignOutPage />,
     },
   ],

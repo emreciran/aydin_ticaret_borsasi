@@ -16,7 +16,7 @@ import { darkPaletteText, lightPaletteText } from 'app/configs/themesConfig';
 export const changeFuseTheme = (theme) => (dispatch, getState) => {
   const { fuse } = getState();
   const { settings } = fuse;
-
+console.log(theme);
   const newSettings = {
     ...settings.current,
     theme: {

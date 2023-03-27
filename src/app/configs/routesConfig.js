@@ -11,10 +11,12 @@ import AnnouncementConfig from "../main/pages/announcement/AnnouncementConfig";
 import NewsConfig from "../main/pages/news/NewsConfig";
 import HomeConfig from "../main/pages/home/HomeConfig";
 import UsersConfig from "../main/pages/users/UsersConfig";
+import ProfileConfig from "../main/pages/profile/ProfileConfig";
 
 const routeConfigs = [
   ExampleConfig,
   HomeConfig,
+  ProfileConfig,
   UsersConfig,
   AnnouncementConfig,
   NewsConfig,
@@ -31,12 +33,17 @@ const routes = [
   {
     path: "/",
     element: <Navigate to="/" />,
-    auth: settingsConfig.defaultAuth
+    auth: settingsConfig.defaultAuth,
+  },
+  {
+    path: "/profile",
+    element: <Navigate to="/profile" />,
+    auth: settingsConfig.defaultAuth,
   },
   {
     path: "/kullanicilar",
     element: <Navigate to="/kullanicilar" />,
-    auth: settingsConfig.defaultAuth
+    auth: settingsConfig.defaultAuth,
   },
   {
     path: "/duyuru",

@@ -9,6 +9,8 @@ import AnnouncementTable from "./components/AnnouncementTable";
 import Swal from "sweetalert2";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import useToast from "src/app/hooks/useToast";
+import Popup from "app/shared-components/Popup";
+import NewAnnouncementForm from "./components/NewAnnouncementForm";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -30,6 +32,8 @@ const Announcement = () => {
   const [_showToast] = useToast();
   const axiosPrivate = useAxiosPrivate();
 
+  const [open, setOpen] = useState(false);
+
   const [pageState, setPageState] = useState({
     isLoading: false,
     data: [],
@@ -44,6 +48,7 @@ const Announcement = () => {
         ...old,
         isLoading: true,
       }));
+      
       const res = await axiosPrivate.get(
         `/announcements?page=${pageState.page}&limit=${pageState.pageSize}`
       );
@@ -72,29 +77,37 @@ const Announcement = () => {
   }, [pageState.page, pageState.pageSize]);
 
   return (
-    <Root
-      header={
-        <div className="p-24 flex items-center justify-between">
-          <h3>{t("TITLE")}</h3>
-          <Button
-            variant="outlined"
-            endIcon={<AddCircleIcon />}
-            onClick={() => navigate("/duyuru/yeni")}
-          >
-            {t("BUTTON")}
-          </Button>
-        </div>
-      }
-      content={
-        <div className="p-24">
-          <AnnouncementTable
-            pageState={pageState}
-            setPageState={setPageState}
-          />
-        </div>
-      }
-      scroll="content"
-    />
+    <>
+      <Root
+        header={
+          <div className="p-24 flex items-center justify-between">
+            <h3>{t("TITLE")}</h3>
+            <Button
+              variant="outlined"
+              endIcon={<AddCircleIcon />}
+              onClick={() => setOpen(true)}
+            >
+              {t("BUTTON")}
+            </Button>
+          </div>
+        }
+        content={
+          <div className="p-24">
+            <AnnouncementTable
+              pageState={pageState}
+              setPageState={setPageState}
+            />
+          </div>
+        }
+        scroll="content"
+      />
+      <Popup open={open} setOpen={setOpen} title={"Yeni Duyuru"}>
+        <NewAnnouncementForm
+          setOpen={setOpen}
+          getAnnouncement={getAnnouncement}
+        />
+      </Popup>
+    </>
   );
 };
 

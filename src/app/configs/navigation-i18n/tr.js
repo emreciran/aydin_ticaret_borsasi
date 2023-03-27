@@ -4,7 +4,7 @@ const locale = {
   HOME: "Ana Sayfa",
   ANNOUNCEMENTS: "Duyurular",
   NEWS: "Haberler",
-  USERS: "Kullanıcılar"
+  USERS: "Kullanıcılar",
 };
 
 export default locale;

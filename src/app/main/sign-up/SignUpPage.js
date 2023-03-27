@@ -1,75 +1,60 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import * as yup from 'yup';
-import _ from '@lodash';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import FormHelperText from '@mui/material/FormHelperText';
-import jwtService from '../../auth/services/jwtService';
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
+import _ from "@lodash";
+import AvatarGroup from "@mui/material/AvatarGroup";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import FormHelperText from "@mui/material/FormHelperText";
+import jwtService from "../../auth/services/jwtService";
+import LanguageSwitcher from "app/theme-layouts/shared-components/LanguageSwitcher";
+import { Formik } from "formik";
+import { LoadingButton } from "@mui/lab";
+import { Grid } from "@mui/material";
+import { RegisterSchema } from "src/app/validations";
+import useToast from "src/app/hooks/useToast";
+import ErrorMessage from "app/shared-components/ErrorMessage";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-/**
- * Form Validation Schema
- */
-const schema = yup.object().shape({
-  name: yup.string().required('You must enter display name'),
-  surname: yup.string().required('You must enter display name'),
-  username: yup.string().required('You must enter display name'),
-  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
-  password: yup
-    .string()
-    .required('Please enter your password.')
-    .min(8, 'Password is too short - should be 8 chars minimum.'),
-  passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
-  acceptTermsConditions: yup.boolean().oneOf([true], 'The terms and conditions must be accepted.'),
-});
+const SignUpPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [_showToast] = useToast();
+  const { t } = useTranslation("SignUp");
 
-const defaultValues = {
-  name: "",
-  surname: "",
-  username: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-  acceptTermsConditions: false,
-};
+  const inputsTranslate = t("INPUT_TEXTS", { returnObjects: true });
 
-function SignUpPage() {
-  const { control, formState, handleSubmit, reset } = useForm({
-    mode: 'onChange',
-    defaultValues,
-    resolver: yupResolver(schema),
-  });
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { isValid, dirtyFields, errors, setError } = formState;
+  const initialValues = {
+    name,
+    surname,
+    username,
+    email,
+    password,
+    confirmPassword,
+    status: false,
+  };
 
-  function onSubmit({ displayName, password, email }) {
+  const handleFormSubmit = async (values) => {
+    setLoading(true);
     jwtService
-      .createUser({
-        displayName,
-        password,
-        email,
+      .createUser(values)
+      .then(() => {
+        setLoading(false);
       })
-      .then((user) => {
-        // No need to do anything, registered user data will be set at app/auth/AuthContext
-      })
-      .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
+      .catch((error) => {
+        console.log(error);
+        _showToast.showError(error);
+        setLoading(false);
       });
-  }
+  };
 
   return (
     <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
@@ -77,160 +62,145 @@ function SignUpPage() {
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
           <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
 
-          <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Kayıt ol
+          <Typography className="mt-32 text-4xl flex justify-between items-center font-extrabold tracking-tight leading-tight">
+            {t("TITLE")}
+            <LanguageSwitcher />
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Hesabınız var mı?</Typography>
+            <Typography>{t("LOGIN_TEXT")}</Typography>
             <Link className="ml-4" to="/sign-in">
-              Giriş yap
+              {t("LOGIN_BUTTON")}
             </Link>
           </div>
 
-          <form
-            name="registerForm"
-            noValidate
-            className="flex flex-col justify-center w-full mt-32"
-            onSubmit={handleSubmit(onSubmit)}
+          <Formik
+            initialValues={initialValues}
+            validationSchema={RegisterSchema}
+            onSubmit={handleFormSubmit}
           >
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Adı"
-                  type="name"
-                  error={!!errors.name}
-                  helperText={errors?.name?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
-            <Controller
-              name="surname"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Soyadı"
-                  type="surname"
-                  error={!!errors.surname}
-                  helperText={errors?.surname?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
-            <Controller
-              name="username"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Kullanıcı adı"
-                  type="username"
-                  error={!!errors.username}
-                  helperText={errors?.username?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
+            {({
+              values,
+              errors,
+              handleSubmit,
+              touched,
+              handleChange,
+              dirty,
+              isSubmitting,
+            }) => (
+              <Box
+                component="form"
+                noValidate
+                className="flex flex-col justify-center w-full mt-32"
+                onSubmit={handleSubmit}
+              >
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={inputsTranslate.name}
+                      type="text"
+                      id="name"
+                      name="name"
+                      variant="outlined"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                    {errors.name && touched.name && (
+                      <ErrorMessage error={errors.name} />
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={inputsTranslate.surname}
+                      type="text"
+                      id="surname"
+                      name="surname"
+                      variant="outlined"
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                    {errors.surname && touched.surname && (
+                      <ErrorMessage error={errors.surname} />
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={inputsTranslate.username}
+                      type="text"
+                      id="username"
+                      name="username"
+                      variant="outlined"
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                    {errors.username && touched.username && (
+                      <ErrorMessage error={errors.username} />
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={inputsTranslate.email}
+                      type="email"
+                      id="email"
+                      name="email"
+                      variant="outlined"
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                    {errors.email && touched.email && (
+                      <ErrorMessage error={errors.email} />
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={inputsTranslate.password}
+                      type="password"
+                      id="password"
+                      name="password"
+                      variant="outlined"
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                    {errors.password && touched.password && (
+                      <ErrorMessage error={errors.password} />
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label={inputsTranslate.confirmPassword}
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      variant="outlined"
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                    {errors.confirmPassword && touched.confirmPassword && (
+                      <ErrorMessage error={errors.confirmPassword} />
+                    )}
+                  </Grid>
+                </Grid>
 
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Email"
-                  type="email"
-                  error={!!errors.email}
-                  helperText={errors?.email?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
-
-            <Controller
-              name="password"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Password"
-                  type="password"
-                  error={!!errors.password}
-                  helperText={errors?.password?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
-
-            <Controller
-              name="passwordConfirm"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Password (Confirm)"
-                  type="password"
-                  error={!!errors.passwordConfirm}
-                  helperText={errors?.passwordConfirm?.message}
-                  variant="outlined"
-                  required
-                  fullWidth
-                />
-              )}
-            />
-
-            <Controller
-              name="acceptTermsConditions"
-              control={control}
-              render={({ field }) => (
-                <FormControl className="items-center" error={!!errors.acceptTermsConditions}>
-                  <FormControlLabel
-                    label="Hizmet Şartları ve Gizlilik Politikasını kabul ediyorum"
-                    control={<Checkbox size="small" {...field} />}
-                  />
-                  <FormHelperText>{errors?.acceptTermsConditions?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-
-            <Button
-              variant="contained"
-              color="secondary"
-              className="w-full mt-24"
-              aria-label="Register"
-              disabled={_.isEmpty(dirtyFields) || !isValid}
-              type="submit"
-              size="large"
-            >
-              Kayıt ol
-            </Button>
-          </form>
+                <LoadingButton
+                  variant="contained"
+                  color="secondary"
+                  className="w-full mt-24"
+                  aria-label="Register"
+                  loading={loading}
+                  disabled={!dirty || isSubmitting}
+                  type="submit"
+                  size="large"
+                >
+                  {t("BUTTON")}
+                </LoadingButton>
+              </Box>
+            )}
+          </Formik>
         </div>
       </Paper>
 
       <Box
         className="relative hidden md:flex flex-auto items-center justify-center h-full p-64 lg:px-112 overflow-hidden"
-        sx={{ backgroundColor: 'primary.main' }}
+        sx={{ backgroundColor: "primary.main" }}
       >
         <svg
           className="absolute inset-0 pointer-events-none"
@@ -242,7 +212,7 @@ function SignUpPage() {
         >
           <Box
             component="g"
-            sx={{ color: 'primary.light' }}
+            sx={{ color: "primary.light" }}
             className="opacity-20"
             fill="none"
             stroke="currentColor"
@@ -255,7 +225,7 @@ function SignUpPage() {
         <Box
           component="svg"
           className="absolute -top-64 -right-64 opacity-20"
-          sx={{ color: 'primary.light' }}
+          sx={{ color: "primary.light" }}
           viewBox="0 0 220 192"
           width="220px"
           height="192px"
@@ -273,7 +243,11 @@ function SignUpPage() {
               <rect x="0" y="0" width="4" height="4" fill="currentColor" />
             </pattern>
           </defs>
-          <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
+          <rect
+            width="220"
+            height="192"
+            fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
+          />
         </Box>
 
         <div className="z-10 relative w-full max-w-2xl">
@@ -282,14 +256,15 @@ function SignUpPage() {
             <div>our community</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-            rich modules. Join us and start building your application today.
+            Fuse helps developers to build organized and well coded dashboards
+            full of beautiful and rich modules. Join us and start building your
+            application today.
           </div>
           <div className="flex items-center mt-32">
             <AvatarGroup
               sx={{
-                '& .MuiAvatar-root': {
-                  borderColor: 'primary.main',
+                "& .MuiAvatar-root": {
+                  borderColor: "primary.main",
                 },
               }}
             >
@@ -307,6 +282,6 @@ function SignUpPage() {
       </Box>
     </div>
   );
-}
+};
 
 export default SignUpPage;

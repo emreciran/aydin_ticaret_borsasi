@@ -179,6 +179,7 @@ function SettingsPanel() {
           <FuseThemeSchemes
             themes={themesConfig}
             onSelect={(_theme) => {
+              console.log(_theme);
               dispatch(changeFuseTheme(_theme));
             }}
           />

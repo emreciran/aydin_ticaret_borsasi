@@ -2,8 +2,11 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { useEffect } from "react";
 import JwtService from "../../auth/services/jwtService";
+import { useTranslation } from "react-i18next";
 
 function SignOutPage() {
+  const {t} = useTranslation("SignOut")
+
   useEffect(() => {
     setTimeout(() => {
       JwtService.logout();
@@ -21,7 +24,7 @@ function SignOutPage() {
           />
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight text-center">
-            Çıkış yaptınız!
+            {t("TITLE")}
           </Typography>
         </div>
       </Paper>

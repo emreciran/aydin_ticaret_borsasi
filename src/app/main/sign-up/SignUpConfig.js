@@ -1,6 +1,13 @@
 import SignUpPage from './SignUpPage';
 import authRoles from '../../auth/authRoles';
 
+import en from "./i18n/en";
+import tr from "./i18n/tr";
+import i18next from "i18next";
+
+i18next.addResourceBundle("en", "SignUp", en);
+i18next.addResourceBundle("tr", "SignUp", tr);
+
 const SignUpConfig = {
   settings: {
     layout: {

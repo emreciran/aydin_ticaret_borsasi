@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { axiosPrivate } from "../axios";
 
 const useAxiosPrivate = () => {
-  const userToken = localStorage.getItem("jwt_access_token");
+  const userToken = Cookies.get("jwt")
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
