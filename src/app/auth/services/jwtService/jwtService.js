@@ -3,7 +3,7 @@ import axios from "src/app/axios";
 import jwtDecode from "jwt-decode";
 import jwtServiceConfig from "./jwtServiceConfig";
 import Cookies from "js-cookie";
-import { Navigate } from "react-router-dom";
+import axioS from "axios";
 
 /* eslint-disable camelcase */
 
@@ -37,7 +37,6 @@ class JwtService extends FuseUtils.EventEmitter {
 
   handleAuthentication = () => {
     const access_token = this.getAccessToken();
-
     if (!access_token) {
       this.emit("onNoAccessToken");
 
@@ -57,7 +56,6 @@ class JwtService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
       axios.post(jwtServiceConfig.signUp, data).then((response) => {
         if (response.data) {
-          <Navigate to="/sign-in" />;
           resolve(response.data);
         } else {
           reject(error.response ? error.response.data.message : error.message);
@@ -92,7 +90,7 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   updateUserData = (user) => {
-    return axios.post(jwtServiceConfig.updateUser, {
+    return axioS.post(jwtServiceConfig.updateUser, {
       user,
     });
   };

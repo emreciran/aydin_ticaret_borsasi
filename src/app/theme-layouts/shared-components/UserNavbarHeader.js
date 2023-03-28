@@ -38,16 +38,20 @@ function UserNavbarHeader(props) {
           }}
           className="avatar text-32 font-bold w-96 h-96"
           src={user.data.photoURL}
-          alt={user.data.displayName}
+          alt={user.user.name}
         >
-          {user.data.displayName.charAt(0)}
+          {user.user.name.charAt(0)}
         </Avatar>
       </div>
+      <Typography className="text-15 font-bold capitalize" color="text.secondary">
+            {user.user.role}
+            {/* {(!userData.user.role) && 'Guest'} */}
+          </Typography>
       <Typography className="username text-14 whitespace-nowrap font-medium">
-        {user.data.displayName}
+        {user.user.given_name} {user.user.family_name}
       </Typography>
       <Typography className="email text-13 whitespace-nowrap font-medium" color="text.secondary">
-        {user.data.email}
+        {user.user.sub}
       </Typography>
     </Root>
   );

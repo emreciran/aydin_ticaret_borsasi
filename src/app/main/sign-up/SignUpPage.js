@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import _ from "@lodash";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 const SignUpPage = () => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
+  const navigate = useNavigate();
   const { t } = useTranslation("SignUp");
 
   const inputsTranslate = t("INPUT_TEXTS", { returnObjects: true });
@@ -48,6 +49,8 @@ const SignUpPage = () => {
       .createUser(values)
       .then(() => {
         setLoading(false);
+        _showToast.showSuccess("Kullanıcı başarıyla oluşturuldu!")
+        navigate("/sign-in");
       })
       .catch((error) => {
         console.log(error);
@@ -102,6 +105,7 @@ const SignUpPage = () => {
                       name="name"
                       variant="outlined"
                       fullWidth
+                      required
                       onChange={handleChange}
                     />
                     {errors.name && touched.name && (
@@ -117,6 +121,7 @@ const SignUpPage = () => {
                       variant="outlined"
                       onChange={handleChange}
                       fullWidth
+                      required
                     />
                     {errors.surname && touched.surname && (
                       <ErrorMessage error={errors.surname} />
@@ -131,6 +136,7 @@ const SignUpPage = () => {
                       variant="outlined"
                       onChange={handleChange}
                       fullWidth
+                      required
                     />
                     {errors.username && touched.username && (
                       <ErrorMessage error={errors.username} />
@@ -145,6 +151,7 @@ const SignUpPage = () => {
                       variant="outlined"
                       onChange={handleChange}
                       fullWidth
+                      required
                     />
                     {errors.email && touched.email && (
                       <ErrorMessage error={errors.email} />
@@ -159,6 +166,7 @@ const SignUpPage = () => {
                       variant="outlined"
                       onChange={handleChange}
                       fullWidth
+                      required
                     />
                     {errors.password && touched.password && (
                       <ErrorMessage error={errors.password} />
@@ -173,6 +181,7 @@ const SignUpPage = () => {
                       variant="outlined"
                       onChange={handleChange}
                       fullWidth
+                      required
                     />
                     {errors.confirmPassword && touched.confirmPassword && (
                       <ErrorMessage error={errors.confirmPassword} />

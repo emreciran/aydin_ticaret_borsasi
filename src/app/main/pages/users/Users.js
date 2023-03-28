@@ -40,7 +40,7 @@ const Users = () => {
     page: 1,
     pageSize: 5,
   });
-
+  console.log(pageState);
   const getUsers = async () => {
     try {
       setPageState((old) => ({
@@ -56,7 +56,7 @@ const Users = () => {
           setPageState((old) => ({
             ...old,
             isLoading: false,
-            data: res.data.news,
+            data: res.data.users,
             total: res.data.total,
           })),
         ];
@@ -92,7 +92,11 @@ const Users = () => {
         }
         content={
           <div className="p-24">
-            <UsersTable pageState={pageState} setPageState={setPageState} />
+            <UsersTable
+              pageState={pageState}
+              setPageState={setPageState}
+              getUsers={getUsers}
+            />
           </div>
         }
         scroll="content"

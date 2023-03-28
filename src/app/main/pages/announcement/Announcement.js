@@ -57,7 +57,7 @@ const Announcement = () => {
         setPageState((old) => ({
           ...old,
           isLoading: false,
-          data: res.data.announcement,
+          data: res.data.announcements,
           total: res.data.total,
         }));
       }
@@ -71,6 +71,51 @@ const Announcement = () => {
       );
     }
   };
+
+  const DeleteAnnouncement = async (id) => {
+    try {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton:
+            "border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline",
+          cancelButton:
+            "border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline",
+          },
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Emin misin?",
+          text: "",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Evet, sil!",
+          cancelButtonText: "Hayır, iptal et!",
+          reverseButtons: true,
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            await axiosPrivate.delete(`/announcements/${id}`);
+            await getAnnouncement();
+            swalWithBootstrapButtons.fire(
+              "Silindi!",
+              "Duyuru başarıyla silindi!",
+              "success"
+            );
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "İptal edildi!",
+              "Duyuru silinmedi!",
+              "error"
+            );
+          }
+        });
+    } catch (error) {
+      _showToast.showError(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  }
 
   useEffect(() => {
     getAnnouncement();
@@ -96,6 +141,8 @@ const Announcement = () => {
             <AnnouncementTable
               pageState={pageState}
               setPageState={setPageState}
+              DeleteAnnouncement={DeleteAnnouncement}
+              getAnnouncement={getAnnouncement}
             />
           </div>
         }

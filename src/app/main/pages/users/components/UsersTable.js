@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   DataGrid,
   GridToolbar,
@@ -10,8 +10,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CustomNoRowsOverlay from "app/shared-components/CustomNoRowsOverlay";
 import { useTranslation } from "react-i18next";
+import Popup from "app/shared-components/Popup";
+import UpdateUserForm from "./UpdateUserForm";
 
-const UsersTable = ({ pageState, setPageState }) => {
+const UsersTable = ({ pageState, setPageState,getUsers }) => {
   const [open, setOpen] = useState();
   const { t } = useTranslation("Users");
 
@@ -63,7 +65,7 @@ const UsersTable = ({ pageState, setPageState }) => {
               style={{ margin: "0 auto" }}
               onClick={() => setOpen(true)}
             />
-            {/* <Popup
+            <Popup
               open={open}
               setOpen={setOpen}
               title={`#${rowSelectionModel?.id} Kullanıcı Güncelle`}
@@ -72,9 +74,8 @@ const UsersTable = ({ pageState, setPageState }) => {
                 data={rowSelectionModel}
                 setOpen={setOpen}
                 getUsers={getUsers}
-                allRoles={allRoles}
               />
-            </Popup> */}
+            </Popup>
           </>
         );
       },
@@ -83,12 +84,13 @@ const UsersTable = ({ pageState, setPageState }) => {
 
   const rows = pageState?.data
     ? pageState?.data.map((row) => ({
-        id: row.id,
-        title: row.title,
-        link: row.link,
-        details: row.details,
-        imageName: row.imageName,
-        createdDate: row.createdDate,
+        id: row.useR_ID,
+        name: row.name,
+        surname: row.surname,
+        email: row.email,
+        username: row.username,
+        status: row.status,
+        role: row.role,
       }))
     : "";
 

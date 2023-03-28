@@ -1,5 +1,5 @@
 import i18next from "i18next";
-
+import React, {lazy} from "react"
 import en from "./i18n/en";
 import tr from "./i18n/tr";
 import News from "./News";

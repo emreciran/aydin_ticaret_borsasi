@@ -21,6 +21,7 @@ const navigationConfig = [
     type: 'item',
     icon: 'heroicons-outline:users',
     url: 'kullanicilar',
+    auth: "admin"
   },
   {
     id: 'announcement-component',

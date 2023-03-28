@@ -30,6 +30,26 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      const createdDate = moment().format("DD/MM/YYYY");
+      const formData = new FormData();
+
+      formData.append("Title", title);
+      formData.append("Link", link);
+      formData.append("Details", details);
+      formData.append("ImageFile", image);
+      formData.append("CreatedDate", createdDate);
+
+      await axiosPrivate.post("/announcements", formData);
+      _showToast.showSuccess("Yeni duyuru oluşturuldu");
+      await getAnnouncement();
+      setLoading(false);
+      setOpen(false);
+    } catch (error) {
+      setLoading(false);
+      _showToast.showError(error.response.data.message);
+    }
   };
 
   return (

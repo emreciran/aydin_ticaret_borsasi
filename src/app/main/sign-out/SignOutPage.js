@@ -5,7 +5,7 @@ import JwtService from "../../auth/services/jwtService";
 import { useTranslation } from "react-i18next";
 
 function SignOutPage() {
-  const {t} = useTranslation("SignOut")
+  const { t } = useTranslation("SignOut");
 
   useEffect(() => {
     setTimeout(() => {

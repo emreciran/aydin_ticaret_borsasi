@@ -71,6 +71,51 @@ const News = () => {
     }
   };
 
+  const DeleteNews = async (id) => {
+    try {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton:
+            "border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline",
+          cancelButton:
+            "border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline",
+        },
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Emin misin?",
+          text: "",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Evet, sil!",
+          cancelButtonText: "Hayır, iptal et!",
+          reverseButtons: true,
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            await axiosPrivate.delete(`/news/${id}`);
+            await getNews();
+            swalWithBootstrapButtons.fire(
+              "Silindi!",
+              "Haber başarıyla silindi!",
+              "success"
+            );
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "İptal edildi!",
+              "Haber silinmedi!",
+              "error"
+            );
+          }
+        });
+    } catch (error) {
+      _showToast.showError(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  };
+
   useEffect(() => {
     getNews();
   }, [pageState.page, pageState.pageSize]);
@@ -92,7 +137,12 @@ const News = () => {
         }
         content={
           <div className="p-24">
-            <NewsTable pageState={pageState} setPageState={setPageState} />
+            <NewsTable
+              pageState={pageState}
+              setPageState={setPageState}
+              DeleteNews={DeleteNews}
+              getNews={getNews}
+            />
           </div>
         }
         scroll="content"

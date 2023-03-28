@@ -7,7 +7,7 @@ import { showMessage } from "app/store/fuse/messageSlice";
 import settingsConfig from "app/configs/settingsConfig";
 import jwtService from "../auth/services/jwtService";
 import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 
 export const setUser = createAsyncThunk(
   "user/setUser",
@@ -15,12 +15,14 @@ export const setUser = createAsyncThunk(
     /*
     You can redirect the logged-in user to a specific route depending on his role
     */
-    if (user.role === "Admin") {
-      settingsConfig.loginRedirectUrl = "/admin"; // for example 'apps/academy'
-    } else {
-      settingsConfig.loginRedirectUrl = "/";
-    }
-
+    console.log(user);
+    // if (user.role === "admin") {
+    //   settingsConfig.loginRedirectUrl = "/admin"; // for example 'apps/academy'
+    // } else {
+    //   settingsConfig.loginRedirectUrl = "/";
+    // }
+    settingsConfig.loginRedirectUrl = "/";
+    window.location.reload(false);
     return user;
   }
 );
@@ -56,12 +58,11 @@ export const updateUserShortcuts = createAsyncThunk(
 
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState();
-console.log(user);
+
   if (!user.role || user.role.length === 0) {
     // is guest
     return null;
   }
-
   history.push({
     pathname: "/",
   });
@@ -87,8 +88,8 @@ export const updateUserData = (user) => async (dispatch, getState) => {
     });
 };
 
-const token = Cookies.get("jwt") || null
-const decodedToken = token ? jwt_decode(token) : false
+const token = Cookies.get("jwt") || null;
+const decodedToken = token ? jwt_decode(token) : false;
 
 const initialState = {
   user:
@@ -97,17 +98,14 @@ const initialState = {
       : false,
   role:
     decodedToken && Date.now() <= decodedToken.exp * 1000
-      ? `${decodedToken.role}`
+      ? `${decodedToken.role.toLowerCase()}`
       : [], // guest
 
   //role: [], // guest
   data: {
-    displayName: "",
     photoURL: "assets/images/avatars/brian-hughes.jpg",
-    email: "",
     shortcuts: ["apps.calendar", "apps.mailbox", "apps.contacts", "apps.tasks"],
   },
-
 };
 
 const userSlice = createSlice({

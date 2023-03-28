@@ -10,8 +10,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CustomNoRowsOverlay from "app/shared-components/CustomNoRowsOverlay";
 import { useTranslation } from "react-i18next";
+import Popup from "app/shared-components/Popup";
+import UpdateAnnouncementForm from "./UpdateAnnouncementForm";
 
-const AnnouncementTable = ({ pageState, setPageState }) => {
+const AnnouncementTable = ({
+  pageState,
+  setPageState,
+  DeleteAnnouncement,
+  getAnnouncement,
+}) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation("Announcement");
 
@@ -20,7 +27,7 @@ const AnnouncementTable = ({ pageState, setPageState }) => {
 
   const columns = [
     { field: "id", headerName: "#" },
-    { field: "title", headerName: columnsTranslate.title, flex: 1 },
+    { field: "title", headerName: columnsTranslate.title },
     { field: "link", headerName: columnsTranslate.link },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
@@ -37,7 +44,7 @@ const AnnouncementTable = ({ pageState, setPageState }) => {
                 setOpen(true);
               }}
             />
-            {/* <Popup
+            <Popup
               open={open}
               setOpen={setOpen}
               title={`#${rowSelectionModel?.id} Duyuru Güncelle`}
@@ -47,7 +54,7 @@ const AnnouncementTable = ({ pageState, setPageState }) => {
                 setOpen={setOpen}
                 getAnnouncement={getAnnouncement}
               />
-            </Popup> */}
+            </Popup>
           </>
         );
       },
@@ -60,7 +67,7 @@ const AnnouncementTable = ({ pageState, setPageState }) => {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label={columnsTranslate.delete}
-            // onClick={() => DeleteAnnouncement(params.id)}
+            onClick={() => DeleteAnnouncement(params.id)}
           />
         );
       },
@@ -96,6 +103,7 @@ const AnnouncementTable = ({ pageState, setPageState }) => {
         getRowId={(row) => row.id}
         hideFooterSelectedRowCount
         onRowSelectionModelChange={(ids) => {
+          console.log(ids);
           const selectedIDs = new Set(ids);
           const selectedRowData = rows.filter((row) => selectedIDs.has(row.id));
           setRowSelectionModel(selectedRowData[0]);

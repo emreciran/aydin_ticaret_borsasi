@@ -12,7 +12,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
 
 function UserMenu(props) {
-  const user = useSelector(selectUser);
+  const userData = useSelector(selectUser);
 
   const [userMenu, setUserMenu] = useState(null);
 
@@ -33,18 +33,18 @@ function UserMenu(props) {
       >
         <div className="hidden md:flex flex-col mx-4 items-end">
           <Typography component="span" className="font-semibold flex">
-            {user.data.displayName}
+            {userData.user.given_name} {userData.user.family_name}
           </Typography>
           <Typography className="text-11 font-medium capitalize" color="text.secondary">
-            {user.role.toString()}
-            {(!user.role || (Array.isArray(user.role) && user.role.length === 0)) && 'Guest'}
+            {userData.user.role}
+            {/* {(!userData.user.role) && 'Guest'} */}
           </Typography>
         </div>
 
-        {user.data.photoURL ? (
-          <Avatar className="md:mx-4" alt="user photo" src={user.data.photoURL} />
+        {userData.data.photoURL ? (
+          <Avatar className="md:mx-4" alt="user photo" src={userData.data.photoURL} />
         ) : (
-          <Avatar className="md:mx-4">{user.data.displayName[0]}</Avatar>
+          <Avatar className="md:mx-4">{userData.user.name}</Avatar>
         )}
       </Button>
 
@@ -64,7 +64,7 @@ function UserMenu(props) {
           paper: 'py-8',
         }}
       >
-        {!user.role || user.role.length === 0 ? (
+        {!userData.role || userData.role.length === 0 ? (
           <>
             <MenuItem component={Link} to="/sign-in" role="button">
               <ListItemIcon className="min-w-40">
@@ -87,12 +87,12 @@ function UserMenu(props) {
               </ListItemIcon>
               <ListItemText primary="My Profile" />
             </MenuItem>
-            <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
+            {/* <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:mail-open</FuseSvgIcon>
               </ListItemIcon>
               <ListItemText primary="Inbox" />
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
               component={NavLink}
               to="/sign-out"

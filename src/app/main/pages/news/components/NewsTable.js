@@ -10,9 +10,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CustomNoRowsOverlay from "app/shared-components/CustomNoRowsOverlay";
 import { useTranslation } from "react-i18next";
+import Popup from "app/shared-components/Popup";
+import UpdateNewsForm from "./UpdateNewsForm";
 
-const NewsTable = ({ pageState, setPageState }) => {
-  const [open, setOpen] = useState();
+const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation("News");
 
   const [rowSelectionModel, setRowSelectionModel] = useState();
@@ -21,7 +23,6 @@ const NewsTable = ({ pageState, setPageState }) => {
   const columns = [
     { field: "id", headerName: "#" },
     { field: "title", headerName: columnsTranslate.title },
-    { field: "link", headerName: columnsTranslate.link },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
       field: "update",
@@ -37,17 +38,17 @@ const NewsTable = ({ pageState, setPageState }) => {
                 setOpen(true);
               }}
             />
-            {/* <Popup
+            <Popup
               open={open}
               setOpen={setOpen}
               title={`#${rowSelectionModel?.id} Duyuru Güncelle`}
             >
-              <UpdateAnnouncementForm
+              <UpdateNewsForm
                 data={rowSelectionModel}
                 setOpen={setOpen}
-                getAnnouncement={getAnnouncement}
+                getNews={getNews}
               />
-            </Popup> */}
+            </Popup>
           </>
         );
       },
@@ -60,7 +61,7 @@ const NewsTable = ({ pageState, setPageState }) => {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label={columnsTranslate.delete}
-            // onClick={() => DeleteAnnouncement(params.id)}
+            onClick={() => DeleteNews(params.id)}
           />
         );
       },
@@ -71,7 +72,6 @@ const NewsTable = ({ pageState, setPageState }) => {
     ? pageState?.data.map((row) => ({
         id: row.id,
         title: row.title,
-        link: row.link,
         details: row.details,
         imageName: row.imageName,
         createdDate: row.createdDate,

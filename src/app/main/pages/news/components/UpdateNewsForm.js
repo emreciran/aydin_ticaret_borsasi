@@ -1,46 +1,40 @@
-import {
-  Box,
-  FormLabel,
-  Grid,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, FormLabel, Grid, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import moment from "moment";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 
-const NewNewsForm = ({ setOpen, getNews }) => {
+const UpdateNewsForm = ({ data, setOpen, getNews }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
 
-  const [title, setTitle] = useState("");
-  const [details, setDetails] = useState("");
-  const [image, setImage] = useState("");
+  const [title, setTitle] = useState(data?.title);
+  const [details, setDetails] = useState(data?.details);
+  const [image, setImage] = useState(data?.imageName);
+  const [newImage, setNewImage] = useState();
 
   const handleFile = (e) => {
-    setImage(e.target.files[0]);
+    setNewImage(e.target.files[0]);
   };
 
-  const handleFormSubmit = async (e) => {
+  const updateNews = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const createdDate = moment().format("DD/MM/YYYY");
       const formData = new FormData();
 
+      formData.append("Id", data?.id);
       formData.append("Title", title);
       formData.append("Details", details);
-      formData.append("ImageFile", image);
-      formData.append("CreatedDate", createdDate);
+      formData.append("ImageName", image);
+      formData.append("ImageFile", newImage);
+      formData.append("CreatedDate", data?.createdDate);
 
-      await axiosPrivate.post("/news", formData);
-      _showToast.showSuccess("Yeni haber oluşturuldu");
+      await axiosPrivate.put("/news", formData);
+      _showToast.showSuccess("Haber güncellendi!");
       await getNews();
       setLoading(false);
       setOpen(false);
@@ -51,7 +45,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
   };
 
   return (
-    <Box component="form" noValidate onSubmit={handleFormSubmit}>
+    <Box component="form" noValidate onSubmit={updateNews}>
       <Grid container>
         <Grid item sm={12} style={{ marginBottom: 25 }}>
           <TextField
@@ -70,7 +64,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
             theme="snow"
             value={details}
             onChange={setDetails}
-            style={{ height: "300px" }}
+            style={{ height: "200px" }}
           />
         </Grid>
         <Grid item>
@@ -78,6 +72,13 @@ const NewNewsForm = ({ setOpen, getNews }) => {
             <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
               Haber Görseli
             </FormLabel>
+            {image != null && (
+              <img
+                src={`${process.env.REACT_APP_SERVER_URL}/Images/${image}`}
+                alt=""
+                width="100%"
+              />
+            )}
             <input
               type="file"
               name="ImageFile"
@@ -103,11 +104,11 @@ const NewNewsForm = ({ setOpen, getNews }) => {
           loading={loading}
           loadingIndicator="Loading…"
         >
-          <span>Oluştur</span>
+          <span>Güncelle</span>
         </LoadingButton>
       </Box>
     </Box>
-  );
+  )
 };
 
-export default NewNewsForm;
+export default UpdateNewsForm;

@@ -34,15 +34,16 @@ const SignInPage = () => {
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
-    jwtService.signInWithEmailAndPassword(values)
+    await jwtService
+      .signInWithEmailAndPassword(values)
       .then(() => {
         setLoading(false);
-      }).catch((error) => {
-        console.log(error);
-        _showToast.showError(error)
-        setLoading(false)
       })
-    
+      .catch((error) => {
+        console.log(error);
+        _showToast.showError(error);
+        setLoading(false);
+      });
   };
 
   return (
