@@ -13,11 +13,14 @@ import moment from "moment";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
+import { useTranslation } from "react-i18next";
 
 const NewNewsForm = ({ setOpen, getNews }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
+  const { t } = useTranslation("News");
+  const modalTranslate = t("NEWNEWS", { returnObjects: true });
 
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
@@ -57,7 +60,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Başlık"
+            label={modalTranslate.title}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             id="title"
@@ -65,7 +68,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
           />
         </Grid>
         <Grid item sm={12}>
-          <FormLabel>Haber Detay</FormLabel>
+          <FormLabel>{modalTranslate.details}</FormLabel>
           <ReactQuill
             theme="snow"
             value={details}
@@ -76,7 +79,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
         <Grid item>
           <Box display="flex" flexDirection="column" style={{ marginTop: 80 }}>
             <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
-              Haber Görseli
+              {modalTranslate.image}
             </FormLabel>
             <input
               type="file"
@@ -95,15 +98,16 @@ const NewNewsForm = ({ setOpen, getNews }) => {
           color="error"
           onClick={() => setOpen(false)}
         >
-          İptal
+          {modalTranslate.cancel}
         </Button>
         <LoadingButton
           type="submit"
           variant="contained"
           loading={loading}
           loadingIndicator="Loading…"
+          color="secondary"
         >
-          <span>Oluştur</span>
+          <span>{modalTranslate.button}</span>
         </LoadingButton>
       </Box>
     </Box>

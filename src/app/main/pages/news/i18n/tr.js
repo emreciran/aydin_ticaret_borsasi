@@ -10,6 +10,14 @@ const locale = {
     update: "Güncelle",
     delete: "Sil",
   },
+  NEWNEWS: {
+    headerTitle: "Yeni Haber",
+    title: "Başlık",
+    details: "Haber Detay",
+    image: "Haber Görseli",
+    cancel: "İptal",
+    button: "Oluştur",
+  },
 };
 
 export default locale;

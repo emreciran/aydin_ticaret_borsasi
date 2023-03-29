@@ -9,24 +9,60 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useToast from "src/app/hooks/useToast";
+import { useTranslation } from "react-i18next";
+import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
+
+const allRoles = [
+  { id: 1, name: "Admin" },
+  { id: 2, name: "Yazar" },
+];
 
 const NewUserForm = ({ setOpen, getUsers }) => {
   const [_showToast] = useToast();
+  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("Users");
+  const modalTranslate = t("NEWUSER", { returnObjects: true });
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [status, setStatus] = useState();
+  const [role, setRole] = useState();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      const data = {
+        name,
+        surname,
+        email,
+        username,
+        password,
+        status,
+        role,
+      };
+
+      await axiosPrivate.post("/users", data);
+      _showToast.showSuccess("Kullanıcı oluşturuldu!");
+
+      await getUsers();
+      setOpen(false);
+    } catch (error) {
+      setLoading(false);
+      _showToast.showError(
+        error.response ? error.response.data.message : error.message
+      );
+    }
   };
 
   const handleChange = (e) => {
@@ -56,7 +92,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               fullWidth
               variant="standard"
               id="name"
-              label="Adı"
+              label={modalTranslate.name}
               onChange={(e) => setName(e.target.value)}
             />
           </Grid>
@@ -65,7 +101,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               id="surname"
-              label="Soyadı"
+              label={modalTranslate.surname}
               variant="standard"
               name="surname"
               onChange={(e) => setSurname(e.target.value)}
@@ -76,7 +112,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               id="username"
-              label="Kullanıcı adı"
+              label={modalTranslate.username}
               variant="standard"
               name="username"
               onChange={(e) => setUsername(e.target.value)}
@@ -87,7 +123,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               id="email"
-              label="Email"
+              label={modalTranslate.email}
               variant="standard"
               name="email"
               onChange={(e) => setEmail(e.target.value)}
@@ -98,16 +134,36 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={modalTranslate.password}
               variant="standard"
               type="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
+          <Grid item sm={12} style={{ marginBottom: 25 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Rol</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={role}
+                label="Rol"
+                onChange={(e) => setRole(e.target.value)}
+              >
+                {allRoles?.map((role) => (
+                  <MenuItem value={role.name} key={role.id}>
+                    {role.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item sm={12} style={{ marginBottom: 10 }}>
             <FormControl>
-              <FormLabel id="demo-radio-buttons-group-label">Durumu</FormLabel>
+              <FormLabel id="demo-radio-buttons-group-label">
+                {modalTranslate.status.name}
+              </FormLabel>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 name="status"
@@ -117,12 +173,12 @@ const NewUserForm = ({ setOpen, getUsers }) => {
                 <FormControlLabel
                   value={true}
                   control={<Radio color="success" />}
-                  label="Aktif"
+                  label={modalTranslate.status.active}
                 />
                 <FormControlLabel
                   value={false}
                   control={<Radio color="error" />}
-                  label="Pasif"
+                  label={modalTranslate.status.passive}
                 />
               </RadioGroup>
             </FormControl>
@@ -135,15 +191,16 @@ const NewUserForm = ({ setOpen, getUsers }) => {
             color="error"
             onClick={() => setOpen(false)}
           >
-            İptal
+            {modalTranslate.cancel}
           </Button>
           <LoadingButton
             type="submit"
             variant="contained"
             loading={loading}
             loadingIndicator="Loading…"
+            color="secondary"
           >
-            <span>Kullanıcı Ekle</span>
+            <span>{modalTranslate.button}</span>
           </LoadingButton>
         </Box>
       </Box>

@@ -14,12 +14,12 @@ import Popup from "app/shared-components/Popup";
 import UpdateUserForm from "./UpdateUserForm";
 
 const UsersTable = ({ pageState, setPageState,getUsers }) => {
-  const [open, setOpen] = useState();
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation("Users");
 
   const [rowSelectionModel, setRowSelectionModel] = useState();
   const columnsTranslate = t("COLUMNS", { returnObjects: true });
-
+  
   const columns = [
     { field: "id", headerName: "#" },
     { field: "name", headerName: columnsTranslate.name },
@@ -112,17 +112,22 @@ const UsersTable = ({ pageState, setPageState,getUsers }) => {
         pageSize={pageState.pageSize}
         getRowId={(row) => row.id}
         hideFooterSelectedRowCount
-        onRowSelectionModelChange={(ids) => {
+        onSelectionModelChange={(ids) => {
           const selectedIDs = new Set(ids);
           const selectedRowData = rows.filter((row) => selectedIDs.has(row.id));
           setRowSelectionModel(selectedRowData[0]);
         }}
-        pageSizeOptions={[5, 10, 25]}
-        onPaginationModelChange={(newPage) => {
+        rowsPerPageOptions={[5, 10, 25]}
+        onPageChange={(newPage) => {
           setPageState((old) => ({
             ...old,
-            page: newPage + 1,
-            pageSize: newPage.pageSize,
+            page: newPage + 1
+          }));
+        }}
+        onPageSizeChange={(pageSize) => {
+          setPageState((old) => ({
+            ...old,
+            pageSize: pageSize,
           }));
         }}
         localeText={

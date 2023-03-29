@@ -102,19 +102,23 @@ const AnnouncementTable = ({
         pageSize={pageState.pageSize}
         getRowId={(row) => row.id}
         hideFooterSelectedRowCount
-        onRowSelectionModelChange={(ids) => {
-          console.log(ids);
+        onSelectionModelChange={(ids) => {
           const selectedIDs = new Set(ids);
           const selectedRowData = rows.filter((row) => selectedIDs.has(row.id));
           setRowSelectionModel(selectedRowData[0]);
         }}
         paginationMode="server"
-        pageSizeOptions={[5, 10, 25]}
-        onPaginationModelChange={(newPage) => {
+        rowsPerPageOptions={[5, 10, 25]}
+        onPageChange={(newPage) => {
           setPageState((old) => ({
             ...old,
-            page: newPage.page + 1,
-            pageSize: newPage.pageSize,
+            page: newPage + 1
+          }));
+        }}
+        onPageSizeChange={(pageSize) => {
+          setPageState((old) => ({
+            ...old,
+            pageSize: pageSize,
           }));
         }}
         localeText={

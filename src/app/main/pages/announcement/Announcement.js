@@ -11,6 +11,7 @@ import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import useToast from "src/app/hooks/useToast";
 import Popup from "app/shared-components/Popup";
 import NewAnnouncementForm from "./components/NewAnnouncementForm";
+import AnnouncementService from "src/app/services/announcementService";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -31,7 +32,7 @@ const Announcement = () => {
   const { t } = useTranslation("Announcement");
   const [_showToast] = useToast();
   const axiosPrivate = useAxiosPrivate();
-
+  const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
   const [open, setOpen] = useState(false);
 
   const [pageState, setPageState] = useState({
@@ -42,25 +43,24 @@ const Announcement = () => {
     pageSize: 5,
   });
 
-  const getAnnouncement = async () => {
+  const getAnnouncement = () => {
     try {
       setPageState((old) => ({
         ...old,
         isLoading: true,
       }));
-      
-      const res = await axiosPrivate.get(
-        `/announcements?page=${pageState.page}&limit=${pageState.pageSize}`
-      );
-
-      if (res.data != null) {
-        setPageState((old) => ({
-          ...old,
-          isLoading: false,
-          data: res.data.announcements,
-          total: res.data.total,
-        }));
-      }
+      AnnouncementService.getAnnouncements(pageState)
+        .then((response) => {
+          setPageState((old) => ({
+            ...old,
+            isLoading: false,
+            data: response.announcements,
+            total: response.total,
+          }));
+        })
+        .catch((error) => {
+          _showToast.showError(error);
+        });
     } catch (error) {
       setPageState((old) => ({
         ...old,
@@ -72,7 +72,7 @@ const Announcement = () => {
     }
   };
 
-  const DeleteAnnouncement = async (id) => {
+  const DeleteAnnouncement = (id) => {
     try {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -80,7 +80,7 @@ const Announcement = () => {
             "border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline",
           cancelButton:
             "border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline",
-          },
+        },
       });
 
       swalWithBootstrapButtons
@@ -95,13 +95,14 @@ const Announcement = () => {
         })
         .then(async (result) => {
           if (result.isConfirmed) {
-            await axiosPrivate.delete(`/announcements/${id}`);
-            await getAnnouncement();
-            swalWithBootstrapButtons.fire(
-              "Silindi!",
-              "Duyuru başarıyla silindi!",
-              "success"
-            );
+            AnnouncementService.deleteAnnouncement(id).then((response) => {
+              getAnnouncement();
+              swalWithBootstrapButtons.fire(
+                "Silindi!",
+                "Duyuru başarıyla silindi!",
+                "success"
+              );
+            });
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire(
               "İptal edildi!",
@@ -115,7 +116,7 @@ const Announcement = () => {
         error.response ? error.response.data.message : error.message
       );
     }
-  }
+  };
 
   useEffect(() => {
     getAnnouncement();
@@ -148,7 +149,7 @@ const Announcement = () => {
         }
         scroll="content"
       />
-      <Popup open={open} setOpen={setOpen} title={"Yeni Duyuru"}>
+      <Popup open={open} setOpen={setOpen} title={modalTranslate.headerTitle}>
         <NewAnnouncementForm
           setOpen={setOpen}
           getAnnouncement={getAnnouncement}

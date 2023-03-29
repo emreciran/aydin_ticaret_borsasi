@@ -13,9 +13,24 @@ const locale = {
     status: {
       name: "Durumu",
       active: "Aktif",
-      passive: "Pasif"
+      passive: "Pasif",
     },
     update: "Güncelle",
+  },
+  NEWUSER: {
+    title: "Yeni Kullanıcı",
+    name: "Adı",
+    surname: "Soyadı",
+    username: "Kullanıcı adı",
+    email: "Email",
+    password: "Şifre",
+    status: {
+      name: "Durumu",
+      active: "Aktif",
+      passive: "Pasif",
+    },
+    cancel: "İptal",
+    button: "Kullanıcı Ekle",
   },
 };
 

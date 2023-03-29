@@ -11,6 +11,15 @@ const locale = {
     update: "Güncelle",
     delete: "Sil",
   },
+  NEWANNOUNCEMENT: {
+    headerTitle: "Yeni Duyuru",
+    title: "Başlık",
+    link: "Link",
+    details: "Duyuru Detay",
+    image: "Duyuru Görseli",
+    cancel: "Cancel",
+    button: "Oluştur",
+  },
 };
 
 export default locale;

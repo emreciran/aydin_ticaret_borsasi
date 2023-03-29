@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
+import AnnouncementService from "src/app/services/announcementService";
 
 const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
@@ -31,11 +32,17 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
       formData.append("ImageFile", newImage);
       formData.append("CreatedDate", data?.createdDate);
 
-      await axiosPrivate.put("/announcements", formData);
-      _showToast.showSuccess("Duyuru güncellendi!");
-      await getAnnouncement();
-      setLoading(false);
-      setOpen(false);
+      AnnouncementService.updateAnnouncement(formData)
+        .then((response) => {
+          _showToast.showSuccess("Duyuru güncellendi!");
+          getAnnouncement();
+          setLoading(false);
+          setOpen(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          _showToast.showError(error.response);
+        });
     } catch (error) {
       setLoading(false);
       _showToast.showError(error.response.data.message);
@@ -116,6 +123,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
           variant="contained"
           loading={loading}
           loadingIndicator="Loading…"
+          color="secondary"
         >
           <span>Güncelle</span>
         </LoadingButton>

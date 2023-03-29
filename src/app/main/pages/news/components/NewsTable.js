@@ -41,7 +41,7 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
             <Popup
               open={open}
               setOpen={setOpen}
-              title={`#${rowSelectionModel?.id} Duyuru Güncelle`}
+              title={`#${rowSelectionModel?.id} Haber Güncelle`}
             >
               <UpdateNewsForm
                 data={rowSelectionModel}
@@ -96,17 +96,22 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
         pageSize={pageState.pageSize}
         getRowId={(row) => row.id}
         hideFooterSelectedRowCount
-        onRowSelectionModelChange={(ids) => {
+        onSelectionModelChange={(ids) => {
           const selectedIDs = new Set(ids);
           const selectedRowData = rows.filter((row) => selectedIDs.has(row.id));
           setRowSelectionModel(selectedRowData[0]);
         }}
-        pageSizeOptions={[5, 10, 25]}
-        onPaginationModelChange={(newPage) => {
+        rowsPerPageOptions={[5, 10, 25]}
+        onPageChange={(newPage) => {
           setPageState((old) => ({
             ...old,
-            page: newPage + 1,
-            pageSize: newPage.pageSize,
+            page: newPage + 1
+          }));
+        }}
+        onPageSizeChange={(pageSize) => {
+          setPageState((old) => ({
+            ...old,
+            pageSize: pageSize,
           }));
         }}
         localeText={

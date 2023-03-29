@@ -13,11 +13,14 @@ import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
+  const {t} = useTranslation("Announcement")
+  const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
 
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
@@ -59,7 +62,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Başlık"
+            label={modalTranslate.title}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             id="title"
@@ -70,7 +73,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Link"
+            label={modalTranslate.link}
             value={link}
             onChange={(e) => setLink(e.target.value)}
             id="link"
@@ -78,7 +81,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
           />
         </Grid>
         <Grid item sm={12}>
-          <FormLabel htmlFor="Details">Duyuru Detay</FormLabel>
+          <FormLabel htmlFor="Details">{modalTranslate.details}</FormLabel>
           <ReactQuill
             theme="snow"
             value={details}
@@ -90,7 +93,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
         <Grid item>
           <Box display="flex" flexDirection="column" style={{ marginTop: 80 }}>
             <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
-              Duyuru Görseli
+              {modalTranslate.image}
             </FormLabel>
             <input
               type="file"
@@ -109,15 +112,16 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
           color="error"
           onClick={() => setOpen(false)}
         >
-          İptal
+          {modalTranslate.cancel}
         </Button>
         <LoadingButton
           type="submit"
           variant="contained"
           loading={loading}
           loadingIndicator="Loading…"
+          color="secondary"
         >
-          <span>Oluştur</span>
+          <span>{modalTranslate.button}</span>
         </LoadingButton>
       </Box>
     </Box>

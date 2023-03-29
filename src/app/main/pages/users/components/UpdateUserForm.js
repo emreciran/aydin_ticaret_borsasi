@@ -16,10 +16,14 @@ import React, { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
+import UserService from "src/app/services/userService";
+
+const allRoles = [
+  { id: 1, name: "Admin" },
+  { id: 2, name: "Yazar" },
+];
 
 const UpdateUserForm = ({ data, setOpen, getUsers }) => {
-  const allRoles = ["Admin", "Yazar"];
-
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
@@ -40,16 +44,22 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
         surname,
         email: data?.email,
         username: data?.username,
+        role: role,
         status: status === "true",
         createdDate: data?.createdDate,
       };
 
-      await axiosPrivate.put("/users", values);
-      _showToast.showSuccess("Kullanıcı güncellendi!");
-      await getUsers();
-
-      setLoading(false);
-      setOpen(false);
+      UserService.updateUser(values)
+        .then((response) => {
+          _showToast.showSuccess("Kullanıcı güncellendi!");
+          getUsers();
+          setLoading(false);
+          setOpen(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          _showToast.showError(error);
+        });
     } catch (error) {
       setLoading(false);
       _showToast.showError(error.response.data.message);
@@ -160,6 +170,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           variant="contained"
           loading={loading}
           loadingIndicator="Loading…"
+          color="secondary"
         >
           <span>Güncelle</span>
         </LoadingButton>

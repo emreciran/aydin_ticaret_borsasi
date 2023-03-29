@@ -10,6 +10,7 @@ import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import NewsTable from "./components/NewsTable";
 import Popup from "app/shared-components/Popup";
 import NewNewsForm from "./components/NewNewsForm";
+import NewsService from "src/app/services/newsService";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -30,6 +31,7 @@ const News = () => {
   const { t } = useTranslation("News");
   const [_showToast] = useToast();
   const axiosPrivate = useAxiosPrivate();
+  const modalTranslate = t("NEWNEWS", { returnObjects: true });
 
   const [open, setOpen] = useState(false);
 
@@ -47,19 +49,19 @@ const News = () => {
         ...old,
         isLoading: true,
       }));
-      const res = await axiosPrivate.get(
-        `/news?page=${pageState.page}&limit=${pageState.pageSize}`
-      );
 
-      if (res.data != null)
-        [
+      NewsService.getNews(pageState)
+        .then((response) => {
           setPageState((old) => ({
             ...old,
             isLoading: false,
-            data: res.data.news,
-            total: res.data.total,
-          })),
-        ];
+            data: response.news,
+            total: response.total,
+          }));
+        })
+        .catch((error) => {
+          _showToast.showError(error);
+        });
     } catch (error) {
       setPageState((old) => ({
         ...old,
@@ -94,13 +96,14 @@ const News = () => {
         })
         .then(async (result) => {
           if (result.isConfirmed) {
-            await axiosPrivate.delete(`/news/${id}`);
-            await getNews();
-            swalWithBootstrapButtons.fire(
-              "Silindi!",
-              "Haber başarıyla silindi!",
-              "success"
-            );
+            NewsService.deleteNews(id).then((response) => {
+              getNews();
+              swalWithBootstrapButtons.fire(
+                "Silindi!",
+                "Haber başarıyla silindi!",
+                "success"
+              );
+            });
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire(
               "İptal edildi!",
@@ -147,7 +150,7 @@ const News = () => {
         }
         scroll="content"
       />
-      <Popup open={open} setOpen={setOpen} title={"Yeni Haber"}>
+      <Popup open={open} setOpen={setOpen} title={modalTranslate.headerTitle}>
         <NewNewsForm setOpen={setOpen} getNews={getNews} />
       </Popup>
     </>

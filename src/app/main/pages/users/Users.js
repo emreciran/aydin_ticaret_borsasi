@@ -4,12 +4,12 @@ import FusePageSimple from "@fuse/core/FusePageSimple";
 import { useTranslation } from "react-i18next";
 import { Box, Button, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Swal from "sweetalert2";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import UsersTable from "./components/UsersTable";
 import Popup from "app/shared-components/Popup";
 import NewUserForm from "./components/NewUserForm";
+import UserService from "src/app/services/userService";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -30,6 +30,7 @@ const Users = () => {
   const { t } = useTranslation("Users");
   const [_showToast] = useToast();
   const axiosPrivate = useAxiosPrivate();
+  const modalTranslate = t("NEWUSER", { returnObjects: true });
 
   const [open, setOpen] = useState(false);
 
@@ -40,26 +41,30 @@ const Users = () => {
     page: 1,
     pageSize: 5,
   });
-  console.log(pageState);
+
   const getUsers = async () => {
     try {
       setPageState((old) => ({
         ...old,
         isLoading: true,
       }));
-      const res = await axiosPrivate.get(
-        `/users?page=${pageState.page}&limit=${pageState.pageSize}`
-      );
 
-      if (res.data != null)
-        [
+      UserService.getUsers(pageState)
+        .then((response) => {
           setPageState((old) => ({
             ...old,
             isLoading: false,
-            data: res.data.users,
-            total: res.data.total,
-          })),
-        ];
+            data: response.users,
+            total: response.total,
+          }));
+        })
+        .catch((error) => {
+          setPageState((old) => ({
+            ...old,
+            isLoading: false,
+          }));
+          _showToast.showError(error);
+        });
     } catch (error) {
       setPageState((old) => ({
         ...old,
@@ -101,7 +106,7 @@ const Users = () => {
         }
         scroll="content"
       />
-      <Popup open={open} setOpen={setOpen} title={"Yeni Kullanıcı"}>
+      <Popup open={open} setOpen={setOpen} title={modalTranslate.title}>
         <NewUserForm setOpen={setOpen} getUsers={getUsers} />
       </Popup>
     </>
