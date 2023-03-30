@@ -34,10 +34,9 @@ class UserService extends FuseUtils.EventEmitter {
         .get(`/users?page=${pageState.page}&limit=${pageState.pageSize}`)
         .then((response) => {
           if (response.data) resolve(response.data);
-          else
-            reject(
-              error.response ? error.response.data.message : error.message
-            );
+        })
+        .catch((error) => {
+          reject(error.response ? error.response.data.message : error.message);
         });
     });
   };
@@ -45,6 +44,16 @@ class UserService extends FuseUtils.EventEmitter {
   updateUser = (data) => {
     return new Promise((resolve, reject) => {
       axios.put(`/users`, data).then((response) => {
+        if (response.data) resolve(response.data);
+        else
+          reject(error.response ? error.response.data.message : error.message);
+      });
+    });
+  };
+
+  createUser = (data) => {
+    return new Promise((resolve, reject) => {
+      axios.post("/users", data).then((response) => {
         if (response.data) resolve(response.data);
         else
           reject(error.response ? error.response.data.message : error.message);

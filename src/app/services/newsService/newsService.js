@@ -34,10 +34,9 @@ class NewsService extends FuseUtils.EventEmitter {
         .get(`/news?page=${pageState.page}&limit=${pageState.pageSize}`)
         .then((response) => {
           if (response.data) resolve(response.data);
-          else
-            reject(
-              error.response ? error.response.data.message : error.message
-            );
+        })
+        .catch((error) => {
+          reject(error.response ? error.response.data.message : error.message);
         });
     });
   };

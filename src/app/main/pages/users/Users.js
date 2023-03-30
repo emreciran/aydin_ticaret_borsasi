@@ -43,37 +43,27 @@ const Users = () => {
   });
 
   const getUsers = async () => {
-    try {
-      setPageState((old) => ({
-        ...old,
-        isLoading: true,
-      }));
+    setPageState((old) => ({
+      ...old,
+      isLoading: true,
+    }));
 
-      UserService.getUsers(pageState)
-        .then((response) => {
-          setPageState((old) => ({
-            ...old,
-            isLoading: false,
-            data: response.users,
-            total: response.total,
-          }));
-        })
-        .catch((error) => {
-          setPageState((old) => ({
-            ...old,
-            isLoading: false,
-          }));
-          _showToast.showError(error);
-        });
-    } catch (error) {
-      setPageState((old) => ({
-        ...old,
-        isLoading: false,
-      }));
-      _showToast.showError(
-        error.response ? error.response.data.message : error.message
-      );
-    }
+    UserService.getUsers(pageState)
+      .then((response) => {
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+          data: response.users,
+          total: response.total,
+        }));
+      })
+      .catch((error) => {
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+        }));
+        _showToast.showError(error);
+      });
   };
 
   useEffect(() => {

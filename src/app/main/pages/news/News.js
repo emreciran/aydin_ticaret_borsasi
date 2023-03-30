@@ -44,33 +44,27 @@ const News = () => {
   });
 
   const getNews = async () => {
-    try {
-      setPageState((old) => ({
-        ...old,
-        isLoading: true,
-      }));
+    setPageState((old) => ({
+      ...old,
+      isLoading: true,
+    }));
 
-      NewsService.getNews(pageState)
-        .then((response) => {
-          setPageState((old) => ({
-            ...old,
-            isLoading: false,
-            data: response.news,
-            total: response.total,
-          }));
-        })
-        .catch((error) => {
-          _showToast.showError(error);
-        });
-    } catch (error) {
-      setPageState((old) => ({
-        ...old,
-        isLoading: false,
-      }));
-      _showToast.showError(
-        error.response ? error.response.data.message : error.message
-      );
-    }
+    NewsService.getNews(pageState)
+      .then((response) => {
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+          data: response.news,
+          total: response.total,
+        }));
+      })
+      .catch((error) => {
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+        }));
+        _showToast.showError(error);
+      });
   };
 
   const DeleteNews = async (id) => {

@@ -44,32 +44,26 @@ const Announcement = () => {
   });
 
   const getAnnouncement = () => {
-    try {
-      setPageState((old) => ({
-        ...old,
-        isLoading: true,
-      }));
-      AnnouncementService.getAnnouncements(pageState)
-        .then((response) => {
-          setPageState((old) => ({
-            ...old,
-            isLoading: false,
-            data: response.announcements,
-            total: response.total,
-          }));
-        })
-        .catch((error) => {
-          _showToast.showError(error);
-        });
-    } catch (error) {
-      setPageState((old) => ({
-        ...old,
-        isLoading: false,
-      }));
-      _showToast.showError(
-        error.response ? error.response.data.message : error.message
-      );
-    }
+    setPageState((old) => ({
+      ...old,
+      isLoading: true,
+    }));
+    AnnouncementService.getAnnouncements(pageState)
+      .then((response) => {
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+          data: response.announcements,
+          total: response.total,
+        }));
+      })
+      .catch((error) => {
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+        }));
+        _showToast.showError(error);
+      });
   };
 
   const DeleteAnnouncement = (id) => {

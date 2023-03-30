@@ -15,7 +15,6 @@ import {
 import React, { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import UserService from "src/app/services/userService";
 
 const allRoles = [
@@ -24,46 +23,43 @@ const allRoles = [
 ];
 
 const UpdateUserForm = ({ data, setOpen, getUsers }) => {
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
 
   const [name, setName] = useState(data?.name);
   const [surname, setSurname] = useState(data?.surname);
-  const [status, setStatus] = useState(data?.status);
+  const [status, setStatus] = useState(
+    data?.status === true ? "true" : "false"
+  );
   const [role, setRole] = useState(data?.role);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
 
-      var values = {
-        useR_ID: data?.id,
-        name,
-        surname,
-        email: data?.email,
-        username: data?.username,
-        role: role,
-        status: status === "true",
-        createdDate: data?.createdDate,
-      };
+    var values = {
+      useR_ID: data?.id,
+      name,
+      surname,
+      email: data?.email,
+      username: data?.username,
+      role: role,
+      status: status === "true" ? true : false,
+      createdDate: data?.createdDate,
+    };
+console.log(values);
+    setLoading(true);
 
-      UserService.updateUser(values)
-        .then((response) => {
-          _showToast.showSuccess("Kullanıcı güncellendi!");
-          getUsers();
-          setLoading(false);
-          setOpen(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          _showToast.showError(error);
-        });
-    } catch (error) {
-      setLoading(false);
-      _showToast.showError(error.response.data.message);
-    }
+    UserService.updateUser(values)
+      .then((response) => {
+        _showToast.showSuccess("Kullanıcı güncellendi!");
+        getUsers();
+        setLoading(false);
+        setOpen(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        _showToast.showError(error);
+      });
   };
 
   return (
@@ -143,12 +139,12 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
               defaultValue={status}
             >
               <FormControlLabel
-                value={true}
+                value="true"
                 control={<Radio color="success" />}
                 label="Aktif"
               />
               <FormControlLabel
-                value={false}
+                value="false"
                 control={<Radio color="error" />}
                 label="Pasif"
               />

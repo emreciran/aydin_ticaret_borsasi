@@ -6,11 +6,14 @@ import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import AnnouncementService from "src/app/services/announcementService";
+import { useSelector } from "react-redux";
+import { selectUser } from "app/store/userSlice";
 
 const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
+  const {user} = useSelector(selectUser)
 
   const [title, setTitle] = useState(data?.title);
   const [link, setLink] = useState(data?.link);
@@ -30,6 +33,8 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
       formData.append("Details", details);
       formData.append("ImageName", image);
       formData.append("ImageFile", newImage);
+      formData.append("CreatedBy", data.createdBy)
+      formData.append("UpdatedBy", user.name);
       formData.append("CreatedDate", data?.createdDate);
 
       AnnouncementService.updateAnnouncement(formData)

@@ -17,6 +17,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import useToast from "src/app/hooks/useToast";
 import { useTranslation } from "react-i18next";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
+import UserService from "src/app/services/userService";
 
 const allRoles = [
   { id: 1, name: "Admin" },
@@ -40,29 +41,30 @@ const NewUserForm = ({ setOpen, getUsers }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const data = {
-        name,
-        surname,
-        email,
-        username,
-        password,
-        status,
-        role,
-      };
+    setLoading(true);
+    const data = {
+      name,
+      surname,
+      email,
+      username,
+      password,
+      status,
+      role,
+    };
 
-      await axiosPrivate.post("/users", data);
-      _showToast.showSuccess("Kullanıcı oluşturuldu!");
+    UserService.createUser(data)
+      .then((response) => {
+        _showToast.showSuccess("Kullanıcı oluşturuldu!");
 
-      await getUsers();
-      setOpen(false);
-    } catch (error) {
-      setLoading(false);
-      _showToast.showError(
-        error.response ? error.response.data.message : error.message
-      );
-    }
+        getUsers();
+        setOpen(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        _showToast.showError(
+          error.response ? error.response.data.message : error.message
+        );
+      });
   };
 
   const handleChange = (e) => {

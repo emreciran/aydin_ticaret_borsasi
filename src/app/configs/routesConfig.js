@@ -10,11 +10,11 @@ import AnnouncementConfig from "../main/pages/announcement/AnnouncementConfig";
 import NewsConfig from "../main/pages/news/NewsConfig";
 import HomeConfig from "../main/pages/home/HomeConfig";
 import UsersConfig from "../main/pages/users/UsersConfig";
-import ProfileConfig from "../main/pages/profile/ProfileConfig";
+import profileAppConfig from "../main/pages/profile/profileAppConfig";
 
 const routeConfigs = [
   HomeConfig,
-  ProfileConfig,
+  profileAppConfig,
   UsersConfig,
   AnnouncementConfig,
   NewsConfig,

@@ -14,6 +14,8 @@ import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { selectUser } from "app/store/userSlice";
 
 const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
@@ -21,6 +23,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
   const [_showToast] = useToast();
   const {t} = useTranslation("Announcement")
   const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
+  const {user} = useSelector(selectUser)
 
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
@@ -42,6 +45,8 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
       formData.append("Link", link);
       formData.append("Details", details);
       formData.append("ImageFile", image);
+      formData.append("CreatedBy", user.name)
+      formData.append("UpdatedBy", user.name)
       formData.append("CreatedDate", createdDate);
 
       await axiosPrivate.post("/announcements", formData);
