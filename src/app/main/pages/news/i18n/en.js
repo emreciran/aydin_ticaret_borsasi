@@ -4,6 +4,8 @@ const locale = {
   TABLE: "default",
   COLUMNS: {
     title: "News Title",
+    createdBy: "Created By",
+    updatedBy: "Updated By",
     createdDate: "Created Date",
     update: "Update",
     delete: "Delete"

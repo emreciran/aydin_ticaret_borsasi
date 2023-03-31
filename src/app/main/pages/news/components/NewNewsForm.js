@@ -14,6 +14,9 @@ import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { selectUser } from "app/store/userSlice";
+import NewsService from "src/app/services/newsService";
 
 const NewNewsForm = ({ setOpen, getNews }) => {
   const axiosPrivate = useAxiosPrivate();
@@ -21,6 +24,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
   const [_showToast] = useToast();
   const { t } = useTranslation("News");
   const modalTranslate = t("NEWNEWS", { returnObjects: true });
+  const { user } = useSelector(selectUser);
 
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
@@ -32,25 +36,27 @@ const NewNewsForm = ({ setOpen, getNews }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const createdDate = moment().format("DD/MM/YYYY");
-      const formData = new FormData();
+    setLoading(true);
+    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const formData = new FormData();
 
-      formData.append("Title", title);
-      formData.append("Details", details);
-      formData.append("ImageFile", image);
-      formData.append("CreatedDate", createdDate);
+    formData.append("Title", title);
+    formData.append("Details", details);
+    formData.append("ImageFile", image);
+    formData.append("CreatedBy", user.name);
+    formData.append("CreatedDate", createdDate);
 
-      await axiosPrivate.post("/news", formData);
-      _showToast.showSuccess("Yeni haber oluşturuldu");
-      await getNews();
-      setLoading(false);
-      setOpen(false);
-    } catch (error) {
-      setLoading(false);
-      _showToast.showError(error.response.data.message);
-    }
+    NewsService.createNews(formData)
+      .then((response) => {
+        _showToast.showSuccess("Yeni haber oluşturuldu");
+        getNews();
+        setLoading(false);
+        setOpen(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        _showToast.showError(error.response.data.message);
+      });
   };
 
   return (

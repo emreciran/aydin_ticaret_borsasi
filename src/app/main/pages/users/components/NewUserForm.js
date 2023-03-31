@@ -18,6 +18,7 @@ import useToast from "src/app/hooks/useToast";
 import { useTranslation } from "react-i18next";
 import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import UserService from "src/app/services/userService";
+import moment from "moment";
 
 const allRoles = [
   { id: 1, name: "Admin" },
@@ -42,12 +43,15 @@ const NewUserForm = ({ setOpen, getUsers }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+
     const data = {
       name,
       surname,
       email,
       username,
       password,
+      createdDate,
       status,
       role,
     };
@@ -151,6 +155,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
                 id="demo-simple-select"
                 value={role}
                 label="Rol"
+                variant="standard"
                 onChange={(e) => setRole(e.target.value)}
               >
                 {allRoles?.map((role) => (

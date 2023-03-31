@@ -36,28 +36,47 @@ class NewsService extends FuseUtils.EventEmitter {
           if (response.data) resolve(response.data);
         })
         .catch((error) => {
-          reject(error.response ? error.response.data.message : error.message);
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
+
+  createNews = (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/news", data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
         });
     });
   };
 
   deleteNews = (id) => {
     return new Promise((resolve, reject) => {
-      axios.delete(`/news/${id}`).then((response) => {
-        if (response.data) resolve(response.data);
-        else
-          reject(error.response ? error.response.data.message : error.message);
-      });
+      axios
+        .delete(`/news/${id}`)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
     });
   };
 
   updateNews = (data) => {
     return new Promise((resolve, reject) => {
-      axios.put(`/news`, data).then((response) => {
-        if (response.data) resolve(response.data);
-        else
-          reject(error.response ? error.response.data.message : error.message);
-      });
+      axios
+        .put(`/news`, data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
     });
   };
 }

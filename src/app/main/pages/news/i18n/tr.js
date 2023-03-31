@@ -6,6 +6,8 @@ const locale = {
   TABLE: trTR,
   COLUMNS: {
     title: "Haber Başlığı",
+    createdBy: "Oluşturan",
+    updatedBy: "Güncelleyen",
     createdDate: "Oluşturma Zamanı",
     update: "Güncelle",
     delete: "Sil",

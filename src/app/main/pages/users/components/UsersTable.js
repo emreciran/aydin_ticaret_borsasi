@@ -13,13 +13,13 @@ import { useTranslation } from "react-i18next";
 import Popup from "app/shared-components/Popup";
 import UpdateUserForm from "./UpdateUserForm";
 
-const UsersTable = ({ pageState, setPageState,getUsers }) => {
+const UsersTable = ({ pageState, setPageState, getUsers }) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation("Users");
 
   const [rowSelectionModel, setRowSelectionModel] = useState();
   const columnsTranslate = t("COLUMNS", { returnObjects: true });
-  
+
   const columns = [
     { field: "id", headerName: "#" },
     { field: "name", headerName: columnsTranslate.name },
@@ -91,6 +91,8 @@ const UsersTable = ({ pageState, setPageState,getUsers }) => {
         username: row.username,
         status: row.status,
         role: row.role,
+        createdDate: row.createdDate,
+        updatedDate: row.updatedDate,
       }))
     : "";
 
@@ -121,7 +123,7 @@ const UsersTable = ({ pageState, setPageState,getUsers }) => {
         onPageChange={(newPage) => {
           setPageState((old) => ({
             ...old,
-            page: newPage + 1
+            page: newPage + 1,
           }));
         }}
         onPageSizeChange={(pageSize) => {

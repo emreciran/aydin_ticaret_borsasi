@@ -6,6 +6,8 @@ const locale = {
   COLUMNS: {
     title: "Announcement Title",
     link: "Announcement Link",
+    createdBy: "Created By",
+    updatedBy: "Updated By",
     createdDate: "Created Date",
     update: "Update",
     delete: "Delete"

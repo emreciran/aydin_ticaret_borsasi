@@ -36,28 +36,74 @@ class UserService extends FuseUtils.EventEmitter {
           if (response.data) resolve(response.data);
         })
         .catch((error) => {
-          reject(error.response ? error.response.data.message : error.message);
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
+
+  getUserById = (id) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/users/${id}`)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
         });
     });
   };
 
   updateUser = (data) => {
     return new Promise((resolve, reject) => {
-      axios.put(`/users`, data).then((response) => {
-        if (response.data) resolve(response.data);
-        else
-          reject(error.response ? error.response.data.message : error.message);
-      });
+      axios
+        .put(`/users`, data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
+
+  updateUserInfo = (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`/users/UpdateUserInfo`, data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
+
+  updatePassword = (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put("/users/UpdatePassword", data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error.response.data ? error.response.data.message : "Error!");
+        });
     });
   };
 
   createUser = (data) => {
     return new Promise((resolve, reject) => {
-      axios.post("/users", data).then((response) => {
-        if (response.data) resolve(response.data);
-        else
-          reject(error.response ? error.response.data.message : error.message);
-      });
+      axios
+        .post("/users", data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
     });
   };
 }

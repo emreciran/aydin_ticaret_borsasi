@@ -7,6 +7,8 @@ const locale = {
   COLUMNS: {
     title: "Duyuru Başlığı",
     link: "Duyuru Linki",
+    createdBy: "Oluşturan",
+    updatedBy: "Güncelleyen",
     createdDate: "Oluşturma Zamanı",
     update: "Güncelle",
     delete: "Sil",

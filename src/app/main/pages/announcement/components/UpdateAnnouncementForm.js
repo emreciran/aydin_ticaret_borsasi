@@ -1,4 +1,11 @@
-import { Box, FormLabel, Grid, Button, TextField } from "@mui/material";
+import {
+  Box,
+  FormLabel,
+  Grid,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -8,12 +15,13 @@ import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import AnnouncementService from "src/app/services/announcementService";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
+import moment from "moment";
 
 const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
-  const {user} = useSelector(selectUser)
+  const { user } = useSelector(selectUser);
 
   const [title, setTitle] = useState(data?.title);
   const [link, setLink] = useState(data?.link);
@@ -23,35 +31,33 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const formData = new FormData();
+    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
 
-      formData.append("Id", data?.id);
-      formData.append("Title", title);
-      formData.append("Link", link);
-      formData.append("Details", details);
-      formData.append("ImageName", image);
-      formData.append("ImageFile", newImage);
-      formData.append("CreatedBy", data.createdBy)
-      formData.append("UpdatedBy", user.name);
-      formData.append("CreatedDate", data?.createdDate);
+    setLoading(true);
+    const formData = new FormData();
 
-      AnnouncementService.updateAnnouncement(formData)
-        .then((response) => {
-          _showToast.showSuccess("Duyuru güncellendi!");
-          getAnnouncement();
-          setLoading(false);
-          setOpen(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          _showToast.showError(error.response);
-        });
-    } catch (error) {
-      setLoading(false);
-      _showToast.showError(error.response.data.message);
-    }
+    formData.append("Id", data?.id);
+    formData.append("Title", title);
+    formData.append("Link", link);
+    formData.append("Details", details);
+    formData.append("ImageName", image);
+    formData.append("ImageFile", newImage);
+    formData.append("CreatedBy", data.createdBy);
+    formData.append("UpdatedBy", user.name);
+    formData.append("CreatedDate", data?.createdDate);
+    formData.append("UpdatedDate", updatedDate);
+
+    AnnouncementService.updateAnnouncement(formData)
+      .then((response) => {
+        _showToast.showSuccess("Duyuru güncellendi!");
+        getAnnouncement();
+        setLoading(false);
+        setOpen(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        _showToast.showError(error.response);
+      });
   };
 
   const handleFile = (e) => {
@@ -61,6 +67,12 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
   return (
     <Box component="form" noValidate onSubmit={handleFormSubmit}>
       <Grid container>
+        <Grid item sm={12} style={{ marginBottom: 25 }}>
+          <Typography>{data?.createdDate} tarihinde oluşturuldu.</Typography>
+          {data?.updatedDate != "" ? (
+            <Typography>{data?.updatedDate} tarihinde güncellendi.</Typography>
+          ) : ""}
+        </Grid>
         <Grid item sm={12} style={{ marginBottom: 25 }}>
           <TextField
             variant="standard"

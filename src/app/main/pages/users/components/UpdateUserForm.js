@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import UserService from "src/app/services/userService";
+import moment from "moment";
 
 const allRoles = [
   { id: 1, name: "Admin" },
@@ -33,8 +34,10 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
   );
   const [role, setRole] = useState(data?.role);
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
 
     var values = {
       useR_ID: data?.id,
@@ -45,9 +48,8 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
       role: role,
       status: status === "true" ? true : false,
       createdDate: data?.createdDate,
+      updatedDate: updatedDate,
     };
-console.log(values);
-    setLoading(true);
 
     UserService.updateUser(values)
       .then((response) => {
@@ -119,6 +121,7 @@ console.log(values);
               id="demo-simple-select"
               value={role}
               label="Rol"
+              variant="standard"
               onChange={(e) => setRole(e.target.value)}
             >
               {allRoles?.map((role) => (

@@ -28,6 +28,8 @@ const AnnouncementTable = ({
   const columns = [
     { field: "id", headerName: "#" },
     { field: "title", headerName: columnsTranslate.title },
+    { field: "createdBy", headerName: columnsTranslate.createdBy },
+    { field: "updatedBy", headerName: columnsTranslate.updatedBy },
     { field: "link", headerName: columnsTranslate.link },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
@@ -73,15 +75,17 @@ const AnnouncementTable = ({
       },
     },
   ];
-
   const rows = pageState?.data
     ? pageState?.data.map((row) => ({
         id: row.id,
         title: row.title,
+        createdBy: row.createdBy,
+        updatedBy: row.updatedBy,
         link: row.link,
         details: row.details,
         imageName: row.imageName,
         createdDate: row.createdDate,
+        updatedDate: row.updatedDate,
       }))
     : "";
 
@@ -112,7 +116,7 @@ const AnnouncementTable = ({
         onPageChange={(newPage) => {
           setPageState((old) => ({
             ...old,
-            page: newPage + 1
+            page: newPage + 1,
           }));
         }}
         onPageSizeChange={(pageSize) => {

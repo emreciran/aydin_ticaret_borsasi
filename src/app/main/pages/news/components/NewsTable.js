@@ -23,6 +23,8 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
   const columns = [
     { field: "id", headerName: "#" },
     { field: "title", headerName: columnsTranslate.title },
+    { field: "createdBy", headerName: columnsTranslate.createdBy },
+    { field: "updatedBy", headerName: columnsTranslate.updatedBy },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
       field: "update",
@@ -73,8 +75,11 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
         id: row.id,
         title: row.title,
         details: row.details,
+        createdBy: row.createdBy,
+        updatedBy: row.updatedBy,
         imageName: row.imageName,
         createdDate: row.createdDate,
+        updatedDate: row.updatedDate,
       }))
     : "";
 
@@ -105,7 +110,7 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
         onPageChange={(newPage) => {
           setPageState((old) => ({
             ...old,
-            page: newPage + 1
+            page: newPage + 1,
           }));
         }}
         onPageSizeChange={(pageSize) => {

@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import UsersTable from "./components/UsersTable";
 import Popup from "app/shared-components/Popup";
 import NewUserForm from "./components/NewUserForm";
@@ -29,7 +28,6 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 const Users = () => {
   const { t } = useTranslation("Users");
   const [_showToast] = useToast();
-  const axiosPrivate = useAxiosPrivate();
   const modalTranslate = t("NEWUSER", { returnObjects: true });
 
   const [open, setOpen] = useState(false);

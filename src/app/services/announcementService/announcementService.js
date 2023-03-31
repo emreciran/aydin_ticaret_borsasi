@@ -43,31 +43,49 @@ class AnnouncementService extends FuseUtils.EventEmitter {
         )
         .then((response) => {
           if (response.data) resolve(response.data);
-        }).catch((error) => {
-            reject(
-              error.response ? error.response.data.message : error.message
-            );
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
+
+  createAnnouncement = (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/announcements", data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
         });
     });
   };
 
   deleteAnnouncement = (id) => {
     return new Promise((resolve, reject) => {
-      axios.delete(`/announcements/${id}`).then((response) => {
-        if (response.data) resolve(response.data);
-        else
-          reject(error.response ? error.response.data.message : error.message);
-      });
+      axios
+        .delete(`/announcements/${id}`)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
     });
   };
 
   updateAnnouncement = (data) => {
     return new Promise((resolve, reject) => {
-      axios.put(`/announcements`, data).then((response) => {
-        if (response.data) resolve(response.data);
-        else
-          reject(error.response ? error.response.data.message : error.message);
-      });
+      axios
+        .put(`/announcements`, data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
     });
   };
 }

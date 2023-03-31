@@ -16,14 +16,15 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
+import AnnouncementService from "src/app/services/announcementService";
 
 const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
-  const {t} = useTranslation("Announcement")
+  const { t } = useTranslation("Announcement");
   const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
-  const {user} = useSelector(selectUser)
+  const { user } = useSelector(selectUser);
 
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
@@ -36,28 +37,29 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const createdDate = moment().format("DD/MM/YYYY");
-      const formData = new FormData();
 
-      formData.append("Title", title);
-      formData.append("Link", link);
-      formData.append("Details", details);
-      formData.append("ImageFile", image);
-      formData.append("CreatedBy", user.name)
-      formData.append("UpdatedBy", user.name)
-      formData.append("CreatedDate", createdDate);
+    setLoading(true);
+    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const formData = new FormData();
 
-      await axiosPrivate.post("/announcements", formData);
-      _showToast.showSuccess("Yeni duyuru oluşturuldu");
-      await getAnnouncement();
-      setLoading(false);
-      setOpen(false);
-    } catch (error) {
-      setLoading(false);
-      _showToast.showError(error.response.data.message);
-    }
+    formData.append("Title", title);
+    formData.append("Link", link);
+    formData.append("Details", details);
+    formData.append("ImageFile", image);
+    formData.append("CreatedBy", user.name);
+    formData.append("CreatedDate", createdDate);
+
+    AnnouncementService.createAnnouncement(formData)
+      .then((response) => {
+        _showToast.showSuccess("Yeni duyuru oluşturuldu");
+        getAnnouncement();
+        setLoading(false);
+        setOpen(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        _showToast.showError(error.response.data.message);
+      });
   };
 
   return (
