@@ -5,15 +5,16 @@ import { LoadingButton } from "@mui/lab";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import UserService from "src/app/services/userService";
-import { useNavigate } from "react-router-dom";
 import JwtService from "src/app/auth/services/jwtService";
+import { useTranslation } from "react-i18next";
 
 const UpdateInfoForm = ({ setOpen }) => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { user } = useSelector(selectUser);
-  const navigate = useNavigate()
-  
+  const { t } = useTranslation("ProfileApp");
+  const infoFormTranslation = t("UPDATE_INFO_MODAL", { returnObjects: true });
+
   const [name, setName] = useState(user.given_name);
   const [surname, setSurname] = useState(user.family_name);
 
@@ -21,7 +22,7 @@ const UpdateInfoForm = ({ setOpen }) => {
     e.preventDefault();
     setLoading(true);
     const values = {
-      useR_ID: user.nameid,
+      Id: user.nameid,
       name,
       surname,
     };
@@ -45,7 +46,7 @@ const UpdateInfoForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Adı"
+            label={infoFormTranslation.name}
             value={name}
             onChange={(e) => setName(e.target.value)}
             id="name"
@@ -56,7 +57,7 @@ const UpdateInfoForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Soyadı"
+            label={infoFormTranslation.surname}
             value={surname}
             onChange={(e) => setSurname(e.target.value)}
             id="surname"
@@ -67,7 +68,7 @@ const UpdateInfoForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Email"
+            label={infoFormTranslation.email}
             disabled
             value={user.sub}
             id="email"
@@ -79,7 +80,7 @@ const UpdateInfoForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Username"
+            label={infoFormTranslation.username}
             disabled
             value={user.name}
             id="username"
@@ -95,7 +96,7 @@ const UpdateInfoForm = ({ setOpen }) => {
           color="error"
           onClick={() => setOpen(false)}
         >
-          İptal
+          {infoFormTranslation.cancel}
         </Button>
         <LoadingButton
           type="submit"
@@ -104,7 +105,7 @@ const UpdateInfoForm = ({ setOpen }) => {
           loadingIndicator="Loading…"
           color="secondary"
         >
-          <span>Güncelle</span>
+          <span>{infoFormTranslation.update}</span>
         </LoadingButton>
       </Box>
     </Box>

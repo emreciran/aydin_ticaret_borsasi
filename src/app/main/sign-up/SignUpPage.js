@@ -17,6 +17,7 @@ import useToast from "src/app/hooks/useToast";
 import ErrorMessage from "app/shared-components/ErrorMessage";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import moment from "moment";
 
 const SignUpPage = () => {
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,8 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const createdDate = moment().format("DD/MM/YYYY HH:mm");
+
   const initialValues = {
     name,
     surname,
@@ -40,6 +43,7 @@ const SignUpPage = () => {
     email,
     password,
     confirmPassword,
+    createdDate,
     status: false,
   };
 
@@ -53,7 +57,6 @@ const SignUpPage = () => {
         navigate("/sign-in");
       })
       .catch((error) => {
-        console.log(error);
         _showToast.showError(error);
         setLoading(false);
       });

@@ -40,7 +40,6 @@ const SignInPage = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
         _showToast.showError(error);
         setLoading(false);
       });

@@ -88,7 +88,6 @@ class UserService extends FuseUtils.EventEmitter {
           if (response.data) resolve(response.data);
         })
         .catch((error) => {
-          console.log(error);
           reject(error.response.data ? error.response.data.message : "Error!");
         });
     });

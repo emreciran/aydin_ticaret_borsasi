@@ -6,11 +6,14 @@ import UserService from "src/app/services/userService";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import JwtService from "src/app/auth/services/jwtService";
+import { useTranslation } from "react-i18next";
 
 const UpdatePswForm = ({ setOpen }) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { t } = useTranslation("ProfileApp");
+  const pswFormTranslation = t("UPDATE_PSW_MODAL", { returnObjects: true });
 
   const { user } = useSelector(selectUser);
 
@@ -32,7 +35,7 @@ const UpdatePswForm = ({ setOpen }) => {
       .then((response) => {
         _showToast.showSuccess("Şifreniz güncellendi! Tekrar giriş yapınız.");
         setLoading(false);
-        JwtService.logout()
+        JwtService.logout();
       })
       .catch((error) => {
         setLoading(false);
@@ -47,7 +50,7 @@ const UpdatePswForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Current Password"
+            label={pswFormTranslation.curr_psw}
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             id="oldPassword"
@@ -59,7 +62,7 @@ const UpdatePswForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="New Password"
+            label={pswFormTranslation.new_psw}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             id="newPassword"
@@ -71,7 +74,7 @@ const UpdatePswForm = ({ setOpen }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Confirm Password"
+            label={pswFormTranslation.conf_psw}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             id="confirmPassword"
@@ -87,7 +90,7 @@ const UpdatePswForm = ({ setOpen }) => {
           color="error"
           onClick={() => setOpen(false)}
         >
-          İptal
+          {pswFormTranslation.cancel}
         </Button>
         <LoadingButton
           type="submit"
@@ -96,7 +99,7 @@ const UpdatePswForm = ({ setOpen }) => {
           loadingIndicator="Loading…"
           color="secondary"
         >
-          <span>Güncelle</span>
+          <span>{pswFormTranslation.update}</span>
         </LoadingButton>
       </Box>
     </Box>

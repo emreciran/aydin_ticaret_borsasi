@@ -35,6 +35,8 @@ const TimelineTab = () => {
     getUserDetails();
   }, [user]);
 
+  if (data === null) return null;
+
   const container = {
     show: {
       transition: {
