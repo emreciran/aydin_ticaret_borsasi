@@ -21,7 +21,7 @@ export const setUser = createAsyncThunk(
     //   settingsConfig.loginRedirectUrl = "/";
     // }
     settingsConfig.loginRedirectUrl = "/";
-    window.location.reload()
+    // window.location.reload()
     return user;
   }
 );
