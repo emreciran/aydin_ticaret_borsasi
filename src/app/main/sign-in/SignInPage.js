@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import _ from "@lodash";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
@@ -21,7 +21,7 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { t } = useTranslation("SignIn");
-
+  const navigate = useNavigate()
   const inputsTranslate = t("INPUT_TEXTS", { returnObjects: true });
 
   const [email, setEmail] = useState("");

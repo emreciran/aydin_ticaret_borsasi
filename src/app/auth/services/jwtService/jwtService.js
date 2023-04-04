@@ -67,18 +67,14 @@ class JwtService extends FuseUtils.EventEmitter {
   signInWithEmailAndPassword = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .post(jwtServiceConfig.signIn, data, {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Request-Private-Network": true,
-            "Access-Control-Allow-Private-Network": true,
-          },
-        })
+        .post(jwtServiceConfig.signIn, data, { withCredentials: true })
         .then((response) => {
-          if (response.data) {
+          if (response?.data) {
             this.setSession(response.data.authResult.token);
-            resolve(response.data.authResult.token);
-            this.emit("onLogin", response.data.authResult.token);
+            const decoded = jwtDecode(response.data.authResult.token);
+            resolve(decoded);
+            
+            this.emit("onLogin", decoded);
           }
         })
         .catch((error) => {
@@ -90,8 +86,9 @@ class JwtService extends FuseUtils.EventEmitter {
   signInWithToken = () => {
     return new Promise((resolve, reject) => {
       const token = Cookies.get("jwt");
+      const decoded = jwt_decode(token)
       this.setSession(token);
-      resolve(token);
+      resolve(decoded);
     });
   };
 
@@ -103,10 +100,11 @@ class JwtService extends FuseUtils.EventEmitter {
 
   setSession = (access_token) => {
     if (access_token) {
-      //localStorage.setItem("jwt_access_token", access_token);
+      localStorage.setItem("jwt_access_token", access_token);
       axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
     } else {
       Cookies.remove("jwt");
+      localStorage.removeItem("jwt_access_token")
       delete axios.defaults.headers.common.Authorization;
     }
   };
@@ -131,7 +129,7 @@ class JwtService extends FuseUtils.EventEmitter {
   };
 
   getAccessToken = () => {
-    return Cookies.get("jwt");
+    return localStorage.getItem("jwt_access_token");
   };
 }
 

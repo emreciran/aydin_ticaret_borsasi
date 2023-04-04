@@ -24,8 +24,7 @@ function AuthProvider({ children }) {
       jwtService
         .signInWithToken()
         .then((user) => {
-          const decoded = jwt_decode(user);
-          success(decoded);
+          success(user);
         })
         .catch((error) => {
           pass(error.response ? error.response.data.message : error.message);
@@ -33,6 +32,7 @@ function AuthProvider({ children }) {
     });
 
     jwtService.on("onLogin", (user) => {
+      console.log(user);
       success(user, "Signed in");
     });
 
@@ -58,10 +58,10 @@ function AuthProvider({ children }) {
       if (message) {
         dispatch(showMessage({ message }));
       }
-      const decoded = jwt_decode(user);
+
 
       Promise.all([
-        dispatch(setUser(decoded)),
+        dispatch(setUser(user)),
         // You can receive data in here before app initialization
       ]).then((values) => {
         setWaitAuthCheck(false);

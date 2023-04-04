@@ -12,6 +12,7 @@ import jwt_decode from "jwt-decode";
 export const setUser = createAsyncThunk(
   "user/setUser",
   async (user, { dispatch, getState }) => {
+    console.log(user);
     /*
     You can redirect the logged-in user to a specific route depending on his role
     */
@@ -21,7 +22,7 @@ export const setUser = createAsyncThunk(
     //   settingsConfig.loginRedirectUrl = "/";
     // }
     settingsConfig.loginRedirectUrl = "/";
-    window.location.reload()
+    ///window.location.reload()
     return user;
   }
 );
@@ -57,11 +58,14 @@ export const updateUserShortcuts = createAsyncThunk(
 
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState();
+  console.log(user);
 
-  if (!user.role || user.role.length === 0) {
+  if (user.role == "" || user.role.length === 0) {
     // is guest
+
     return null;
   }
+
   history.push({
     pathname: "/",
   });
@@ -92,11 +96,11 @@ const decodedToken = token ? jwt_decode(token) : false;
 
 const initialState = {
   user:
-    decodedToken && Date.now() <= decodedToken.exp * 1000
+    Date.now() <= decodedToken.exp * 1000
       ? decodedToken
       : false,
   role:
-    decodedToken && Date.now() <= decodedToken.exp * 1000
+    Date.now() <= decodedToken.exp * 1000
       ? `${decodedToken.role.toLowerCase()}`
       : [], // guest
 
