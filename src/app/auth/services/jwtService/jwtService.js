@@ -67,7 +67,13 @@ class JwtService extends FuseUtils.EventEmitter {
   signInWithEmailAndPassword = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .post(jwtServiceConfig.signIn, data, { withCredentials: true })
+        .post(jwtServiceConfig.signIn, data, {
+          withCredentials: true,
+          headers: {
+            "Access-Control-Request-Private-Network": true,
+            "Access-Control-Allow-Private-Network": true,
+          },
+        })
         .then((response) => {
           if (response.data) {
             this.setSession(response.data.authResult.token);
