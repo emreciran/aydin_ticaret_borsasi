@@ -60,7 +60,7 @@ export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState();
   console.log(user);
 
-  if (user.role == "" || user.role.length === 0) {
+  if (!user.role || user.role.length === 0) {
     // is guest
 
     return null;
@@ -91,14 +91,11 @@ export const updateUserData = (user) => async (dispatch, getState) => {
     });
 };
 
-const token = Cookies.get("jwt") || null;
+const token = localStorage.getItem("jwt_access_token") || null;
 const decodedToken = token ? jwt_decode(token) : false;
 
 const initialState = {
-  user:
-    Date.now() <= decodedToken.exp * 1000
-      ? decodedToken
-      : false,
+  user: Date.now() <= decodedToken.exp * 1000 ? decodedToken : false,
   role:
     Date.now() <= decodedToken.exp * 1000
       ? `${decodedToken.role.toLowerCase()}`
@@ -111,11 +108,20 @@ const initialState = {
   },
 };
 
+const logoutData = {
+  user: false,
+  role: [],
+  data: {
+    photoURL: "assets/images/avatars/brian-hughes.jpg",
+    shortcuts: ["apps.calendar", "apps.mailbox", "apps.contacts", "apps.tasks"],
+  },
+};
+
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    userLoggedOut: (state, action) => initialState,
+    userLoggedOut: (state, action) => logoutData,
   },
   extraReducers: {
     [updateUserSettings.fulfilled]: (state, action) => action.payload,

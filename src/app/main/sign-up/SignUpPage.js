@@ -47,7 +47,7 @@ const SignUpPage = () => {
     status: false,
   };
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = (values) => {
     setLoading(true);
     jwtService
       .createUser(values)

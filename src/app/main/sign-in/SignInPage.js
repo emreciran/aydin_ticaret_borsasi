@@ -21,7 +21,7 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { t } = useTranslation("SignIn");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const inputsTranslate = t("INPUT_TEXTS", { returnObjects: true });
 
   const [email, setEmail] = useState("");
@@ -32,9 +32,9 @@ const SignInPage = () => {
     password,
   };
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = (values) => {
     setLoading(true);
-    await jwtService
+    jwtService
       .signInWithEmailAndPassword(values)
       .then(() => {
         setLoading(false);
