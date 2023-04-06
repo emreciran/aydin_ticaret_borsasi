@@ -15,7 +15,14 @@ const useToast = () => {
     });
   }
 
-  return [{ showError, showSuccess }];
+  function showCustom(jsx) {
+    toast.custom(jsx, {
+      position: "top-center",
+      duration: 10000,
+    });
+  }
+
+  return [{ showError, showSuccess, showCustom }];
 };
 
 export default useToast;

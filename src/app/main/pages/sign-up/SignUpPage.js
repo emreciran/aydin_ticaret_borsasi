@@ -6,8 +6,7 @@ import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import FormHelperText from "@mui/material/FormHelperText";
-import jwtService from "../../auth/services/jwtService";
+import JwtService from "../../../auth/services/jwtService";
 import LanguageSwitcher from "app/theme-layouts/shared-components/LanguageSwitcher";
 import { Formik } from "formik";
 import { LoadingButton } from "@mui/lab";
@@ -47,18 +46,20 @@ const SignUpPage = () => {
     status: false,
   };
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values, { setSubmitting }) => {
     setLoading(true);
-    jwtService
-      .createUser(values)
+    JwtService.createUser(values)
       .then(() => {
         setLoading(false);
-        _showToast.showSuccess("Kullanıcı başarıyla oluşturuldu!")
+        _showToast.showSuccess("Kullanıcı başarıyla oluşturuldu!");
         navigate("/sign-in");
       })
       .catch((error) => {
         _showToast.showError(error);
         setLoading(false);
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
   };
 
@@ -262,7 +263,7 @@ const SignUpPage = () => {
           />
         </Box>
 
-        <div className="z-10 relative w-full max-w-2xl">
+        {/* <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
             <div>Welcome to</div>
             <div>our community</div>
@@ -290,7 +291,7 @@ const SignUpPage = () => {
               More than 17k people joined us, it's your turn
             </div>
           </div>
-        </div>
+        </div> */}
       </Box>
     </div>
   );

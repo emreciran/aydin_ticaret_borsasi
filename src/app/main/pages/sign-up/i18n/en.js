@@ -1,5 +1,5 @@
 const locale = {
-  TITLE: "Sign Up",
+  TITLE: "Sign up",
   LOGIN_TEXT: "Do you have an account?",
   LOGIN_BUTTON: "Sign in",
   INPUT_TEXTS: {

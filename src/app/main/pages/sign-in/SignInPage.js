@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import React, { useState } from "react";
-import jwtService from "../../auth/services/jwtService";
+import JwtService from "../../../auth/services/jwtService";
 import useToast from "src/app/hooks/useToast";
 import { Formik } from "formik";
 import { LoginSchema } from "src/app/validations";
@@ -16,6 +16,7 @@ import { Grid } from "@mui/material";
 import ErrorMessage from "app/shared-components/ErrorMessage";
 import LanguageSwitcher from "app/theme-layouts/shared-components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import ConfirmEmailNotification from "./components/ConfirmEmailNotification";
 
 const SignInPage = () => {
   const [loading, setLoading] = useState(false);
@@ -32,16 +33,26 @@ const SignInPage = () => {
     password,
   };
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values, { setSubmitting }) => {
     setLoading(true);
-    jwtService
-      .signInWithEmailAndPassword(values)
+    JwtService.signInWithEmailAndPassword(values)
       .then(() => {
         setLoading(false);
       })
       .catch((error) => {
-        _showToast.showError(error);
+        if (
+          error ===
+          "Giriş yapmak için email adresinizi doğrulamanız gerekmektedir!"
+        ) {
+          _showToast.showCustom(<ConfirmEmailNotification />);
+        } else {
+          _showToast.showError(error);
+        }
+
         setLoading(false);
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
   };
 
@@ -118,10 +129,7 @@ const SignInPage = () => {
                 </Grid>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between">
-                  <Link
-                    className="text-md font-medium"
-                    to="/pages/auth/forgot-password"
-                  >
+                  <Link className="text-md font-medium" to="/forgot-password">
                     {t("FORGOT_PASSWORD")}
                   </Link>
                 </div>
@@ -196,7 +204,7 @@ const SignInPage = () => {
           />
         </Box>
 
-        <div className="z-10 relative w-full max-w-2xl">
+        {/* <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
             <div>Welcome to</div>
             <div>our community</div>
@@ -224,7 +232,7 @@ const SignInPage = () => {
               More than 17k people joined us, it's your turn
             </div>
           </div>
-        </div>
+        </div> */}
       </Box>
     </div>
   );

@@ -7,7 +7,7 @@ const locale = {
     password: "Şifre",
   },
   FORGOT_PASSWORD: "Şifremi unuttum",
-  BUTTON: "Giriş Yap",
+  BUTTON: "Giriş yap",
 };
 
 export default locale;

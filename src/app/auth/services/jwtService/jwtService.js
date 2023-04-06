@@ -109,6 +109,32 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  forgotPassword = (email) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`${jwtServiceConfig.forgotPassword}?email=${email}`)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error.response ? error.response.data.message : error.message);
+        });
+    });
+  };
+
+  resetPassword = (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(jwtServiceConfig.resetPassword, data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error.response ? error.response.data.message : error.message);
+        });
+    });
+  };
+
   updateUserData = (user) => {
     return axioS.post(jwtServiceConfig.updateUser, {
       user,
