@@ -1,14 +1,14 @@
-import authRoles from "../../../auth/authRoles";
+import authRoles from "../../../../auth/authRoles";
 
 import en from "./i18n/en";
 import tr from "./i18n/tr";
 import i18next from "i18next";
-import ForgotPasswordPage from "./ForgotPasswordPage";
+import ResetPasswordPage from "./ResetPasswordPage";
 
-i18next.addResourceBundle("en", "ForgotPassword", en);
-i18next.addResourceBundle("tr", "ForgotPassword", tr);
+i18next.addResourceBundle("en", "ResetPassword", en);
+i18next.addResourceBundle("tr", "ResetPassword", tr);
 
-const ForgotPasswordConfig = {
+const ResetPasswordConfig = {
   settings: {
     layout: {
       config: {
@@ -33,10 +33,10 @@ const ForgotPasswordConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: "forgot-password",
-      element: <ForgotPasswordPage />,
+      path: "reset-password",
+      element: <ResetPasswordPage />,
     },
   ],
 };
 
-export default ForgotPasswordConfig;
+export default ResetPasswordConfig;

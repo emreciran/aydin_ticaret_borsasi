@@ -12,7 +12,6 @@ import jwt_decode from "jwt-decode";
 export const setUser = createAsyncThunk(
   "user/setUser",
   async (user, { dispatch, getState }) => {
-    console.log(user);
     /*
     You can redirect the logged-in user to a specific route depending on his role
     */
@@ -58,7 +57,6 @@ export const updateUserShortcuts = createAsyncThunk(
 
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState();
-  console.log(user);
 
   if (!user.role || user.role.length === 0) {
     // is guest

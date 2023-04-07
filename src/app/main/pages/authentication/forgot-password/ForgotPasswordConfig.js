@@ -1,14 +1,14 @@
-import SignUpPage from "./SignUpPage";
-import authRoles from "../../../auth/authRoles";
+import authRoles from "../../../../auth/authRoles";
 
 import en from "./i18n/en";
 import tr from "./i18n/tr";
 import i18next from "i18next";
+import ForgotPasswordPage from "./ForgotPasswordPage";
 
-i18next.addResourceBundle("en", "SignUp", en);
-i18next.addResourceBundle("tr", "SignUp", tr);
+i18next.addResourceBundle("en", "ForgotPassword", en);
+i18next.addResourceBundle("tr", "ForgotPassword", tr);
 
-const SignUpConfig = {
+const ForgotPasswordConfig = {
   settings: {
     layout: {
       config: {
@@ -33,10 +33,10 @@ const SignUpConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: "sign-up",
-      element: <SignUpPage />,
+      path: "forgot-password",
+      element: <ForgotPasswordPage />,
     },
   ],
 };
 
-export default SignUpConfig;
+export default ForgotPasswordConfig;

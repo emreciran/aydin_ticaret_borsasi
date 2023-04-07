@@ -12,14 +12,12 @@ import "react-quill/dist/quill.snow.css";
 import moment from "moment";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import NewsService from "src/app/services/newsService";
 
 const NewNewsForm = ({ setOpen, getNews }) => {
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { t } = useTranslation("News");

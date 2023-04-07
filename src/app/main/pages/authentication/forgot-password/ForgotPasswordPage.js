@@ -2,53 +2,41 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import _ from "@lodash";
-import AvatarGroup from "@mui/material/AvatarGroup";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import React, { useState } from "react";
-import JwtService from "../../../auth/services/jwtService";
 import useToast from "src/app/hooks/useToast";
 import { Formik } from "formik";
-import { LoginSchema } from "src/app/validations";
+import { ForgotPasswordSchema } from "src/app/validations";
 import { LoadingButton } from "@mui/lab";
 import { Grid } from "@mui/material";
 import ErrorMessage from "app/shared-components/ErrorMessage";
 import LanguageSwitcher from "app/theme-layouts/shared-components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import ConfirmEmailNotification from "./components/ConfirmEmailNotification";
+import JwtService from "../../../../auth/services/jwtService";
 
-const SignInPage = () => {
+const ForgotPasswordPage = () => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
-  const { t } = useTranslation("SignIn");
+  const { t } = useTranslation("ForgotPassword");
   const navigate = useNavigate();
-  const inputsTranslate = t("INPUT_TEXTS", { returnObjects: true });
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const initialValues = {
     email,
-    password,
   };
 
   const handleFormSubmit = (values, { setSubmitting }) => {
     setLoading(true);
-    JwtService.signInWithEmailAndPassword(values)
-      .then(() => {
+    JwtService.forgotPassword(values.email)
+      .then((response) => {
+        _showToast.showSuccess(response.message);
         setLoading(false);
       })
       .catch((error) => {
-        if (
-          error ===
-          "Giriş yapmak için email adresinizi doğrulamanız gerekmektedir!"
-        ) {
-          _showToast.showCustom(<ConfirmEmailNotification />);
-        } else {
-          _showToast.showError(error);
-        }
-
+        _showToast.showError(error);
         setLoading(false);
       })
       .finally(() => {
@@ -62,22 +50,21 @@ const SignInPage = () => {
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
           <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
 
-          <Typography className="mt-32 text-4xl flex justify-between items-center font-extrabold tracking-tight leading-tight">
+          <Typography className="mt-32 text-3xl flex justify-between items-center font-extrabold tracking-tight leading-tight">
             {t("TITLE")}
             <LanguageSwitcher />
           </Typography>
 
           <div className="flex items-baseline mt-2 font-medium">
-            <Typography>{t("REGISTER_TEXT")}</Typography>
-            <Link className="ml-4" to="/sign-up">
-              {t("REGISTER_BUTTON")}
-            </Link>
+            <Button color="info" onClick={() => navigate(-1)}>
+              {t("LOGIN_BUTTON")}
+            </Button>
           </div>
 
           <Formik
             initialValues={initialValues}
             onSubmit={handleFormSubmit}
-            validationSchema={LoginSchema}
+            validationSchema={ForgotPasswordSchema}
           >
             {({
               values,
@@ -91,13 +78,13 @@ const SignInPage = () => {
               <Box
                 component="form"
                 noValidate
-                className="flex flex-col justify-center w-full mt-32"
+                className="flex flex-col justify-center w-full mt-20"
                 onSubmit={handleSubmit}
               >
                 <Grid container>
                   <Grid item xs={12} className="mb-24">
                     <TextField
-                      label={t(inputsTranslate.email)}
+                      label={t("email")}
                       type="email"
                       id="email"
                       name="email"
@@ -110,29 +97,7 @@ const SignInPage = () => {
                       <ErrorMessage error={errors.email} />
                     )}
                   </Grid>
-
-                  <Grid item xs={12} className="mb-24">
-                    <TextField
-                      label={t(inputsTranslate.password)}
-                      type="password"
-                      id="password"
-                      name="password"
-                      onChange={handleChange}
-                      variant="outlined"
-                      required
-                      fullWidth
-                    />
-                    {errors.password && touched.password && (
-                      <ErrorMessage error={errors.password} />
-                    )}
-                  </Grid>
                 </Grid>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between">
-                  <Link className="text-md font-medium" to="/forgot-password">
-                    {t("FORGOT_PASSWORD")}
-                  </Link>
-                </div>
 
                 <LoadingButton
                   variant="contained"
@@ -151,7 +116,6 @@ const SignInPage = () => {
           </Formik>
         </div>
       </Paper>
-
       <Box
         className="relative hidden md:flex flex-auto items-center justify-center h-full p-64 lg:px-112 overflow-hidden"
         sx={{ backgroundColor: "primary.main" }}
@@ -203,39 +167,9 @@ const SignInPage = () => {
             fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
           />
         </Box>
-
-        {/* <div className="z-10 relative w-full max-w-2xl">
-          <div className="text-7xl font-bold leading-none text-gray-100">
-            <div>Welcome to</div>
-            <div>our community</div>
-          </div>
-          <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards
-            full of beautiful and rich modules. Join us and start building your
-            application today.
-          </div>
-          <div className="flex items-center mt-32">
-            <AvatarGroup
-              sx={{
-                "& .MuiAvatar-root": {
-                  borderColor: "primary.main",
-                },
-              }}
-            >
-              <Avatar src="assets/images/avatars/female-18.jpg" />
-              <Avatar src="assets/images/avatars/female-11.jpg" />
-              <Avatar src="assets/images/avatars/male-09.jpg" />
-              <Avatar src="assets/images/avatars/male-16.jpg" />
-            </AvatarGroup>
-
-            <div className="ml-16 font-medium tracking-tight text-gray-400">
-              More than 17k people joined us, it's your turn
-            </div>
-          </div>
-        </div> */}
       </Box>
     </div>
   );
 };
 
-export default SignInPage;
+export default ForgotPasswordPage;

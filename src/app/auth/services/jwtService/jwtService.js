@@ -103,9 +103,25 @@ class JwtService extends FuseUtils.EventEmitter {
   signInWithToken = () => {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem("jwt_access_token");
-      const decoded = jwt_Decode(token);
+      const decoded = jwtDecode(token);
+      const userData = {
+        user: decoded,
+        role:
+          Date.now() <= decoded.exp * 1000
+            ? `${decoded.role.toLowerCase()}`
+            : [], // guest
+        data: {
+          photoURL: "assets/images/avatars/brian-hughes.jpg",
+          shortcuts: [
+            "apps.calendar",
+            "apps.mailbox",
+            "apps.contacts",
+            "apps.tasks",
+          ],
+        },
+      };
       this.setSession(token);
-      resolve(decoded);
+      resolve(userData);
     });
   };
 
@@ -135,6 +151,19 @@ class JwtService extends FuseUtils.EventEmitter {
     });
   };
 
+  sendConfirmEmail = (email) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`${jwtServiceConfig.sendConfirmEmail}?email=${email}`)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error.response ? error.response.data.message : error.message);
+        });
+    });
+  };
+
   updateUserData = (user) => {
     return axioS.post(jwtServiceConfig.updateUser, {
       user,
@@ -146,7 +175,7 @@ class JwtService extends FuseUtils.EventEmitter {
       localStorage.setItem("jwt_access_token", access_token);
       axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
     } else {
-      Cookies.remove("jwt");
+      // Cookies.remove("jwt");
       localStorage.removeItem("jwt_access_token");
       delete axios.defaults.headers.common.Authorization;
     }

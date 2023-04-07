@@ -1,14 +1,14 @@
-import SignInPage from "./SignInPage";
-import authRoles from "../../../auth/authRoles";
+import SignUpPage from "./SignUpPage";
+import authRoles from "../../../../auth/authRoles";
 
 import en from "./i18n/en";
 import tr from "./i18n/tr";
 import i18next from "i18next";
 
-i18next.addResourceBundle("en", "SignIn", en);
-i18next.addResourceBundle("tr", "SignIn", tr);
+i18next.addResourceBundle("en", "SignUp", en);
+i18next.addResourceBundle("tr", "SignUp", tr);
 
-const SignInConfig = {
+const SignUpConfig = {
   settings: {
     layout: {
       config: {
@@ -33,10 +33,10 @@ const SignInConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: "sign-in",
-      element: <SignInPage />,
+      path: "sign-up",
+      element: <SignUpPage />,
     },
   ],
 };
 
-export default SignInConfig;
+export default SignUpConfig;
