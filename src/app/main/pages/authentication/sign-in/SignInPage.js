@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import React, { useState } from "react";
-import JwtService from "../../../../auth/services/jwtService";
+import JwtService from "src/app/auth/services/jwtService";
 import useToast from "src/app/hooks/useToast";
 import { Formik } from "formik";
 import { LoginSchema } from "src/app/validations";

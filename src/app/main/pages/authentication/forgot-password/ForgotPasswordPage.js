@@ -14,7 +14,7 @@ import { Grid } from "@mui/material";
 import ErrorMessage from "app/shared-components/ErrorMessage";
 import LanguageSwitcher from "app/theme-layouts/shared-components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import JwtService from "../../../../auth/services/jwtService";
+import JwtService from "src/app/auth/services/jwtService";
 
 const ForgotPasswordPage = () => {
   const [loading, setLoading] = useState(false);

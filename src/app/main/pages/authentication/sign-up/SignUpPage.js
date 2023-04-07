@@ -6,7 +6,7 @@ import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import JwtService from "../../../../auth/services/jwtService";
+import JwtService from "src/app/auth/services/jwtService";
 import LanguageSwitcher from "app/theme-layouts/shared-components/LanguageSwitcher";
 import { Formik } from "formik";
 import { LoadingButton } from "@mui/lab";

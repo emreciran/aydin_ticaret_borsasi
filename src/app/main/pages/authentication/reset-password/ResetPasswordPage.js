@@ -5,7 +5,7 @@ import _ from "@lodash";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import React, { useState } from "react";
-import JwtService from "../../../../auth/services/jwtService";
+import JwtService from "src/app/auth/services/jwtService";
 import useToast from "src/app/hooks/useToast";
 import { Formik } from "formik";
 import { ResetPasswordSchema } from "src/app/validations";

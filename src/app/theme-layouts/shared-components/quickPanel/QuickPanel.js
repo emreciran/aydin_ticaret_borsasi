@@ -1,26 +1,26 @@
-import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import { styled } from '@mui/material/styles';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
-import withReducer from 'app/store/withReducer';
-import format from 'date-fns/format';
-import { memo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import { selectQuickPanelData } from './store/dataSlice';
-import reducer from './store';
-import { selectQuickPanelState, toggleQuickPanel } from './store/stateSlice';
+import FuseScrollbars from "@fuse/core/FuseScrollbars";
+import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Switch from "@mui/material/Switch";
+import Typography from "@mui/material/Typography";
+import withReducer from "app/store/withReducer";
+import format from "date-fns/format";
+import { memo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
+import { selectQuickPanelData } from "./store/dataSlice";
+import reducer from "./store";
+import { selectQuickPanelState, toggleQuickPanel } from "./store/stateSlice";
 
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
-  '& .MuiDrawer-paper': {
+  "& .MuiDrawer-paper": {
     width: 280,
   },
 }));
@@ -31,7 +31,7 @@ function QuickPanel(props) {
   const data = useSelector(selectQuickPanelData);
   const state = useSelector(selectQuickPanelState);
 
-  const [checked, setChecked] = useState('notifications');
+  const [checked, setChecked] = useState("notifications");
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -59,22 +59,22 @@ function QuickPanel(props) {
 
         <div className="mb-0 py-16 px-24">
           <Typography className="mb-12 text-32" color="text.secondary">
-            {format(new Date(), 'eeee')}
+            {format(new Date(), "eeee")}
           </Typography>
           <div className="flex">
             <Typography className="leading-none text-32" color="text.secondary">
-              {format(new Date(), 'dd')}
+              {format(new Date(), "dd")}
             </Typography>
             <Typography className="leading-none text-16" color="text.secondary">
               th
             </Typography>
             <Typography className="leading-none text-32" color="text.secondary">
-              {format(new Date(), 'MMMM')}
+              {format(new Date(), "MMMM")}
             </Typography>
           </div>
         </div>
         <Divider />
-        <List>
+        {/* <List>
           <ListSubheader component="div">Events</ListSubheader>
           {data &&
             data.events.map((event) => (
@@ -82,9 +82,9 @@ function QuickPanel(props) {
                 <ListItemText primary={event.title} secondary={event.detail} />
               </ListItem>
             ))}
-        </List>
-        <Divider />
-        <List>
+        </List> */}
+        {/*<Divider />
+         <List>
           <ListSubheader component="div">Notes</ListSubheader>
           {data &&
             data.notes.map((note) => (
@@ -135,10 +135,10 @@ function QuickPanel(props) {
               />
             </ListItemSecondaryAction>
           </ListItem>
-        </List>
+        </List> */}
       </FuseScrollbars>
     </StyledSwipeableDrawer>
   );
 }
 
-export default withReducer('quickPanel', reducer)(memo(QuickPanel));
+export default withReducer("quickPanel", reducer)(memo(QuickPanel));

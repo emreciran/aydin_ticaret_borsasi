@@ -167,7 +167,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
             </FormControl>
           </Grid>
           <Grid item sm={12} style={{ marginBottom: 10 }}>
-            <FormControl>
+            <FormControl fullWidth>
               <FormLabel id="demo-radio-buttons-group-label">
                 {modalTranslate.status.name}
               </FormLabel>
