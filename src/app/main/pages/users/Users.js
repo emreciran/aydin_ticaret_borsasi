@@ -9,8 +9,9 @@ import UsersTable from "./components/UsersTable";
 import Popup from "app/shared-components/Popup";
 import NewUserForm from "./components/NewUserForm";
 import UserService from "src/app/services/userService";
+import FusePageCarded from "@fuse/core/FusePageCarded/FusePageCarded";
 
-const Root = styled(FusePageSimple)(({ theme }) => ({
+const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-header": {
     backgroundColor: theme.palette.background.paper,
     borderBottomWidth: 1,
@@ -72,7 +73,7 @@ const Users = () => {
     <>
       <Root
         header={
-          <div className="p-24 flex items-center justify-between">
+          <div className="p-24 flex items-center justify-between w-full">
             <h3>{t("TITLE")}</h3>
             <Button
               variant="outlined"

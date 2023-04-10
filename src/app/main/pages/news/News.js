@@ -11,8 +11,9 @@ import NewsTable from "./components/NewsTable";
 import Popup from "app/shared-components/Popup";
 import NewNewsForm from "./components/NewNewsForm";
 import NewsService from "src/app/services/newsService";
+import FusePageCarded from "@fuse/core/FusePageCarded/FusePageCarded";
 
-const Root = styled(FusePageSimple)(({ theme }) => ({
+const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-header": {
     backgroundColor: theme.palette.background.paper,
     borderBottomWidth: 1,
@@ -121,7 +122,7 @@ const News = () => {
     <>
       <Root
         header={
-          <div className="p-24 flex items-center justify-between">
+          <div className="p-24 flex items-center justify-between w-full">
             <h3>{t("TITLE")}</h3>
             <Button
               variant="outlined"

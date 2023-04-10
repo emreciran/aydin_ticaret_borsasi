@@ -12,8 +12,9 @@ import useToast from "src/app/hooks/useToast";
 import Popup from "app/shared-components/Popup";
 import NewAnnouncementForm from "./components/NewAnnouncementForm";
 import AnnouncementService from "src/app/services/announcementService";
+import FusePageCarded from "@fuse/core/FusePageCarded/FusePageCarded";
 
-const Root = styled(FusePageSimple)(({ theme }) => ({
+const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-header": {
     backgroundColor: theme.palette.background.paper,
     borderBottomWidth: 1,
@@ -120,7 +121,7 @@ const Announcement = () => {
     <>
       <Root
         header={
-          <div className="p-24 flex items-center justify-between">
+          <div className="p-24 flex items-center justify-between w-full">
             <h3>{t("TITLE")}</h3>
             <Button
               variant="outlined"

@@ -1,6 +1,7 @@
 {
     "name": "aydin-ticaret-borsasi",
     "version": "8.3.0",
+    "homepage": "https://zeysoft.com/",
     "private": true,
     "dependencies": {
         "@emotion/cache": "11.10.5",

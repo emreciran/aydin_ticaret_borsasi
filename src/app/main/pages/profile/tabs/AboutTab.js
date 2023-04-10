@@ -90,14 +90,14 @@ const AboutTab = () => {
                 </div>
                 <div className="mb-24">
                   <Button
-                    color="secondary"
+                    color="success"
                     variant="contained"
                     onClick={() => setUpdateInfoModalOpen(true)}
                   >
                     {aboutTranslate.UPDATE_INFO}
                   </Button>
                   <Button
-                    color="warning"
+                    color="info"
                     variant="contained"
                     className="ml-5"
                     onClick={() => setUpdatePswModalOpen(true)}
