@@ -8,7 +8,8 @@ const locale = {
     updatedBy: "Updated By",
     createdDate: "Created Date",
     update: "Update",
-    delete: "Delete"
+    delete: "Delete",
+    actions: "Actions",
   },
   NEWNEWS: {
     headerTitle: "New News",

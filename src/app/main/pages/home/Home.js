@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { styled } from "@mui/material/styles";
-import FusePageSimple from "@fuse/core/FusePageSimple";
-import { Box, Button, Typography } from "@mui/material";
 import FusePageCarded from "@fuse/core/FusePageCarded/FusePageCarded";
 
 const Root = styled(FusePageCarded)(({ theme }) => ({

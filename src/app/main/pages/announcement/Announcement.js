@@ -1,13 +1,10 @@
 import { styled } from "@mui/material/styles";
-import FusePageSimple from "@fuse/core/FusePageSimple";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useNavigate } from "react-router-dom";
 import AnnouncementTable from "./components/AnnouncementTable";
 import Swal from "sweetalert2";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import useToast from "src/app/hooks/useToast";
 import Popup from "app/shared-components/Popup";
 import NewAnnouncementForm from "./components/NewAnnouncementForm";
@@ -32,7 +29,6 @@ const Root = styled(FusePageCarded)(({ theme }) => ({
 const Announcement = () => {
   const { t } = useTranslation("Announcement");
   const [_showToast] = useToast();
-  const axiosPrivate = useAxiosPrivate();
   const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
   const [open, setOpen] = useState(false);
 

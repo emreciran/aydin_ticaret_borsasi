@@ -11,6 +11,7 @@ const locale = {
     createdDate: "Oluşturma Zamanı",
     update: "Güncelle",
     delete: "Sil",
+    actions: "İşlemler",
   },
   NEWNEWS: {
     headerTitle: "Yeni Haber",

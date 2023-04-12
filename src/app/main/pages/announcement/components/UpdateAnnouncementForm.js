@@ -11,14 +11,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import AnnouncementService from "src/app/services/announcementService";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import moment from "moment";
 
 const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { user } = useSelector(selectUser);
@@ -51,12 +49,13 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
       .then((response) => {
         _showToast.showSuccess("Duyuru güncellendi!");
         getAnnouncement();
-        setLoading(false);
         setOpen(false);
       })
       .catch((error) => {
-        setLoading(false);
         _showToast.showError(error.response);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -71,7 +70,9 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
           <Typography>{data?.createdDate} tarihinde oluşturuldu.</Typography>
           {data?.updatedDate != "" ? (
             <Typography>{data?.updatedDate} tarihinde güncellendi.</Typography>
-          ) : ""}
+          ) : (
+            ""
+          )}
         </Grid>
         <Grid item sm={12} style={{ marginBottom: 25 }}>
           <TextField

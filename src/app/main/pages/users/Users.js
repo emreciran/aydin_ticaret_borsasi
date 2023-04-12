@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
-import FusePageSimple from "@fuse/core/FusePageSimple";
 import { useTranslation } from "react-i18next";
-import { Box, Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import useToast from "src/app/hooks/useToast";
 import UsersTable from "./components/UsersTable";

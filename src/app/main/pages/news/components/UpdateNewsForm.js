@@ -11,14 +11,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import NewsService from "src/app/services/newsService";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import moment from "moment";
 
 const UpdateNewsForm = ({ data, setOpen, getNews }) => {
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { user } = useSelector(selectUser);

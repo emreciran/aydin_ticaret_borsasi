@@ -5,47 +5,71 @@ import {
   Grid,
   Button,
   TextField,
-  Typography,
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import AnnouncementService from "src/app/services/announcementService";
 
+const initialFieldValues = {
+  title: "",
+  link: "",
+  imageName: "",
+  imageSrc: "",
+  imageFile: null,
+};
+
 const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { t } = useTranslation("Announcement");
   const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
   const { user } = useSelector(selectUser);
-
-  const [title, setTitle] = useState("");
-  const [link, setLink] = useState("");
+  
   const [details, setDetails] = useState("");
-  const [image, setImage] = useState("");
 
-  const handleFile = (e) => {
-    setImage(e.target.files[0]);
+  const [values, setValues] = useState(initialFieldValues);
+
+  const showPreview = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let imageFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (x) => {
+        setValues({
+          ...values,
+          imageFile,
+          imageSrc: x.target.result,
+        });
+      };
+      reader.readAsDataURL(imageFile);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
+    
     const createdDate = moment().format("DD/MM/YYYY HH:mm");
+
     const formData = new FormData();
 
-    formData.append("Title", title);
-    formData.append("Link", link);
+    formData.append("Title", values.title);
+    formData.append("Link", values.link);
     formData.append("Details", details);
-    formData.append("ImageFile", image);
+    formData.append("ImageFile", values.imageFile);
     formData.append("CreatedBy", user.name);
     formData.append("CreatedDate", createdDate);
 
@@ -53,12 +77,13 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
       .then((response) => {
         _showToast.showSuccess("Yeni duyuru oluşturuldu");
         getAnnouncement();
-        setLoading(false);
         setOpen(false);
       })
       .catch((error) => {
+        _showToast.showError(error);
+      })
+      .finally(() => {
         setLoading(false);
-        _showToast.showError(error.response.data.message);
       });
   };
 
@@ -70,8 +95,9 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
             variant="standard"
             fullWidth
             label={modalTranslate.title}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={values.title}
+            name="title"
+            onChange={handleInputChange}
             id="title"
             required
           />
@@ -81,18 +107,19 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
             variant="standard"
             fullWidth
             label={modalTranslate.link}
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
+            value={values.link}
+            name="link"
+            onChange={handleInputChange}
             id="link"
             required
           />
         </Grid>
         <Grid item sm={12}>
-          <FormLabel htmlFor="Details">{modalTranslate.details}</FormLabel>
+          <FormLabel htmlFor="details">{modalTranslate.details}</FormLabel>
           <ReactQuill
             theme="snow"
             value={details}
-            id="Details"
+            id="details"
             onChange={setDetails}
             style={{ height: "300px", marginTop: 10 }}
           />
@@ -102,12 +129,13 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
             <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
               {modalTranslate.image}
             </FormLabel>
+            <img src={values?.imageSrc} />
             <input
               type="file"
               name="ImageFile"
               id="ImageFile"
               accept="image/*"
-              onChange={(e) => handleFile(e)}
+              onChange={showPreview}
             />
           </Box>
         </Grid>

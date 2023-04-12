@@ -1,11 +1,9 @@
 import FuseUtils from "@fuse/utils/FuseUtils";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import axios from "src/app/axios";
 
 class AnnouncementService extends FuseUtils.EventEmitter {
   init() {
     this.setInterceptors();
-    this.axiosPrivate();
   }
 
   setInterceptors = () => {
@@ -28,11 +26,6 @@ class AnnouncementService extends FuseUtils.EventEmitter {
         });
       }
     );
-  };
-
-  axiosPrivate = () => {
-    const axiosPrivate = useAxiosPrivate();
-    return axiosPrivate;
   };
 
   getAnnouncements = (pageState) => {

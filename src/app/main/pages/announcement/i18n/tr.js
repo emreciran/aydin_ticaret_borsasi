@@ -12,6 +12,7 @@ const locale = {
     createdDate: "Oluşturma Zamanı",
     update: "Güncelle",
     delete: "Sil",
+    actions: "İşlemler",
   },
   NEWANNOUNCEMENT: {
     headerTitle: "Yeni Duyuru",

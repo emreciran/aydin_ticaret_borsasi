@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -27,46 +27,27 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
     { field: "updatedBy", headerName: columnsTranslate.updatedBy },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
-      field: "update",
-      headerName: columnsTranslate.update,
-      renderCell: () => {
-        return (
-          <>
-            <GridActionsCellItem
-              icon={<EditIcon />}
-              label={columnsTranslate.update}
-              style={{ margin: "0 auto" }}
-              onClick={() => {
-                setOpen(true);
-              }}
-            />
-            <Popup
-              open={open}
-              setOpen={setOpen}
-              title={`#${rowSelectionModel?.id} Haber Güncelle`}
-            >
-              <UpdateNewsForm
-                data={rowSelectionModel}
-                setOpen={setOpen}
-                getNews={getNews}
-              />
-            </Popup>
-          </>
-        );
-      },
-    },
-    {
-      field: "delete",
-      headerName: columnsTranslate.delete,
-      renderCell: (params) => {
-        return (
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label={columnsTranslate.delete}
-            onClick={() => DeleteNews(params.id)}
-          />
-        );
-      },
+      field: "actions",
+      type: "actions",
+      headerName: columnsTranslate.actions,
+      width: 80,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          onClick={() => {
+            setRowSelectionModel(params?.row);
+            setOpen(true);
+          }}
+          label={columnsTranslate.update}
+          showInMenu
+        />,
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          onClick={() => DeleteNews(params.id)}
+          label={columnsTranslate.delete}
+          showInMenu
+        />,
+      ],
     },
   ];
 
@@ -84,54 +65,69 @@ const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
     : "";
 
   return (
-    <Box className="w-full">
-      <DataGrid
-        autoHeight
-        components={{ Toolbar: GridToolbar }}
-        slots={{
-          toolbar: GridToolbar,
-          noRowsOverlay: CustomNoRowsOverlay,
-        }}
-        rows={rows}
-        rowCount={pageState.total}
-        loading={pageState.isLoading}
-        pagination
-        paginationMode="server"
-        page={pageState.page - 1}
-        pageSize={pageState.pageSize}
-        getRowId={(row) => row.id}
-        hideFooterSelectedRowCount
-        onSelectionModelChange={(ids) => {
-          const selectedIDs = new Set(ids);
-          const selectedRowData = rows.filter((row) => selectedIDs.has(row.id));
-          setRowSelectionModel(selectedRowData[0]);
-        }}
-        rowsPerPageOptions={[5, 10, 25]}
-        onPageChange={(newPage) => {
-          setPageState((old) => ({
-            ...old,
-            page: newPage + 1,
-          }));
-        }}
-        onPageSizeChange={(pageSize) => {
-          setPageState((old) => ({
-            ...old,
-            pageSize: pageSize,
-          }));
-        }}
-        localeText={
-          t("TABLE") !== "default" &&
-          trTR.components.MuiDataGrid.defaultProps.localeText
-        }
-        columns={columns}
-        initialState={{
-          pagination: { paginationModel: { pageSize: pageState.pageSize } },
-          sorting: {
-            sortModel: [{ field: "id", sort: "desc" }],
-          },
-        }}
-      />
-    </Box>
+    <>
+      <Box className="w-full">
+        <DataGrid
+          autoHeight
+          components={{ Toolbar: GridToolbar }}
+          slots={{
+            toolbar: GridToolbar,
+            noRowsOverlay: CustomNoRowsOverlay,
+          }}
+          rows={rows}
+          rowCount={pageState.total}
+          loading={pageState.isLoading}
+          pagination
+          paginationMode="server"
+          page={pageState.page - 1}
+          pageSize={pageState.pageSize}
+          getRowId={(row) => row.id}
+          hideFooterSelectedRowCount
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRowData = rows.filter((row) =>
+              selectedIDs.has(row.id)
+            );
+            setRowSelectionModel(selectedRowData[0]);
+          }}
+          rowsPerPageOptions={[5, 10, 25]}
+          onPageChange={(newPage) => {
+            setPageState((old) => ({
+              ...old,
+              page: newPage + 1,
+            }));
+          }}
+          onPageSizeChange={(pageSize) => {
+            setPageState((old) => ({
+              ...old,
+              pageSize: pageSize,
+            }));
+          }}
+          localeText={
+            t("TABLE") !== "default" &&
+            trTR.components.MuiDataGrid.defaultProps.localeText
+          }
+          columns={columns}
+          initialState={{
+            pagination: { paginationModel: { pageSize: pageState.pageSize } },
+            sorting: {
+              sortModel: [{ field: "id", sort: "desc" }],
+            },
+          }}
+        />
+      </Box>
+      <Popup
+        open={open}
+        setOpen={setOpen}
+        title={`#${rowSelectionModel?.id} Haber Güncelle`}
+      >
+        <UpdateNewsForm
+          data={rowSelectionModel}
+          setOpen={setOpen}
+          getNews={getNews}
+        />
+      </Popup>
+    </>
   );
 };
 

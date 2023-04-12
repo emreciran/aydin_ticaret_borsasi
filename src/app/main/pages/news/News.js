@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
-import FusePageSimple from "@fuse/core/FusePageSimple";
 import { useTranslation } from "react-i18next";
-import { Box, Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Swal from "sweetalert2";
 import useToast from "src/app/hooks/useToast";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import NewsTable from "./components/NewsTable";
 import Popup from "app/shared-components/Popup";
 import NewNewsForm from "./components/NewNewsForm";
@@ -31,7 +29,6 @@ const Root = styled(FusePageCarded)(({ theme }) => ({
 const News = () => {
   const { t } = useTranslation("News");
   const [_showToast] = useToast();
-  const axiosPrivate = useAxiosPrivate();
   const modalTranslate = t("NEWNEWS", { returnObjects: true });
 
   const [open, setOpen] = useState(false);
