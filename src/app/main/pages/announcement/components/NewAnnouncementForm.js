@@ -129,7 +129,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
             <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
               {modalTranslate.image}
             </FormLabel>
-            <img src={values?.imageSrc} />
+            <img src={values?.imageSrc} style={{marginBottom: 10}} />
             <input
               type="file"
               name="ImageFile"

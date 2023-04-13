@@ -112,7 +112,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
             </FormLabel>
             {image != null && (
               <img
-                src={`${process.env.REACT_APP_SERVER_URL}/Images/${image}`}
+                src={`${process.env.REACT_APP_SERVER_URL}/Images/Announcement/${image}`}
                 alt=""
                 width="100%"
               />

@@ -16,6 +16,13 @@ import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import NewsService from "src/app/services/newsService";
 
+const initialFieldValues = {
+  title: "",
+  imageName: "",
+  imageSrc: "",
+  imageFile: null,
+};
+
 const NewNewsForm = ({ setOpen, getNews }) => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
@@ -23,12 +30,31 @@ const NewNewsForm = ({ setOpen, getNews }) => {
   const modalTranslate = t("NEWNEWS", { returnObjects: true });
   const { user } = useSelector(selectUser);
 
-  const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
-  const [image, setImage] = useState("");
 
-  const handleFile = (e) => {
-    setImage(e.target.files[0]);
+  const [values, setValues] = useState(initialFieldValues);
+
+  const showPreview = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let imageFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (x) => {
+        setValues({
+          ...values,
+          imageFile,
+          imageSrc: x.target.result,
+        });
+      };
+      reader.readAsDataURL(imageFile);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
   const handleFormSubmit = async (e) => {
@@ -37,9 +63,9 @@ const NewNewsForm = ({ setOpen, getNews }) => {
     const createdDate = moment().format("DD/MM/YYYY HH:mm");
     const formData = new FormData();
 
-    formData.append("Title", title);
+    formData.append("Title", values.title);
     formData.append("Details", details);
-    formData.append("ImageFile", image);
+    formData.append("ImageFile", values.imageFile);
     formData.append("CreatedBy", user.name);
     formData.append("CreatedDate", createdDate);
 
@@ -84,12 +110,13 @@ const NewNewsForm = ({ setOpen, getNews }) => {
             <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
               {modalTranslate.image}
             </FormLabel>
+            <img src={values?.imageSrc} style={{marginBottom: 10}} />
             <input
               type="file"
               name="ImageFile"
               id="ImageFile"
               accept="image/*"
-              onChange={(e) => handleFile(e)}
+              onChange={showPreview}
             />
           </Box>
         </Grid>
