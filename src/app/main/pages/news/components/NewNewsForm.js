@@ -1,10 +1,4 @@
-import {
-  Box,
-  FormLabel,
-  Grid,
-  Button,
-  TextField,
-} from "@mui/material";
+import { Box, FormLabel, Grid, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -73,12 +67,13 @@ const NewNewsForm = ({ setOpen, getNews }) => {
       .then((response) => {
         _showToast.showSuccess("Yeni haber oluşturuldu");
         getNews();
-        setLoading(false);
         setOpen(false);
       })
       .catch((error) => {
-        setLoading(false);
         _showToast.showError(error.response.data.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -90,8 +85,9 @@ const NewNewsForm = ({ setOpen, getNews }) => {
             variant="standard"
             fullWidth
             label={modalTranslate.title}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={values.title}
+            name="title"
+            onChange={handleInputChange}
             id="title"
             required
           />
@@ -102,15 +98,16 @@ const NewNewsForm = ({ setOpen, getNews }) => {
             theme="snow"
             value={details}
             onChange={setDetails}
+            className="mt-10"
             style={{ height: "300px" }}
           />
         </Grid>
         <Grid item>
           <Box display="flex" flexDirection="column" style={{ marginTop: 80 }}>
-            <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
+            <FormLabel htmlFor="ImageFile" className="mb-10">
               {modalTranslate.image}
             </FormLabel>
-            <img src={values?.imageSrc} style={{marginBottom: 10}} />
+            <img src={values?.imageSrc} className="mb-10" />
             <input
               type="file"
               name="ImageFile"

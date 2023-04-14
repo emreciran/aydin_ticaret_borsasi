@@ -17,11 +17,7 @@ import { LoadingButton } from "@mui/lab";
 import useToast from "src/app/hooks/useToast";
 import UserService from "src/app/services/userService";
 import moment from "moment";
-
-const allRoles = [
-  { id: 1, name: "Admin" },
-  { id: 2, name: "Yazar" },
-];
+import UsersConfig from "../UsersConfig";
 
 const UpdateUserForm = ({ data, setOpen, getUsers }) => {
   const [loading, setLoading] = useState(false);
@@ -124,7 +120,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
               variant="standard"
               onChange={(e) => setRole(e.target.value)}
             >
-              {allRoles?.map((role) => (
+              {UsersConfig.allRoles?.map((role) => (
                 <MenuItem value={role.name} key={role.id}>
                   {role.name}
                 </MenuItem>

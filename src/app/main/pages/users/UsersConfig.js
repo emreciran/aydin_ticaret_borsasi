@@ -14,6 +14,10 @@ const UsersConfig = {
       config: {},
     },
   },
+  allRoles: [
+    { id: 1, name: "Admin" },
+    { id: 2, name: "Yazar" },
+  ],
   auth: authRoles.admin,
   routes: [
     {

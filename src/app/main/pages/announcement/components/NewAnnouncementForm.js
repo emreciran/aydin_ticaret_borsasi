@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  FormLabel,
-  Grid,
-  Button,
-  TextField,
-} from "@mui/material";
+import { Box, FormLabel, Grid, Button, TextField } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { LoadingButton } from "@mui/lab";
@@ -30,7 +24,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
   const { t } = useTranslation("Announcement");
   const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
   const { user } = useSelector(selectUser);
-  
+
   const [details, setDetails] = useState("");
 
   const [values, setValues] = useState(initialFieldValues);
@@ -61,7 +55,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     const createdDate = moment().format("DD/MM/YYYY HH:mm");
 
     const formData = new FormData();
@@ -121,15 +115,16 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
             value={details}
             id="details"
             onChange={setDetails}
+            className="mt-10"
             style={{ height: "300px", marginTop: 10 }}
           />
         </Grid>
         <Grid item>
           <Box display="flex" flexDirection="column" style={{ marginTop: 80 }}>
-            <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
+            <FormLabel htmlFor="ImageFile" className="mb-10">
               {modalTranslate.image}
             </FormLabel>
-            <img src={values?.imageSrc} style={{marginBottom: 10}} />
+            <img src={values?.imageSrc} className="mb-10" />
             <input
               type="file"
               name="ImageFile"

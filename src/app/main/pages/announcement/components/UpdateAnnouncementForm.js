@@ -97,24 +97,26 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
           />
         </Grid>
         <Grid item sm={12}>
-          <FormLabel>Duyuru Detay</FormLabel>
+          <FormLabel className="mb-10">Duyuru Detay</FormLabel>
           <ReactQuill
             theme="snow"
             value={details}
             onChange={setDetails}
+            className="mt-10"
             style={{ height: "200px" }}
           />
         </Grid>
         <Grid item>
           <Box display="flex" flexDirection="column" style={{ marginTop: 80 }}>
-            <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
+            <FormLabel htmlFor="ImageFile" className="mb-10">
               Duyuru Görseli
             </FormLabel>
             {image != null && (
               <img
-                src={`${process.env.REACT_APP_SERVER_URL}/Images/Announcement/${image}`}
+                src={`${process.env.REACT_APP_SERVER_URL}/Images/Announcements/${image}`}
                 alt=""
                 width="100%"
+                className="mb-10"
               />
             )}
             <input

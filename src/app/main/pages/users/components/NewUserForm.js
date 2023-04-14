@@ -16,29 +16,40 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import useToast from "src/app/hooks/useToast";
 import { useTranslation } from "react-i18next";
-import useAxiosPrivate from "src/app/hooks/useAxiosPrivate";
 import UserService from "src/app/services/userService";
 import moment from "moment";
+import UsersConfig from "../UsersConfig";
 
-const allRoles = [
-  { id: 1, name: "Admin" },
-  { id: 2, name: "Yazar" },
-];
+const initialFieldValues = {
+  name: "",
+  surname: "",
+  username: "",
+  email: "",
+  password: "",
+  role: "",
+};
 
 const NewUserForm = ({ setOpen, getUsers }) => {
   const [_showToast] = useToast();
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation("Users");
   const modalTranslate = t("NEWUSER", { returnObjects: true });
 
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [status, setStatus] = useState();
-  const [role, setRole] = useState();
+  const [values, setValues] = useState(initialFieldValues);
+
+  const handleRadioChange = (e) => {
+    const value = e.target.value === "true";
+    setStatus(value);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -46,34 +57,30 @@ const NewUserForm = ({ setOpen, getUsers }) => {
     const createdDate = moment().format("DD/MM/YYYY HH:mm");
 
     const data = {
-      name,
-      surname,
-      email,
-      username,
-      password,
+      name: values.name,
+      surname: values.surname,
+      email: values.email,
+      username: values.username,
+      password: values.password,
       createdDate,
       status,
-      role,
+      role: values.role,
     };
 
     UserService.createUser(data)
       .then((response) => {
         _showToast.showSuccess("Kullanıcı oluşturuldu!");
-
         getUsers();
         setOpen(false);
       })
       .catch((error) => {
-        setLoading(false);
         _showToast.showError(
           error.response ? error.response.data.message : error.message
         );
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  };
-
-  const handleChange = (e) => {
-    const value = e.target.value === "true";
-    setStatus(value);
   };
 
   return (
@@ -98,8 +105,9 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               fullWidth
               variant="standard"
               id="name"
+              value={values.name}
               label={modalTranslate.name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -109,8 +117,9 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               id="surname"
               label={modalTranslate.surname}
               variant="standard"
+              value={values.surname}
               name="surname"
-              onChange={(e) => setSurname(e.target.value)}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -118,10 +127,11 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               id="username"
+              value={values.username}
               label={modalTranslate.username}
               variant="standard"
               name="username"
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -129,10 +139,11 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               id="email"
+              value={values.email}
               label={modalTranslate.email}
               variant="standard"
               name="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -140,11 +151,12 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               required
               fullWidth
               name="password"
+              value={values.password}
               label={modalTranslate.password}
               variant="standard"
               type="password"
               id="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item sm={12} style={{ marginBottom: 25 }}>
@@ -153,12 +165,13 @@ const NewUserForm = ({ setOpen, getUsers }) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={role}
+                value={values.role}
+                name="role"
                 label="Rol"
                 variant="standard"
-                onChange={(e) => setRole(e.target.value)}
+                onChange={handleInputChange}
               >
-                {allRoles?.map((role) => (
+                {UsersConfig.allRoles?.map((role) => (
                   <MenuItem value={role.name} key={role.id}>
                     {role.name}
                   </MenuItem>
@@ -175,7 +188,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
                 aria-labelledby="demo-radio-buttons-group-label"
                 name="status"
                 id="status"
-                onChange={handleChange}
+                onChange={handleRadioChange}
               >
                 <FormControlLabel
                   value={true}

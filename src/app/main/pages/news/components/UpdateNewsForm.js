@@ -88,19 +88,21 @@ const UpdateNewsForm = ({ data, setOpen, getNews }) => {
             theme="snow"
             value={details}
             onChange={setDetails}
+            className="mt-10"
             style={{ height: "200px" }}
           />
         </Grid>
         <Grid item>
           <Box display="flex" flexDirection="column" style={{ marginTop: 80 }}>
-            <FormLabel htmlFor="ImageFile" style={{ marginBottom: 10 }}>
+            <FormLabel htmlFor="ImageFile" className="mb-10">
               Haber Görseli
             </FormLabel>
             {image != null && (
               <img
-                src={`${process.env.REACT_APP_SERVER_URL}/Images/${image}`}
+                src={`${process.env.REACT_APP_SERVER_URL}/Images/News/${image}`}
                 alt=""
                 width="100%"
+                className="mb-10"
               />
             )}
             <input
