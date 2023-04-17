@@ -107,7 +107,9 @@ const NewNewsForm = ({ setOpen, getNews }) => {
             <FormLabel htmlFor="ImageFile" className="mb-10">
               {modalTranslate.image}
             </FormLabel>
-            <img src={values?.imageSrc} className="mb-10" />
+            <FormLabel htmlFor="ImageFile">
+              <img src={values?.imageSrc} className="mb-10" />
+            </FormLabel>
             <input
               type="file"
               name="ImageFile"

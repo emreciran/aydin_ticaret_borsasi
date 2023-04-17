@@ -59,6 +59,17 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
       });
   };
 
+  const showPreview = (e) => {
+    if (e.target.files && e.target.files[0]){
+      let imageFile = e.target.files[0]
+      const reader = new FileReader()
+      reader.onload = (x) => {
+        setImage(x.target.result)
+      }
+      reader.readAsDataURL(imageFile)
+    }
+  }
+
   const handleFile = (e) => {
     setNewImage(e.target.files[0]);
   };
@@ -112,19 +123,21 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
               Duyuru Görseli
             </FormLabel>
             {image != null && (
-              <img
-                src={`${process.env.REACT_APP_SERVER_URL}/Images/Announcements/${image}`}
-                alt=""
-                width="100%"
-                className="mb-10"
-              />
+              <FormLabel htmlFor="ImageFile">
+                <img
+                  src={`${process.env.REACT_APP_SERVER_URL}/Images/Announcements/${image}`}
+                  alt=""
+                  width="100%"
+                  className="mb-10"
+                />
+              </FormLabel>
             )}
             <input
               type="file"
               name="ImageFile"
               id="ImageFile"
               accept="image/*"
-              onChange={(e) => handleFile(e)}
+              onChange={handleFile}
             />
           </Box>
         </Grid>

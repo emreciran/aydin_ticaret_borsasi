@@ -34,12 +34,13 @@ const UpdatePswForm = ({ setOpen }) => {
     UserService.updatePassword(data)
       .then((response) => {
         _showToast.showSuccess("Şifreniz güncellendi! Tekrar giriş yapınız.");
-        setLoading(false);
         JwtService.logout();
       })
       .catch((error) => {
-        setLoading(false);
         _showToast.showError(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

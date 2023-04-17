@@ -30,12 +30,13 @@ const UpdateInfoForm = ({ setOpen }) => {
     UserService.updateUserInfo(values)
       .then((response) => {
         _showToast.showSuccess("Kullanıcı güncellendi! Tekrar giriş yapınız.");
-        setLoading(false);
         JwtService.logout();
       })
       .catch((error) => {
-        setLoading(false);
         _showToast.showError(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

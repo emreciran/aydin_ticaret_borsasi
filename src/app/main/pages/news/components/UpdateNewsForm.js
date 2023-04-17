@@ -98,12 +98,14 @@ const UpdateNewsForm = ({ data, setOpen, getNews }) => {
               Haber Görseli
             </FormLabel>
             {image != null && (
-              <img
-                src={`${process.env.REACT_APP_SERVER_URL}/Images/News/${image}`}
-                alt=""
-                width="100%"
-                className="mb-10"
-              />
+              <FormLabel htmlFor="ImageFile">
+                <img
+                  src={`${process.env.REACT_APP_SERVER_URL}/Images/News/${image}`}
+                  alt=""
+                  width="100%"
+                  className="mb-10"
+                />
+              </FormLabel>
             )}
             <input
               type="file"
