@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -6,21 +5,15 @@ import {
   GridActionsCellItem,
   trTR,
 } from "@mui/x-data-grid";
+import CustomNoRowsOverlay from "app/shared-components/CustomNoRowsOverlay";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import CustomNoRowsOverlay from "app/shared-components/CustomNoRowsOverlay";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Popup from "app/shared-components/Popup";
-import UpdateAnnouncementForm from "./UpdateAnnouncementForm";
 
-const AnnouncementTable = ({
-  pageState,
-  setPageState,
-  DeleteAnnouncement,
-  getAnnouncements,
-}) => {
+const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
   const [open, setOpen] = useState(false);
-  const { t } = useTranslation("Announcement");
+  const { t } = useTranslation("Event");
 
   const [rowSelectionModel, setRowSelectionModel] = useState();
   const columnsTranslate = t("COLUMNS", { returnObjects: true });
@@ -30,7 +23,6 @@ const AnnouncementTable = ({
     { field: "title", headerName: columnsTranslate.title },
     { field: "createdBy", headerName: columnsTranslate.createdBy },
     { field: "updatedBy", headerName: columnsTranslate.updatedBy },
-    { field: "link", headerName: columnsTranslate.link },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
       field: "actions",
@@ -41,30 +33,29 @@ const AnnouncementTable = ({
         <GridActionsCellItem
           icon={<EditIcon />}
           onClick={() => {
-            setRowSelectionModel(params?.row)
-            setOpen(true)
+            setRowSelectionModel(params?.row);
+            setOpen(true);
           }}
           label={columnsTranslate.update}
           showInMenu
         />,
         <GridActionsCellItem
           icon={<DeleteIcon />}
-          onClick={() => DeleteAnnouncement(params.id)}
+          onClick={() => DeleteEvent(params.id)}
           label={columnsTranslate.delete}
           showInMenu
         />,
       ],
     },
   ];
+
   const rows = pageState?.data
     ? pageState?.data.map((row) => ({
         id: row.id,
         title: row.title,
         createdBy: row.createdBy,
         updatedBy: row.updatedBy,
-        link: row.link,
         details: row.details,
-        imageName: row.imageName,
         createdDate: row.createdDate,
         updatedDate: row.updatedDate,
       }))
@@ -122,19 +113,8 @@ const AnnouncementTable = ({
           }}
         />
       </Box>
-      <Popup
-        open={open}
-        setOpen={setOpen}
-        title={`#${rowSelectionModel?.id} Duyuru Güncelle`}
-      >
-        <UpdateAnnouncementForm
-          data={rowSelectionModel}
-          setOpen={setOpen}
-          getAnnouncements={getAnnouncements}
-        />
-      </Popup>
     </>
   );
 };
 
-export default AnnouncementTable;
+export default EventTable;

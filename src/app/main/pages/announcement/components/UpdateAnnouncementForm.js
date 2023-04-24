@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "app/store/userSlice";
 import moment from "moment";
 
-const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
+const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncements }) => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { user } = useSelector(selectUser);
@@ -48,7 +48,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
     AnnouncementService.updateAnnouncement(formData)
       .then((response) => {
         _showToast.showSuccess("Duyuru güncellendi!");
-        getAnnouncement();
+        getAnnouncements();
         setOpen(false);
       })
       .catch((error) => {

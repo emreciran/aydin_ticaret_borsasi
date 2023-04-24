@@ -39,6 +39,14 @@ const navigationConfig = [
     icon: 'heroicons-outline:newspaper',
     url: 'haber',
   },
+  {
+    id: "event-component",
+    title: "Etkinlikler",
+    translate: "EVENT",
+    type: "item",
+    icon: "heroicons-outline:calendar",
+    url: "etkinlik"
+  },
 ];
 
 export default navigationConfig;

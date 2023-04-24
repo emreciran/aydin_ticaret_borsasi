@@ -1,10 +1,9 @@
 const locale = {
-  TITLE: "Announcements",
-  BUTTON: "New Announcement",
+  TITLE: "Events",
+  BUTTON: "New Event",
   TABLE: "default",
   COLUMNS: {
-    title: "Announcement Title",
-    link: "Announcement Link",
+    title: "Event Title",
     createdBy: "Created By",
     updatedBy: "Updated By",
     createdDate: "Created Date",
@@ -12,12 +11,10 @@ const locale = {
     delete: "Delete",
     actions: "Actions",
   },
-  NEWANNOUNCEMENT: {
-    headerTitle: "New Announcement",
+  NEWEVENT: {
+    headerTitle: "New Event",
     title: "Title",
-    link: "Link",
-    details: "Announcement Details",
-    image: "Announcement Image",
+    details: "Event Details",
     cancel: "Cancel",
     button: "Create",
   },

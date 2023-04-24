@@ -1,5 +1,6 @@
 import FuseUtils from "@fuse/utils/FuseUtils";
 import axios from "src/app/axios";
+import announcementServiceConfig from "./announcementServiceConfig";
 
 class AnnouncementService extends FuseUtils.EventEmitter {
   init() {
@@ -32,7 +33,7 @@ class AnnouncementService extends FuseUtils.EventEmitter {
     return new Promise((resolve, reject) => {
       axios
         .get(
-          `/announcements?page=${pageState.page}&limit=${pageState.pageSize}`
+          `${announcementServiceConfig.getAnnouncements}?page=${pageState.page}&limit=${pageState.pageSize}`
         )
         .then((response) => {
           if (response.data) resolve(response.data);
@@ -46,7 +47,7 @@ class AnnouncementService extends FuseUtils.EventEmitter {
   createAnnouncement = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .post("/announcements", data)
+        .post(announcementServiceConfig.createAnnouncement, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -59,7 +60,7 @@ class AnnouncementService extends FuseUtils.EventEmitter {
   deleteAnnouncement = (id) => {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`/announcements/${id}`)
+        .delete(`${announcementServiceConfig.deleteAnnouncement}/${id}`)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -72,7 +73,7 @@ class AnnouncementService extends FuseUtils.EventEmitter {
   updateAnnouncement = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .put(`/announcements`, data)
+        .put(announcementServiceConfig.updateAnnouncement, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })

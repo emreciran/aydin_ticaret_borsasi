@@ -1,12 +1,11 @@
 import { trTR } from "@mui/x-data-grid";
 
 const locale = {
-  TITLE: "Duyurular",
-  BUTTON: "Yeni Duyuru",
+  TITLE: "Etkinlikler",
+  BUTTON: "Yeni Etkinlik",
   TABLE: trTR,
   COLUMNS: {
-    title: "Duyuru Başlığı",
-    link: "Duyuru Linki",
+    title: "Etlinlik Başlığı",
     createdBy: "Oluşturan",
     updatedBy: "Güncelleyen",
     createdDate: "Oluşturma Zamanı",
@@ -14,12 +13,10 @@ const locale = {
     delete: "Sil",
     actions: "İşlemler",
   },
-  NEWANNOUNCEMENT: {
-    headerTitle: "Yeni Duyuru",
+  NEWACTIVITY: {
+    headerTitle: "Yeni Etkinlik",
     title: "Başlık",
-    link: "Link",
-    details: "Duyuru Detay",
-    image: "Duyuru Görseli",
+    details: "Etkinlik Detay",
     cancel: "İptal",
     button: "Oluştur",
   },

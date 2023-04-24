@@ -1,15 +1,16 @@
-import { styled } from "@mui/material/styles";
-import { useTranslation } from "react-i18next";
-import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import AnnouncementTable from "./components/AnnouncementTable";
-import Swal from "sweetalert2";
-import useToast from "src/app/hooks/useToast";
-import Popup from "app/shared-components/Popup";
-import NewAnnouncementForm from "./components/NewAnnouncementForm";
-import AnnouncementService from "src/app/services/announcementService";
 import FusePageCarded from "@fuse/core/FusePageCarded/FusePageCarded";
+import React from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import useToast from "src/app/hooks/useToast";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { styled } from "@mui/material/styles";
+import { Button } from "@mui/material";
+import EventTable from "./components/EventTable";
+import EventService from "src/app/services/eventService";
+import { useEffect } from "react";
+import Popup from "app/shared-components/Popup";
+import NewEventForm from "./components/NewEventForm";
 
 const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -26,10 +27,10 @@ const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-sidebarContent": {},
 }));
 
-const Announcement = () => {
-  const { t } = useTranslation("Announcement");
+const Event = () => {
+  const { t } = useTranslation("Event");
   const [_showToast] = useToast();
-  const modalTranslate = t("NEWANNOUNCEMENT", { returnObjects: true });
+  const modalTranslate = t("EVENT", { returnObjects: true });
   const [open, setOpen] = useState(false);
 
   const [pageState, setPageState] = useState({
@@ -40,17 +41,17 @@ const Announcement = () => {
     pageSize: 5,
   });
 
-  const getAnnouncements = () => {
+  const getEvents = () => {
     setPageState((old) => ({
       ...old,
       isLoading: true,
     }));
-    AnnouncementService.getAnnouncements(pageState)
+    EventService.getEvents(pageState)
       .then((response) => {
         setPageState((old) => ({
           ...old,
           isLoading: false,
-          data: response.announcements,
+          data: response.events,
           total: response.total,
         }));
       })
@@ -63,7 +64,7 @@ const Announcement = () => {
       });
   };
 
-  const DeleteAnnouncement = (id) => {
+  const DeleteEvent = (id) => {
     try {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -86,18 +87,18 @@ const Announcement = () => {
         })
         .then(async (result) => {
           if (result.isConfirmed) {
-            AnnouncementService.deleteAnnouncement(id).then((response) => {
-              getAnnouncements();
+            EventService.deleteEvent(id).then((response) => {
+              getEvents();
               swalWithBootstrapButtons.fire(
                 "Silindi!",
-                "Duyuru başarıyla silindi!",
+                "Etkinlik başarıyla silindi!",
                 "success"
               );
             });
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire(
               "İptal edildi!",
-              "Duyuru silinmedi!",
+              "Etkinlik silinmedi!",
               "error"
             );
           }
@@ -110,7 +111,7 @@ const Announcement = () => {
   };
 
   useEffect(() => {
-    getAnnouncements();
+    getEvents();
   }, [pageState.page, pageState.pageSize]);
 
   return (
@@ -130,24 +131,21 @@ const Announcement = () => {
         }
         content={
           <div className="p-24">
-            <AnnouncementTable
+            <EventTable
               pageState={pageState}
               setPageState={setPageState}
-              DeleteAnnouncement={DeleteAnnouncement}
-              getAnnouncements={getAnnouncements}
+              getEvents={getEvents}
+              DeleteEvent={DeleteEvent}
             />
           </div>
         }
         scroll="content"
       />
       <Popup open={open} setOpen={setOpen} title={modalTranslate.headerTitle}>
-        <NewAnnouncementForm
-          setOpen={setOpen}
-          getAnnouncements={getAnnouncements}
-        />
+        <NewEventForm setOpen={setOpen} getEvents={getEvents} />
       </Popup>
     </>
   );
 };
 
-export default Announcement;
+export default Event;

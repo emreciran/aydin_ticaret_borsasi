@@ -1,5 +1,6 @@
 import FuseUtils from "@fuse/utils/FuseUtils";
 import axios from "src/app/axios";
+import usersServiceConfig from "./usersServiceConfig";
 
 class UserService extends FuseUtils.EventEmitter {
   init() {
@@ -31,7 +32,7 @@ class UserService extends FuseUtils.EventEmitter {
   getUsers = (pageState) => {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/users?page=${pageState.page}&limit=${pageState.pageSize}`)
+        .get(`${usersServiceConfig.getUsers}?page=${pageState.page}&limit=${pageState.pageSize}`)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -70,7 +71,7 @@ class UserService extends FuseUtils.EventEmitter {
   updateUserInfo = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .put(`/users/UpdateUserInfo`, data)
+        .put(usersServiceConfig.updateUserInfo, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -83,7 +84,7 @@ class UserService extends FuseUtils.EventEmitter {
   updatePassword = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .put("/users/UpdatePassword", data)
+        .put(usersServiceConfig.updatePassword, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -96,7 +97,7 @@ class UserService extends FuseUtils.EventEmitter {
   createUser = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .post("/users", data)
+        .post(usersServiceConfig.createUser, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })

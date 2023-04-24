@@ -1,8 +1,8 @@
 import FuseUtils from "@fuse/utils/FuseUtils";
 import axios from "src/app/axios";
-import newsServiceConfig from "./newsServiceConfig";
+import eventServiceConfig from "./eventServiceConfig";
 
-class NewsService extends FuseUtils.EventEmitter {
+class EventService extends FuseUtils.EventEmitter {
   init() {
     this.setInterceptors();
   }
@@ -29,11 +29,11 @@ class NewsService extends FuseUtils.EventEmitter {
     );
   };
 
-  getNews = (pageState) => {
+  getEvents = (pageState) => {
     return new Promise((resolve, reject) => {
       axios
         .get(
-          `${newsServiceConfig.getNews}?page=${pageState.page}&limit=${pageState.pageSize}`
+          `${eventServiceConfig.getEvents}?page=${pageState.page}&limit=${pageState.pageSize}`
         )
         .then((response) => {
           if (response.data) resolve(response.data);
@@ -44,10 +44,10 @@ class NewsService extends FuseUtils.EventEmitter {
     });
   };
 
-  createNews = (data) => {
+  createEvent = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .post(newsServiceConfig.createNews, data)
+        .post(eventServiceConfig.createEvent, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -57,10 +57,10 @@ class NewsService extends FuseUtils.EventEmitter {
     });
   };
 
-  deleteNews = (id) => {
+  deleteEvent = (id) => {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`${newsServiceConfig.deleteNews}/${id}`)
+        .delete(`${eventServiceConfig.deleteEvent}/${id}`)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -70,10 +70,10 @@ class NewsService extends FuseUtils.EventEmitter {
     });
   };
 
-  updateNews = (data) => {
+  updateEvent = (data) => {
     return new Promise((resolve, reject) => {
       axios
-        .put(newsServiceConfig.updateNews, data)
+        .put(eventServiceConfig.updateEvent, data)
         .then((response) => {
           if (response.data) resolve(response.data);
         })
@@ -84,6 +84,6 @@ class NewsService extends FuseUtils.EventEmitter {
   };
 }
 
-const instance = new NewsService();
+const instance = new EventService();
 
 export default instance;

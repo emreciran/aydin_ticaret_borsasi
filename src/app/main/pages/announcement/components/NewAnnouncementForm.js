@@ -18,7 +18,7 @@ const initialFieldValues = {
   imageFile: null,
 };
 
-const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
+const NewAnnouncementForm = ({ setOpen, getAnnouncements }) => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { t } = useTranslation("Announcement");
@@ -70,7 +70,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncement }) => {
     AnnouncementService.createAnnouncement(formData)
       .then((response) => {
         _showToast.showSuccess("Yeni duyuru oluşturuldu");
-        getAnnouncement();
+        getAnnouncements();
         setOpen(false);
       })
       .catch((error) => {
