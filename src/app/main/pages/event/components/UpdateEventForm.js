@@ -14,53 +14,52 @@ import moment from "moment";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
+import { LoadingButton } from "@mui/lab";
+import EventService from "src/app/services/eventService";
 import { useSelector } from "react-redux";
 import useToast from "src/app/hooks/useToast";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker, DesktopDatePicker, trTR } from "@mui/x-date-pickers";
-import EventService from "src/app/services/eventService";
-import { LoadingButton } from "@mui/lab";
 
-const NewEventForm = ({ setOpen, getEvents }) => {
+const UpdateEventForm = ({ data, setOpen, getEvents }) => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
   const { t } = useTranslation("Event");
-  const modalTranslate = t("NEWEVENT", { returnObjects: true });
+  const modalTranslate = t("UPDATEEVENT", { returnObjects: true });
   const { user } = useSelector(selectUser);
 
-  const [title, setTitle] = useState("");
-  const [status, setStatus] = useState();
-  const [details, setDetails] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [title, setTitle] = useState(data?.title);
+  const [status, setStatus] = useState(
+    data?.status === true ? "true" : "false"
+  );
+  const [details, setDetails] = useState(data?.details);
+  const [startDate, setStartDate] = useState(data?.startDate);
+  const [endDate, setEndDate] = useState(data?.endDate);
   const currDay = moment().format("DD/MM/YYYY HH:mm");
-  console.log(startDate);
-
-  const handleRadioChange = (e) => {
-    const value = e.target.value === "true";
-    setStatus(value);
-  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
 
-    const data = {
+    const values = {
+      id: data?.id,
       title,
       startDate,
       endDate,
-      status,
-      createdDate,
-      createdBy: user.name,
+      status: status === "true" ? true : false,
+      updatedDate,
+      updatedBy: user.name,
+      createdDate: data?.createdDate,
+      createdBy: data?.createdBy,
       details,
     };
 
-    EventService.createEvent(data)
+    EventService.updateEvent(values)
       .then(() => {
-        _showToast.showSuccess("Yeni ektinlik oluşturuldu!");
+        _showToast.showSuccess("Ektinlik güncellendi!");
         getEvents();
         setOpen(false);
       })
@@ -105,7 +104,9 @@ const NewEventForm = ({ setOpen, getEvents }) => {
               inputFormat={"DD/MM/YYYY HH:mm"}
               type="date"
               minDate={currDay}
-              onChange={(newValue) => setStartDate(newValue)}
+              onChange={(newValue) => {
+                setStartDate(newValue);
+              }}
               value={startDate}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -117,7 +118,9 @@ const NewEventForm = ({ setOpen, getEvents }) => {
               type="date"
               value={endDate}
               minDate={currDay}
-              onChange={(newValue) => setEndDate(newValue)}
+              onChange={(newValue) => {
+                setEndDate(newValue);
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </Grid>
@@ -131,15 +134,16 @@ const NewEventForm = ({ setOpen, getEvents }) => {
               aria-labelledby="demo-radio-buttons-group-label"
               name="status"
               id="status"
-              onChange={handleRadioChange}
+              onChange={(e) => setStatus(e.target.value)}
+              defaultValue={status}
             >
               <FormControlLabel
-                value={true}
+                value="true"
                 control={<Radio color="success" />}
                 label={modalTranslate.status.active}
               />
               <FormControlLabel
-                value={false}
+                value="false"
                 control={<Radio color="error" />}
                 label={modalTranslate.status.passive}
               />
@@ -170,4 +174,4 @@ const NewEventForm = ({ setOpen, getEvents }) => {
   );
 };
 
-export default NewEventForm;
+export default UpdateEventForm;

@@ -32,6 +32,20 @@ const locale = {
     cancel: "İptal",
     button: "Kullanıcı Ekle",
   },
+  UPDATEUSER: {
+    title: "Yeni Kullanıcı",
+    name: "Adı",
+    surname: "Soyadı",
+    username: "Kullanıcı adı",
+    email: "Email",
+    status: {
+      name: "Durumu",
+      active: "Aktif",
+      passive: "Pasif",
+    },
+    cancel: "İptal",
+    button: "Kullanıcı Güncelle",
+  },
 };
 
 export default locale;

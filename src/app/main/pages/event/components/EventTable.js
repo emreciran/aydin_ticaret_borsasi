@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   DataGrid,
   GridToolbar,
@@ -10,6 +10,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Popup from "app/shared-components/Popup";
+import UpdateEventForm from "./UpdateEventForm";
 
 const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
   const [open, setOpen] = useState(false);
@@ -24,6 +26,33 @@ const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
     { field: "createdBy", headerName: columnsTranslate.createdBy },
     { field: "updatedBy", headerName: columnsTranslate.updatedBy },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
+    { field: "startend", headerName: columnsTranslate.startend },
+    {
+      field: "status",
+      headerName: columnsTranslate.status.name,
+      renderCell: ({ row }) => {
+        return (
+          <Box
+            width="100%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="4px"
+            sx={{
+              backgroundColor: row.status === true ? "#5D9C59" : "#FC2947",
+            }}
+          >
+            <Typography color="#fff">
+              {row.status === true
+                ? columnsTranslate.status.active
+                : columnsTranslate.status.passive}
+            </Typography>
+          </Box>
+        );
+      },
+    },
     {
       field: "actions",
       type: "actions",
@@ -56,6 +85,8 @@ const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
         createdBy: row.createdBy,
         updatedBy: row.updatedBy,
         details: row.details,
+        startend: row.startDate + "-" + row.endDate,
+        status: row.status,
         createdDate: row.createdDate,
         updatedDate: row.updatedDate,
       }))
@@ -113,6 +144,13 @@ const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
           }}
         />
       </Box>
+      <Popup
+        open={open}
+        setOpen={setOpen}
+        title={`#${rowSelectionModel?.id} Etkinlik Güncelle`}
+      >
+        <UpdateEventForm data={rowSelectionModel} setOpen={setOpen} getEvents={getEvents} />
+      </Popup>
     </>
   );
 };

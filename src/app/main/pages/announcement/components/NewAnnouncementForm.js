@@ -52,7 +52,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncements }) => {
     });
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -68,7 +68,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncements }) => {
     formData.append("CreatedDate", createdDate);
 
     AnnouncementService.createAnnouncement(formData)
-      .then((response) => {
+      .then(() => {
         _showToast.showSuccess("Yeni duyuru oluşturuldu");
         getAnnouncements();
         setOpen(false);

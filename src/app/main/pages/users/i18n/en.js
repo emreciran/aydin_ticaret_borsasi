@@ -30,6 +30,20 @@ const locale = {
     cancel: "Cancel",
     button: "Add User",
   },
+  UPDATEUSER: {
+    title: "New User",
+    name: "Name",
+    surname: "Surname",
+    username: "Username",
+    email: "Email",
+    status: {
+      name: "Status",
+      active: "Active",
+      passive: "Passive",
+    },
+    cancel: "Cancel",
+    button: "Update User",
+  },
 };
 
 export default locale;

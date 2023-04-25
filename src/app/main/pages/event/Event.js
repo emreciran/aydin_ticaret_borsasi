@@ -11,6 +11,7 @@ import EventService from "src/app/services/eventService";
 import { useEffect } from "react";
 import Popup from "app/shared-components/Popup";
 import NewEventForm from "./components/NewEventForm";
+import Swal from "sweetalert2";
 
 const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -30,7 +31,7 @@ const Root = styled(FusePageCarded)(({ theme }) => ({
 const Event = () => {
   const { t } = useTranslation("Event");
   const [_showToast] = useToast();
-  const modalTranslate = t("EVENT", { returnObjects: true });
+  const modalTranslate = t("NEWEVENT", { returnObjects: true });
   const [open, setOpen] = useState(false);
 
   const [pageState, setPageState] = useState({

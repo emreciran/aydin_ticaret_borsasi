@@ -7,6 +7,12 @@ const locale = {
     createdBy: "Created By",
     updatedBy: "Updated By",
     createdDate: "Created Date",
+    status: {
+      name: "Status",
+      active: "Active",
+      passive: "Passive",
+    },
+    startend: "Start-End Date",
     update: "Update",
     delete: "Delete",
     actions: "Actions",
@@ -15,9 +21,29 @@ const locale = {
     headerTitle: "New Event",
     title: "Title",
     details: "Event Details",
+    status: {
+      name: "Status",
+      active: "Active",
+      passive: "Passive",
+    },
+    startDate: "Event Start Date",
+    endDate: "Event End Date",
     cancel: "Cancel",
     button: "Create",
   },
+  UPDATEEVENT: {
+    title: "Title",
+    details: "Event Details",
+    startDate: "Event Start Date",
+    endDate: "Event End Date",
+    status: {
+      name: "Status",
+      active: "Active",
+      passive: "Passive",
+    },
+    cancel: "Cancel",
+    button: "Update",
+  }
 };
 
 export default locale;

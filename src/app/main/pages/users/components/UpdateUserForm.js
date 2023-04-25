@@ -18,10 +18,13 @@ import useToast from "src/app/hooks/useToast";
 import UserService from "src/app/services/userService";
 import moment from "moment";
 import UsersConfig from "../UsersConfig";
+import { useTranslation } from "react-i18next";
 
 const UpdateUserForm = ({ data, setOpen, getUsers }) => {
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
+  const { t } = useTranslation("Users");
+  const modalTranslate = t("UPDATEUSER", { returnObjects: true });
 
   const [name, setName] = useState(data?.name);
   const [surname, setSurname] = useState(data?.surname);
@@ -48,15 +51,16 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
     };
 
     UserService.updateUser(values)
-      .then((response) => {
+      .then(() => {
         _showToast.showSuccess("Kullanıcı güncellendi!");
         getUsers();
-        setLoading(false);
         setOpen(false);
       })
       .catch((error) => {
-        setLoading(false);
         _showToast.showError(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -67,7 +71,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Adı"
+            label={modalTranslate.name}
             value={name}
             onChange={(e) => setName(e.target.value)}
             id="name"
@@ -78,7 +82,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Soyadı"
+            label={modalTranslate.surname}
             value={surname}
             onChange={(e) => setSurname(e.target.value)}
             id="surname"
@@ -89,7 +93,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Email"
+            label={modalTranslate.email}
             disabled
             value={data?.email}
             id="email"
@@ -101,7 +105,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           <TextField
             variant="standard"
             fullWidth
-            label="Username"
+            label={modalTranslate.username}
             disabled
             value={data?.username}
             id="username"
@@ -130,7 +134,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
         </Grid>
         <Grid item sm={12} style={{ marginBottom: 10 }}>
           <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">Durumu</FormLabel>
+            <FormLabel id="demo-radio-buttons-group-label">{modalTranslate.status.name}</FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               name="radio-buttons-group"
@@ -140,12 +144,12 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
               <FormControlLabel
                 value="true"
                 control={<Radio color="success" />}
-                label="Aktif"
+                label={modalTranslate.status.active}
               />
               <FormControlLabel
                 value="false"
                 control={<Radio color="error" />}
-                label="Pasif"
+                label={modalTranslate.status.passive}
               />
             </RadioGroup>
           </FormControl>
@@ -158,7 +162,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           color="error"
           onClick={() => setOpen(false)}
         >
-          İptal
+          {modalTranslate.cancel}
         </Button>
         <LoadingButton
           type="submit"
@@ -167,7 +171,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           loadingIndicator="Loading…"
           color="secondary"
         >
-          <span>Güncelle</span>
+          <span>{modalTranslate.button}</span>
         </LoadingButton>
       </Box>
     </Box>

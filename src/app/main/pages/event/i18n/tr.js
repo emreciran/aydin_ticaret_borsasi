@@ -9,17 +9,43 @@ const locale = {
     createdBy: "Oluşturan",
     updatedBy: "Güncelleyen",
     createdDate: "Oluşturma Zamanı",
+    startend: "Başlangıç-Bitiş Tarihi",
+    status: {
+      name: "Durumu",
+      active: "Aktif",
+      passive: "Pasif",
+    },
     update: "Güncelle",
     delete: "Sil",
     actions: "İşlemler",
   },
-  NEWACTIVITY: {
+  NEWEVENT: {
     headerTitle: "Yeni Etkinlik",
     title: "Başlık",
     details: "Etkinlik Detay",
+    startDate: "Etkinlik Başlama Zamanı",
+    endDate: "Etkinlik Bitiş Zamanı",
+    status: {
+      name: "Durumu",
+      active: "Aktif",
+      passive: "Pasif",
+    },
     cancel: "İptal",
     button: "Oluştur",
   },
+  UPDATEEVENT: {
+    title: "Başlık",
+    details: "Etkinlik Detay",
+    startDate: "Etkinlik Başlama Zamanı",
+    endDate: "Etkinlik Bitiş Zamanı",
+    status: {
+      name: "Durumu",
+      active: "Aktif",
+      passive: "Pasif",
+    },
+    cancel: "İptal",
+    button: "Güncelle",
+  }
 };
 
 export default locale;
