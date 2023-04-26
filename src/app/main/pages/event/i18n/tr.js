@@ -9,7 +9,8 @@ const locale = {
     createdBy: "Oluşturan",
     updatedBy: "Güncelleyen",
     createdDate: "Oluşturma Zamanı",
-    startend: "Başlangıç-Bitiş Tarihi",
+    start: "Etkinlik Başlangıç Tarihi",
+    end: "Etkinlik Bitiş Tarihi",
     status: {
       name: "Durumu",
       active: "Aktif",

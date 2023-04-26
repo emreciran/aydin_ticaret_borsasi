@@ -54,7 +54,7 @@ const NewNewsForm = ({ setOpen, getNews }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const createdDate = moment().format("L LT");
     const formData = new FormData();
 
     formData.append("Title", values.title);

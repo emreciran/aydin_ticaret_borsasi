@@ -56,7 +56,7 @@ const NewAnnouncementForm = ({ setOpen, getAnnouncements }) => {
     e.preventDefault();
     setLoading(true);
 
-    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const createdDate = moment().format("L LT");
 
     const formData = new FormData();
 

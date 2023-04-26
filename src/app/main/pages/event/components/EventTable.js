@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Popup from "app/shared-components/Popup";
 import UpdateEventForm from "./UpdateEventForm";
+import moment from "moment";
 
 const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
   const [open, setOpen] = useState(false);
@@ -26,7 +27,8 @@ const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
     { field: "createdBy", headerName: columnsTranslate.createdBy },
     { field: "updatedBy", headerName: columnsTranslate.updatedBy },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
-    { field: "startend", headerName: columnsTranslate.startend },
+    { field: "startDate", headerName: columnsTranslate.start },
+    { field: "endDate", headerName: columnsTranslate.end },
     {
       field: "status",
       headerName: columnsTranslate.status.name,
@@ -85,7 +87,8 @@ const EventTable = ({ pageState, setPageState, DeleteEvent, getEvents }) => {
         createdBy: row.createdBy,
         updatedBy: row.updatedBy,
         details: row.details,
-        startend: row.startDate + "-" + row.endDate,
+        startDate: moment(row.startDate).format("L LT"),
+        endDate: moment(row.endDate).format("L LT"),
         status: row.status,
         createdDate: row.createdDate,
         updatedDate: row.updatedDate,

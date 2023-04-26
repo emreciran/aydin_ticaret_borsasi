@@ -54,7 +54,7 @@ const NewUserForm = ({ setOpen, getUsers }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const createdDate = moment().format("L LT");
 
     const data = {
       name: values.name,

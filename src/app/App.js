@@ -15,6 +15,8 @@ import settingsConfig from 'app/configs/settingsConfig';
 import withAppProviders from './withAppProviders';
 import { AuthProvider } from './auth/AuthContext';
 import { Toaster } from 'react-hot-toast';
+import moment from 'moment';
+// import "moment/locale/tr"
 
 // import axios from 'axios';
 /**
@@ -41,6 +43,7 @@ const App = () => {
   const user = useSelector(selectUser);
   const langDirection = useSelector(selectCurrentLanguageDirection);
   const mainTheme = useSelector(selectMainTheme);
+  // moment.locale("tr")
 
   return (
     <CacheProvider value={createCache(emotionCacheOptions[langDirection])}>

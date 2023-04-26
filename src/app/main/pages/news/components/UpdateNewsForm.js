@@ -32,7 +32,7 @@ const UpdateNewsForm = ({ data, setOpen, getNews }) => {
 
   const updateNews = async (e) => {
     e.preventDefault();
-    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
+    const updatedDate = moment().format("L LT");
 
     setLoading(true);
     const formData = new FormData();

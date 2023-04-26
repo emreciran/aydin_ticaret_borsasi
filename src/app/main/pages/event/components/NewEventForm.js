@@ -34,7 +34,7 @@ const NewEventForm = ({ setOpen, getEvents }) => {
   const [details, setDetails] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const currDay = moment().format("DD/MM/YYYY HH:mm");
+  const currDay = moment().format("L LT");
   console.log(startDate);
 
   const handleRadioChange = (e) => {
@@ -46,12 +46,12 @@ const NewEventForm = ({ setOpen, getEvents }) => {
     e.preventDefault();
     setLoading(true);
 
-    const createdDate = moment().format("DD/MM/YYYY HH:mm");
+    const createdDate = moment().format("L LT");
 
     const data = {
       title,
-      startDate,
-      endDate,
+      startDate: moment(startDate).format("L LT"),
+      endDate: moment(endDate).format("L LT"),
       status,
       createdDate,
       createdBy: user.name,
@@ -98,7 +98,7 @@ const NewEventForm = ({ setOpen, getEvents }) => {
             style={{ height: "250px", marginTop: 10 }}
           />
         </Grid>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
+        <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="tr">
           <Grid item sm={6} style={{ marginBottom: 20, marginTop: 40 }}>
             <DateTimePicker
               label={modalTranslate.startDate}

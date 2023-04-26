@@ -29,7 +29,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncements }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
+    const updatedDate = moment().format("L LT");
 
     setLoading(true);
     const formData = new FormData();

@@ -36,7 +36,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
+    const updatedDate = moment().format("L LT");
 
     var values = {
       useR_ID: data?.id,
