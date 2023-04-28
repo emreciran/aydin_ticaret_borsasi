@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import useToast from "src/app/hooks/useToast";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker, DesktopDatePicker, trTR } from "@mui/x-date-pickers";
+import { DateTimePicker, DatePicker, trTR } from "@mui/x-date-pickers";
 import EventService from "src/app/services/eventService";
 import { LoadingButton } from "@mui/lab";
 
@@ -34,8 +34,7 @@ const NewEventForm = ({ setOpen, getEvents }) => {
   const [details, setDetails] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const currDay = moment().format("L LT");
-  console.log(startDate);
+  const currDay = moment().format("L");
 
   const handleRadioChange = (e) => {
     const value = e.target.value === "true";
@@ -50,8 +49,8 @@ const NewEventForm = ({ setOpen, getEvents }) => {
 
     const data = {
       title,
-      startDate: moment(startDate).format("L LT"),
-      endDate: moment(endDate).format("L LT"),
+      startDate: moment(startDate).format("YYYY-MM-DD"),
+      endDate: moment(endDate).format("YYYY-MM-DD"),
       status,
       createdDate,
       createdBy: user.name,
@@ -102,7 +101,7 @@ const NewEventForm = ({ setOpen, getEvents }) => {
           <Grid item sm={6} style={{ marginBottom: 20, marginTop: 40 }}>
             <DateTimePicker
               label={modalTranslate.startDate}
-              inputFormat={"DD/MM/YYYY HH:mm"}
+              inputFormat={"DD/MM/YYYY"}
               type="date"
               minDate={currDay}
               onChange={(newValue) => setStartDate(newValue)}
@@ -113,7 +112,7 @@ const NewEventForm = ({ setOpen, getEvents }) => {
           <Grid item sm={6} style={{ marginBottom: 20, marginTop: 40 }}>
             <DateTimePicker
               label={modalTranslate.endDate}
-              inputFormat={"DD/MM/YYYY HH:mm"}
+              inputFormat={"DD/MM/YYYY"}
               type="date"
               value={endDate}
               minDate={currDay}

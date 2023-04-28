@@ -38,7 +38,7 @@ const UpdateEventForm = ({ data, setOpen, getEvents }) => {
   const [endDate, setEndDate] = useState(moment(data?.endDate));
   const currDay = moment().format("L LT");
   
-console.log(startDate);
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -48,8 +48,8 @@ console.log(startDate);
     const values = {
       id: data?.id,
       title,
-      startDate: moment(startDate).format("L LT"),
-      endDate: moment(endDate).format("L LT"),
+      startDate: moment(startDate).format("YYYY-MM-DD"),
+      endDate: moment(endDate).format("YYYY-MM-DD"),
       status: status === "true" ? true : false,
       updatedDate,
       updatedBy: user.name,
@@ -102,7 +102,7 @@ console.log(startDate);
           <Grid item sm={6} style={{ marginBottom: 20, marginTop: 40 }}>
             <DateTimePicker
               label={modalTranslate.startDate}
-              inputFormat="DD.MM.YYYY HH:mm"
+              inputFormat="DD.MM.YYYY"
               type="date"
               minDate={currDay}
               onChange={(newValue) => {
@@ -115,7 +115,7 @@ console.log(startDate);
           <Grid item sm={6} style={{ marginBottom: 20, marginTop: 40 }}>
             <DateTimePicker
               label={modalTranslate.endDate}
-              inputFormat="DD.MM.YYYY HH:mm"
+              inputFormat="DD.MM.YYYY"
               type="date"
               value={endDate}
               minDate={currDay}
