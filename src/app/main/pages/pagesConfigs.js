@@ -5,6 +5,7 @@ import announcementPageConfig from "./announcement/AnnouncementConfig";
 import profileAppConfig from "./profile/profileAppConfig";
 import usersPageConfig from "./users/UsersConfig";
 import eventConfig from "./event/EventConfig";
+import requestSuggestionConfig from "./requestSuggestion/RequestSuggestionConfig";
 
 const pagesConfigs = [
   ...authenticationPagesConfig,
@@ -14,6 +15,7 @@ const pagesConfigs = [
   eventConfig,
   profileAppConfig,
   usersPageConfig,
+  requestSuggestionConfig,
 ];
 
 export default pagesConfigs;
