@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import ReqSuggTable from "./components/ReqSuggTable";
 import RequestSuggestionService from "src/app/services/requestSuggestionService";
+import Swal from "sweetalert2";
 
 const Root = styled(FusePageCarded)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -57,6 +58,52 @@ const RequestSuggestion = () => {
       });
   };
 
+  const DeleteReqSugg = (id) => {
+    try {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton:
+            "border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline",
+          cancelButton:
+            "border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline",
+        },
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Emin misin?",
+          text: "",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Evet, sil!",
+          cancelButtonText: "Hayır, iptal et!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            RequestSuggestionService.deleteRequestSuggestion(id).then(() => {
+              getReqSugg();
+              swalWithBootstrapButtons.fire(
+                "Silindi!",
+                "Talep/Öneri başarıyla silindi!",
+                "success"
+              );
+            });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "İptal edildi!",
+              "Talep/Öneri silinmedi!",
+              "error"
+            );
+          }
+        });
+    } catch (error) {
+      _showToast.showError(
+        error.response ? error.response.data.message : error.message
+      );
+    }
+  };
+
   useEffect(() => {
     getReqSugg();
   }, [pageState.page, pageState.pageSize]);
@@ -75,6 +122,7 @@ const RequestSuggestion = () => {
               pageState={pageState}
               setPageState={setPageState}
               getReqSugg={getReqSugg}
+              DeleteReqSugg={DeleteReqSugg}
             />
           </div>
         }

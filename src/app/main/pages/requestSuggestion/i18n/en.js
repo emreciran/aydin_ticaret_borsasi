@@ -8,24 +8,26 @@ const locale = {
       message: "Message",
       status: {
         name: "Status",
-        active: "Active",
-        passive: "Passive",
+        active: "Answered",
+        passive: "Waiting",
       },
       reply: "Reply",
+      delete: "Delete",
       actions: "Actions",
     },
-    UPDATEEVENT: {
-      title: "Title",
-      details: "Event Details",
-      startDate: "Event Start Date",
-      endDate: "Event End Date",
+    REPLYREQSUGG: {
+      nameSurname: "Name Surname",
+      phone: "Phone",
+      email: "Email",
+      message: "Message",
+      reply: "Reply Message",
       status: {
         name: "Status",
-        active: "Active",
-        passive: "Passive",
+        active: "Answered",
+        passive: "Waiting",
       },
       cancel: "Cancel",
-      button: "Update",
+      button: "Reply",
     }
   };
   

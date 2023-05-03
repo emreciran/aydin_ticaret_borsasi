@@ -86,9 +86,9 @@ const Event = () => {
           cancelButtonText: "Hayır, iptal et!",
           reverseButtons: true,
         })
-        .then(async (result) => {
+        .then((result) => {
           if (result.isConfirmed) {
-            EventService.deleteEvent(id).then((response) => {
+            EventService.deleteEvent(id).then(() => {
               getEvents();
               swalWithBootstrapButtons.fire(
                 "Silindi!",

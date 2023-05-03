@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material";
 
 const Popup = ({ title, children, open, setOpen }) => {
   const handleClose = () => {
@@ -9,7 +9,7 @@ const Popup = ({ title, children, open, setOpen }) => {
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md">
       <DialogTitle display="flex" justifyContent="space-between">
-        {title}
+        <Box>{title}</Box>
         <span style={{ cursor: "pointer" }} onClick={handleClose}>
           X
         </span>

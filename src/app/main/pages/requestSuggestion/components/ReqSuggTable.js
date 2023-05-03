@@ -6,14 +6,20 @@ import {
   trTR,
 } from "@mui/x-data-grid";
 import CustomNoRowsOverlay from "app/shared-components/CustomNoRowsOverlay";
-import ReplyIcon from '@mui/icons-material/Reply';
+import ReplyIcon from "@mui/icons-material/Reply";
+import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import ReplyReqSuggForm from "./ReplyReqSuggForm";
 import Popup from "app/shared-components/Popup";
 
-const ReqSuggTable = ({ pageState, setPageState, getReqSugg }) => {
+const ReqSuggTable = ({
+  pageState,
+  setPageState,
+  getReqSugg,
+  DeleteReqSugg,
+}) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation("REQSUGG");
 
@@ -40,7 +46,7 @@ const ReqSuggTable = ({ pageState, setPageState, getReqSugg }) => {
             alignItems="center"
             borderRadius="4px"
             sx={{
-              backgroundColor: row.status === true ? "#5D9C59" : "#FC2947",
+              backgroundColor: row.status === true ? "#5D9C59" : "#FF6000",
             }}
           >
             <Typography color="#fff">
@@ -67,6 +73,12 @@ const ReqSuggTable = ({ pageState, setPageState, getReqSugg }) => {
           label={columnsTranslate.reply}
           showInMenu
         />,
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          onClick={() => DeleteReqSugg(params.id)}
+          label={columnsTranslate.delete}
+          showInMenu
+        />,
       ],
     },
   ];
@@ -77,7 +89,10 @@ const ReqSuggTable = ({ pageState, setPageState, getReqSugg }) => {
         nameSurname: row.nameSurname,
         email: row.email,
         message: row.message,
+        status: row.status,
         phone: row.phone,
+        createdDate: row.createdDate,
+        reply: row.reply !== "" ? row.reply : "",
       }))
     : "";
 
@@ -136,7 +151,30 @@ const ReqSuggTable = ({ pageState, setPageState, getReqSugg }) => {
       <Popup
         open={open}
         setOpen={setOpen}
-        title={`#${rowSelectionModel?.id} Yanıtla`}
+        title={
+          <Box display="flex" alignItems="center">
+            <div variant="h5">#{rowSelectionModel?.id} Yanıtla</div>
+            <Box
+              m="0 auto"
+              p="5px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              marginLeft={3}
+              borderRadius="4px"
+              sx={{
+                backgroundColor:
+                  rowSelectionModel?.status === true ? "#5D9C59" : "#FF6000",
+              }}
+            >
+              <Typography color="#fff">
+                {rowSelectionModel?.status === true
+                  ? columnsTranslate.status.active
+                  : columnsTranslate.status.passive}
+              </Typography>
+            </Box>
+          </Box>
+        }
       >
         <ReplyReqSuggForm
           data={rowSelectionModel}

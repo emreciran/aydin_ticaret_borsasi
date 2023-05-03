@@ -15,7 +15,7 @@ const RequestSuggestionConfig = {
   },
   routes: [
     {
-      path: "istek_oneri",
+      path: "talep-oneri",
       element: <RequestSuggestion />,
     },
   ],

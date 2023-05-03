@@ -43,6 +43,34 @@ class RequestSuggestionService extends FuseUtils.EventEmitter {
         });
     });
   };
+
+  replyRequestSuggestion = (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${requestSuggestionServiceConfig.replyRequestSuggestion}`, data)
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
+
+  deleteRequestSuggestion = (id) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(
+          `${requestSuggestionServiceConfig.deleteRequestSuggestion}/${id}`
+        )
+        .then((response) => {
+          if (response.data) resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error ? error.message : "Error!");
+        });
+    });
+  };
 }
 
 const instance = new RequestSuggestionService();

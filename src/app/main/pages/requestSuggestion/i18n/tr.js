@@ -1,7 +1,7 @@
 import { trTR } from "@mui/x-data-grid";
 
 const locale = {
-  TITLE: "İstek / Öneri",
+  TITLE: "Talep / Öneri",
   TABLE: trTR,
   COLUMNS: {
     nameSurname: "Adı Soyadı",
@@ -10,25 +10,27 @@ const locale = {
     message: "Mesaj",
     status: {
       name: "Durumu",
-      active: "Aktif",
-      passive: "Pasif",
+      active: "Yanıtlandı",
+      passive: "Bekliyor",
     },
     reply: "Yanıtla",
+    delete: "Sil",
     actions: "İşlemler",
   },
-  UPDATEEVENT: {
-    title: "Başlık",
-    details: "Etkinlik Detay",
-    startDate: "Etkinlik Başlama Zamanı",
-    endDate: "Etkinlik Bitiş Zamanı",
+  REPLYREQSUGG: {
+    nameSurname: "Adı Soyadı",
+    phone: "Telefon",
+    email: "Email",
+    message: "Mesaj",
+    reply: "Yanıt Mesajı",
     status: {
       name: "Durumu",
-      active: "Aktif",
-      passive: "Pasif",
+      active: "Yanıtlandı",
+      passive: "Bekliyor",
     },
     cancel: "İptal",
-    button: "Güncelle",
-  }
+    button: "Yanıtla",
+  },
 };
 
 export default locale;

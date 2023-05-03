@@ -49,11 +49,11 @@ const navigationConfig = [
   },
   {
     id: "reqsugg-component",
-    title: "İstek/Öneri",
+    title: "Talep/Öneri",
     translate: "REQSUGG",
     type: "item",
     icon: "heroicons-outline:chat",
-    url: "istek_oneri",
+    url: "talep-oneri",
   },
 ];
 
