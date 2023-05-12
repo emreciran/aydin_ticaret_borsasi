@@ -122,31 +122,6 @@ const ReplyReqSuggForm = ({ data, setOpen, getReqSugg }) => {
             style={{ height: "250px", marginTop: 10 }}
           />
         </Grid>
-        {/* <Grid item sm={12} style={{ marginBottom: 15, marginTop: 20 }}>
-          <FormControl fullWidth>
-            <FormLabel id="demo-radio-buttons-group-label">
-              {modalTranslate.status.name}
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="status"
-              id="status"
-              onChange={(e) => setStatus(e.target.value)}
-              defaultValue={status}
-            >
-              <FormControlLabel
-                value="true"
-                control={<Radio color="success" />}
-                label={modalTranslate.status.active}
-              />
-              <FormControlLabel
-                value="false"
-                control={<Radio color="error" />}
-                label={modalTranslate.status.passive}
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid> */}
       </Grid>
       <Box sx={{ marginTop: 3 }}>
         <Button
