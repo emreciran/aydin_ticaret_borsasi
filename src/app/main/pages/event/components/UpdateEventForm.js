@@ -43,7 +43,7 @@ const UpdateEventForm = ({ data, setOpen, getEvents }) => {
     e.preventDefault();
     setLoading(true);
 
-    const updatedDate = moment().format("L LT");
+    const updatedDate = moment().format("DD/MM/YYYY HH:mm");
 
     const values = {
       id: data?.id,

@@ -45,7 +45,7 @@ const NewEventForm = ({ setOpen, getEvents }) => {
     e.preventDefault();
     setLoading(true);
 
-    const createdDate = moment().format("L LT");
+    const createdDate = moment().format("DD/MM/YYYY HH:mm");
 
     const data = {
       title,
