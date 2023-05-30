@@ -55,6 +55,14 @@ const navigationConfig = [
     icon: "heroicons-outline:chat",
     url: "talep-oneri",
   },
+  {
+    id: "weeklymarket-component",
+    title: "Haftalık Piyasa Yorumu",
+    translate: "WEEKLYMARKETCOMMENT",
+    type: "item",
+    icon: "heroicons-outline:chart-bar",
+    url: "haftalik-piyasa-yorumu",
+  },
 ];
 
 export default navigationConfig;

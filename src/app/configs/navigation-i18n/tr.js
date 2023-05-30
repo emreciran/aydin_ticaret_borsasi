@@ -5,7 +5,8 @@ const locale = {
   NEWS: "Haberler",
   USERS: "Kullanıcılar",
   EVENT: "Etkinlikler",
-  REQSUGG: "Talep/Öneri"
+  REQSUGG: "Talep/Öneri",
+  WEEKLYMARKETCOMMENT: "Haftalık Piyasa Yorumu",
 };
 
 export default locale;

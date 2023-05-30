@@ -5,7 +5,8 @@ const locale = {
   NEWS: "News",
   USERS: "Users",
   EVENT: "Event",
-  REQSUGG: "Request/Suggestion"
+  REQSUGG: "Request/Suggestion",
+  WEEKLYMARKETCOMMENT: "Weekly Market Comment",
 };
 
 export default locale;
