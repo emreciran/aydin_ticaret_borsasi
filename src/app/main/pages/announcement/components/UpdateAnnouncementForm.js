@@ -46,7 +46,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncements }) => {
     formData.append("UpdatedDate", updatedDate);
 
     AnnouncementService.updateAnnouncement(formData)
-      .then((response) => {
+      .then(() => {
         _showToast.showSuccess("Duyuru güncellendi!");
         getAnnouncements();
         setOpen(false);

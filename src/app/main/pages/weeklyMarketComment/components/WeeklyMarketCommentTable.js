@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   DataGrid,
   GridToolbar,
@@ -32,6 +32,32 @@ const WeeklyMarketCommentTable = ({
     { field: "updatedBy", headerName: columnsTranslate.updatedBy },
     { field: "createdDate", headerName: columnsTranslate.createdDate },
     {
+      field: "status",
+      headerName: columnsTranslate.status.name,
+      renderCell: ({ row }) => {
+        return (
+          <Box
+            width="100%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="4px"
+            sx={{
+              backgroundColor: row.status === true ? "#5D9C59" : "#FC2947",
+            }}
+          >
+            <Typography color="#fff">
+              {row.status === true
+                ? columnsTranslate.status.active
+                : columnsTranslate.status.passive}
+            </Typography>
+          </Box>
+        );
+      },
+    },
+    {
       field: "actions",
       type: "actions",
       headerName: columnsTranslate.actions,
@@ -59,6 +85,7 @@ const WeeklyMarketCommentTable = ({
     ? pageState?.data.map((row) => ({
         id: row.id,
         type: row.type,
+        status: row.status,
         details: row.details,
         createdBy: row.createdBy,
         updatedBy: row.updatedBy,
@@ -67,7 +94,7 @@ const WeeklyMarketCommentTable = ({
         updatedDate: row.updatedDate,
       }))
     : "";
-console.log(pageState?.data);
+
   return (
     <>
       <Box className="w-full">
