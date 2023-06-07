@@ -1,44 +1,22 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm run test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![1](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/cf95d39d-aa77-4c9f-afbb-a2ad9c1277c3)
+![2 yeni yeni](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/a02255ad-370a-4b83-9291-1a749d679280)
+![2 yeni](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/eee852e8-8e48-42eb-adce-2bcfa6e63d32)
+![3 yeni](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/821c2666-19a6-44dd-8cc5-42ad542c31b9)
+![2](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/a3f7e743-93d3-4747-9346-970d0a8fcd02)
+![3](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/b92e2274-1c54-4cca-ac50-7b5c64ce4ca4)
+![4](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/23a50e1f-dd78-4fce-94fa-a34e53a228b5)
+![5](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/f4f92422-fc87-41e0-89f8-2899015832d2)
+![18](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/a2a6f7dd-cdf7-4325-badf-09d2de315eab)
+![19](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/4b902c9e-9787-4317-942a-f6ea5fa35407)
+![6](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/d507afca-294c-48b4-aaf0-58c83719cb90)
+![7](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/88052860-4793-4584-87ed-7472a6a4fa2d)
+![8](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/6fd93d1d-f74d-4466-a964-0b4a09cc320e)
+![9](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/3a505147-cc57-48ae-8825-90ff145b59f6)
+![10](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/861fb419-f5a1-436c-8334-9b2c85267953)
+![11](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/8c9b8e48-daf0-49b4-b194-f8e1ed12d77b)
+![12](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/f8d12547-f4e2-4d7d-815e-c339a09c2920)
+![13](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/19c23438-777e-4e19-a2db-9bfa2eb0484b)
+![14](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/c736fadf-777f-4005-8900-5f283b8986bf)
+![15](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/294f6b18-a275-4897-ba74-714b8625f804)
+![16](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/8f59e265-ac2c-4006-a1bd-dcc4c5a1f8d5)
+![17](https://github.com/emreciran/aydin_ticaret_borsasi/assets/63744360/15f7df53-f804-48ec-b28b-ac4d7561716b)
